@@ -7,16 +7,15 @@
     "packages/*"
   ],
   "scripts": {
-    "watch:shared-ui": "yarn workspace @usecapsule/shared-ui watch",
+    "watch:react-demo": "yarn workspace @usecapsule/react-demo watch",
     "start:react-app": "yarn workspace react-app start",
     "start:vite-app": "yarn workspace vite-app dev",
     "start:nextjs-app": "yarn workspace nextjs-app dev",
     "start:pwa-app": "yarn workspace pwa-app start",
     "start:remix-app": "yarn workspace remix-app dev",
-    "start:all": "concurrently -k \"yarn watch:shared-ui\" \"yarn start:react-app\" \"yarn start:vite-app\" \"yarn start:nextjs-app\" \"yarn start:pwa-app\" \"yarn start:remix-app\""
+    "start:all": "concurrently -k \"yarn watch:react-demo\" \"yarn start:react-app\" \"yarn start:vite-app\" \"yarn start:nextjs-app\" \"yarn start:pwa-app\" \"yarn start:remix-app\""
   },
   "devDependencies": {
-    "concurrently": "^7.0.0",
-    "lerna": "^8.1.3"
+    "concurrently": "^7.0.0"
   }
 }

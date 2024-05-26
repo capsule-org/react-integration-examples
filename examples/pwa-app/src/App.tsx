@@ -1,7 +1,7 @@
-import { Home } from "@usecapsule/shared-ui";
-
+import { CapsuleDemo } from "@usecapsule/react-demo";
+import "@usecapsule/react-demo/lib/style.css";
 function App() {
-  return <Home title="Welcome to Capsule" subtitle="This is a PWA app!" />;
+  return <CapsuleDemo framework="React PWA" />;
 }
 
 export default App;

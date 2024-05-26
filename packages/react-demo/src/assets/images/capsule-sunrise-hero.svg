@@ -1,0 +1,62 @@
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" class="hero-sunrise-graphic" viewBox="0 0 3014 1163" width="3014"  height="1163" ><script xmlns=""/>
+	
+	<defs>
+		
+		<filter id="hero-bottom-saddle-blur" width="3054" height="236.6" x="-20" y=".4" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+			<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+			<feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+			<feGaussianBlur result="effect1_foregroundBlur_1_2" stdDeviation="12"/>
+		</filter>
+		
+		<linearGradient id="hero-bottom" x1="-12%" y1="0%" x2="-40%" y2="90%">
+			<stop offset="78%" stop-color="black" stop-opacity="0"/>
+			<stop offset="94%" stop-color="black" stop-opacity="1"/>
+		</linearGradient>
+		
+		<radialGradient id="hero-vignette" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+			<stop offset="62%" stop-color="#ac02bb" stop-opacity="0"/>
+			<stop offset="88%" stop-color="#5a0061" stop-opacity="0.9"/>
+			<stop offset="96%" stop-color="#24002e" stop-opacity="0.94"/>
+			<stop offset="100%" stop-color="#24002e" stop-opacity="1"/>
+		</radialGradient>
+		
+	</defs>
+	
+	<g class="color-bands">
+		
+		<path d="M0 2h3014v1160H0z"/>
+		<path fill="#24002e" d="m1507 1162-196-13H0V1h3014v1148H1705l-198 13z"/>
+		<path fill="#3d014c" d="M1507 1162c-73 0-172-21-225-34-24-6-50-9-75-9H0V1h3014v1118H1809c-25 0-51 3-75 9-54 13-154 34-227 34z"/>
+		<path fill="#4a015d" d="m1507 1162-284-80c-18-5-36-7-55-7H1V1h3014v1074H1847c-18 0-36 2-53 7l-287 80z"/>
+		<path fill="#59016f" d="m1507 1162-342-133c-23-9-47-13-72-13H0V1h3014v1015H1923c-25 0-49 4-72 13l-344 133z"/>
+		<path fill="#680171" d="m1507 1162-402-187c-27-12-55-18-85-18H1V1h3014v955H1995c-29 0-58 7-84 19l-404 187z"/>
+		<path fill="#81038c" d="m1507 1162-446-253c-30-17-64-27-98-27H0V1h3014v882h-961c-35 0-68 8-99 26l-447 253z"/>
+		<path fill="#9600a3" d="m1507 1162-474-313c-33-22-71-33-110-33H0V1h3014v815h-921c-39 0-77 11-110 33l-476 313z"/>
+		<path fill="#b005bf" d="M1507 1162 985 794c-33-24-74-37-115-37H0V1h3014v756h-868c-41 0-82 12-115 36l-524 369z"/>
+		<path fill="#ff5c00" d="M1507 1162 927 704a97 97 0 0 0-60-21L0 1h3014l-867 682c-21 0-41 7-57 20l-583 459z" opacity=".1"/>
+		<path fill="#cc04df" d="M1507 1162 927 704a97 97 0 0 0-60-21H0V1h3014v682h-867c-21 0-41 7-57 20l-583 459z"/>
+		<path fill="#e302da" d="M1507 1162 897 635c-8-7-19-11-30-11H0V1h3014v623h-867c-10 0-19 3-27 10l-613 528z"/>
+		<path fill="#f004d8" d="M1507 1162 925 583a81 81 0 0 0-58-24H0V1h3014v558h-867c-20 0-40 8-54 23l-586 580z"/>
+		<path fill="#fd04c6" d="M1507 1163 924 512a76 76 0 0 0-57-26H0V2h3014v484h-867c-20 0-39 9-53 24l-587 653z"/>
+		<path fill="#fd04a9" d="M1507 1162 974 464c-26-33-65-53-107-53H0V1h3014v410h-867c-30 0-59 14-78 38l-562 713z"/>
+		<path fill="#f90086" d="M1507 1162 997 420c-30-42-78-68-130-68H0V1h3014v351h-867c-40 0-79 20-102 53l-538 757z"/>
+		<path fill="#f9005a" d="m1507 1162-466-772c-36-60-101-97-171-97H0V1h3014v272h-867c-61 0-117 51-149 103l-491 786z"/>
+		<path fill="#ff133e" d="m1507 1162-435-822a200 200 0 0 0-177-106H0V1h3014v233h-879c-73 0-140 40-175 104l-453 824z"/>
+		<path fill="#fb3232" d="m1507 1162-400-917c-16-37-60-60-132-60H0V1h3014v174l-968 10c-67 0-105 23-121 59l-418 918z"/>
+		<path fill="#fe4319" d="m1507 1162-313-898a200 200 0 0 0-189-134H0V1h3014v129h-989c-84 0-159 53-188 132l-330 900z"/>
+		<path fill="#ff5313" d="m1507 1162-239-926a200 200 0 0 0-194-150H0V1h3014v85H1956c-90 0-169 60-193 147l-256 929z"/>
+		<path fill="#ff6931" d="m1507 1162-167-951a200 200 0 0 0-197-166H0V1h3014v44H1887c-96 0-179 69-197 163l-183 954z"/>
+		<path fill="#ff8a00" d="M1507 1162 1351 1h312l-156 1161z"/>
+		<path fill="#ffd644" d="M1507 1162 1409 1h196l-98 1161z"/>
+		<path fill="#fffad1" d="M1507 1162 1458 1h98l-49 1161z"/>
+		<path fill="#fff" d="M1507 1162 1490 1h34l-17 1161z"/>
+	</g>
+	
+	<rect x="0" y="0" width="3014" height="1163" fill="url('#hero-bottom')"/>
+	<rect x="-3014" y="0" width="3014" height="1163" transform="scale(-1,1)" fill="url('#hero-bottom')"/>
+	
+	<rect x="0" y="-2020" width="3014" height="3800" opacity="0.75" fill="url('#hero-vignette')" style="mix-blend-mode: multiply;"/>
+	
+	<path filter="url(#hero-bottom-saddle-blur)" fill="black" transform="translate(0,1080)" d="M1174 20c59 0 118 11 174 28 52 15 117 31 160 31 51 0 146-22 212-39 47-13 96-20 145-20l1149 7v190H0V27l1174-7Z"/>
+	
+</svg>
