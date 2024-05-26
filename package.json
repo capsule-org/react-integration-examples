@@ -1,0 +1,22 @@
+{
+  "name": "react-integration-examples",
+  "packageManager": "yarn@1.22.22",
+  "private": true,
+  "workspaces": [
+    "examples/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "watch:shared-ui": "yarn workspace @usecapsule/shared-ui watch",
+    "start:react-app": "yarn workspace react-app start",
+    "start:vite-app": "yarn workspace vite-app dev",
+    "start:nextjs-app": "yarn workspace nextjs-app dev",
+    "start:pwa-app": "yarn workspace pwa-app start",
+    "start:remix-app": "yarn workspace remix-app dev",
+    "start:all": "concurrently -k \"yarn watch:shared-ui\" \"yarn start:react-app\" \"yarn start:vite-app\" \"yarn start:nextjs-app\" \"yarn start:pwa-app\" \"yarn start:remix-app\""
+  },
+  "devDependencies": {
+    "concurrently": "^7.0.0",
+    "lerna": "^8.1.3"
+  }
+}
