@@ -14,3 +14,5 @@ node_modules
 .pnp.cjs
 
 .DS_Store
+
+packages/react-demo/lib/*
