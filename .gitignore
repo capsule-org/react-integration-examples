@@ -15,4 +15,4 @@ node_modules
 
 .DS_Store
 
-packages/react-demo/lib/*
+packages/integration-examples/lib/*

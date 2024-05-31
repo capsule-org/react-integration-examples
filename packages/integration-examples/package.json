@@ -1,5 +1,5 @@
 {
-  "name": "@usecapsule/react-demo",
+  "name": "@usecapsule/integration-examples",
   "version": "0.1.0",
   "main": "lib/capsule-demo.cjs.js",
   "module": "lib/capsule-demo.es.js",

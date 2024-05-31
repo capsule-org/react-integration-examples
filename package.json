@@ -8,14 +8,14 @@
   ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "build:react-demo": "lerna run build --scope @usecapsule/react-demo",
-    "watch:react-demo": "lerna watch --scope @usecapsule/react-demo -- lerna run build --scope @usecapsule/react-demo",
-    "start:react-app": "lerna run build --scope @usecapsule/react-demo && concurrently -k \"lerna watch --scope @usecapsule/react-demo -- lerna run build --scope @usecapsule/react-demo\" \"lerna run start --scope react-app\"",
-    "start:vite-app": "lerna run build --scope @usecapsule/react-demo && concurrently -k \"lerna watch --scope @usecapsule/react-demo -- lerna run build --scope @usecapsule/react-demo\" \"lerna run dev --scope vite-app\"",
-    "start:nextjs-app": "lerna run build --scope @usecapsule/react-demo && concurrently -k \"lerna watch --scope @usecapsule/react-demo -- lerna run build --scope @usecapsule/react-demo\" \"lerna run dev --scope nextjs-app\"",
-    "start:pwa-app": "lerna run build --scope @usecapsule/react-demo && concurrently -k \"lerna watch --scope @usecapsule/react-demo -- lerna run build --scope @usecapsule/react-demo\" \"lerna run start --scope pwa-app\"",
-    "start:remix-app": "lerna run build --scope @usecapsule/react-demo && concurrently -k \"lerna watch --scope @usecapsule/react-demo -- lerna run build --scope @usecapsule/react-demo\" \"lerna run dev --scope remix-app\"",
-    "start:all": "lerna run build --scope @usecapsule/react-demo && concurrently -k \"lerna watch --scope @usecapsule/react-demo -- lerna run build --scope @usecapsule/react-demo\" \"lerna run start --parallel\""
+    "build:integration-examples": "lerna run build --scope @usecapsule/integration-examples",
+    "watch:integration-examples": "lerna watch --scope @usecapsule/integration-examples -- lerna run build --scope @usecapsule/integration-examples",
+    "start:react-app": "lerna run build --scope @usecapsule/integration-examples && concurrently -k \"lerna watch --scope @usecapsule/integration-examples -- lerna run build --scope @usecapsule/integration-examples\" \"lerna run start --scope react-app\"",
+    "start:vite-app": "lerna run build --scope @usecapsule/integration-examples && concurrently -k \"lerna watch --scope @usecapsule/integration-examples -- lerna run build --scope @usecapsule/integration-examples\" \"lerna run dev --scope vite-app\"",
+    "start:nextjs-app": "lerna run build --scope @usecapsule/integration-examples && concurrently -k \"lerna watch --scope @usecapsule/integration-examples -- lerna run build --scope @usecapsule/integration-examples\" \"lerna run dev --scope nextjs-app\"",
+    "start:pwa-app": "lerna run build --scope @usecapsule/integration-examples && concurrently -k \"lerna watch --scope @usecapsule/integration-examples -- lerna run build --scope @usecapsule/integration-examples\" \"lerna run start --scope pwa-app\"",
+    "start:remix-app": "lerna run build --scope @usecapsule/integration-examples && concurrently -k \"lerna watch --scope @usecapsule/integration-examples -- lerna run build --scope @usecapsule/integration-examples\" \"lerna run dev --scope remix-app\"",
+    "start:all": "lerna run build --scope @usecapsule/integration-examples && concurrently -k \"lerna watch --scope @usecapsule/integration-examples -- lerna run build --scope @usecapsule/integration-examples\" \"lerna run start --parallel\""
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
