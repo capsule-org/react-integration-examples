@@ -9,4 +9,4 @@ const CAPSULE_API_KEY = "d0b61c2c8865aaa2fb12886651627271";
 const environment = Environment.DEVELOPMENT;
 
 // Create an instance of the Capsule client and export it
-export const capsule = new Capsule(environment, CAPSULE_API_KEY);
+export const capsuleClient = new Capsule(environment, CAPSULE_API_KEY);

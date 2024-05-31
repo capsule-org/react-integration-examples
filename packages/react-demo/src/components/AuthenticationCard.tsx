@@ -1,24 +1,61 @@
 // AuthenticationCard.tsx
-import React, { useState } from "react";
-import { Button } from "./Button";
-import { Card, CardContent, CardFooter, CardHeader } from "./card";
-import { Input } from "./input";
+import React from "react";
+import { Button } from "./core/button";
+import { Card, CardContent, CardFooter, CardHeader } from "./core/card";
+import { EmailAuthenticationExample } from "./examples/EmailAuthenticationExample";
+import { VerifyEmailExample } from "./examples/VerifyEmailExample";
+import { CapsuleModalAuthenticationExample } from "./examples/CapsuleModalAuthenticationExample";
+import { Web3OnboardAuthenticationExample } from "./examples/Web3OnboardAuthenticationExample";
 
-export type AuthOption =
+export type CapsuleAuthOptions =
   | "none"
   | "email"
   | "verify-email"
-  | "capsule"
+  | "capsule-modal"
   | "rainbowkit"
   | "web3onboard";
 
 type AuthenticationCardProps = {
-  selectedOption: AuthOption;
-  setSelectedOption: (option: AuthOption) => void;
+  selectedOption: CapsuleAuthOptions;
+  setSelectedOption: (option: CapsuleAuthOptions) => void;
   email: string;
   setEmail: (email: string) => void;
-  verificationCode: string;
-  setVerificationCode: (verificationCode: string) => void;
+  setIsUserLoggedIn: (isUserLoggedIn: boolean) => void;
+  setUserNeedsWallet: (userNeedsWallet: boolean) => void;
+  setUserRecoverySecret: (recoverySecret: string) => void;
+};
+
+const AuthenticationOptions = (
+  setSelectedOption: (option: CapsuleAuthOptions) => void
+) => {
+  return (
+    <CardContent>
+      <Button
+        onClick={() => setSelectedOption("email")}
+        className="mb-2 w-full"
+      >
+        Capsule Web SDK Auth
+      </Button>
+      <Button
+        onClick={() => setSelectedOption("capsule-modal")}
+        className="mb-2 w-full"
+      >
+        Capsule React Modal Auth
+      </Button>
+      <Button
+        onClick={() => setSelectedOption("rainbowkit")}
+        className="mb-2 w-full"
+      >
+        RainbowKit Wallet Connector Auth
+      </Button>
+      <Button
+        onClick={() => setSelectedOption("web3onboard")}
+        className="mb-2 w-full"
+      >
+        Web3-onboard Wallet Connector Auth
+      </Button>
+    </CardContent>
+  );
 };
 
 export const AuthenticationCard: React.FC<AuthenticationCardProps> = ({
@@ -26,115 +63,59 @@ export const AuthenticationCard: React.FC<AuthenticationCardProps> = ({
   setSelectedOption,
   email,
   setEmail,
-  verificationCode,
-  setVerificationCode,
+  setIsUserLoggedIn,
+  setUserNeedsWallet,
+  setUserRecoverySecret,
 }) => {
-  const renderContent = () => {
+  const renderAuthOption = () => {
     switch (selectedOption) {
       case "email":
         return (
-          <div>
-            <Input
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="mb-4"
-            />
-            <Button onClick={() => setSelectedOption("verify-email")}>
-              Continue
-            </Button>
-          </div>
+          <EmailAuthenticationExample
+            email={email}
+            setEmail={setEmail}
+            setSelectedOption={setSelectedOption}
+            setIsUserLoggedIn={setIsUserLoggedIn}
+            setUserNeedsWallet={setUserNeedsWallet}
+          />
         );
       case "verify-email":
         return (
-          <div>
-            <Input
-              placeholder="Enter verification code"
-              value={verificationCode}
-              onChange={(e) => setVerificationCode(e.target.value)}
-              className="mb-4"
-            />
-            <Button onClick={() => alert("Email Verified!")}>Submit</Button>
-          </div>
+          <VerifyEmailExample
+            setIsUserLoggedIn={setIsUserLoggedIn}
+            setUserRecoverySecret={setUserRecoverySecret}
+          />
         );
-      case "capsule":
+      case "capsule-modal":
         return (
-          <div>
-            <p className="mb-4">
-              This will open the Capsule React Modal for authentication.
-            </p>
-            <Button onClick={() => alert("Capsule Modal Opened")}>
-              Open Modal
-            </Button>
-          </div>
+          <CapsuleModalAuthenticationExample
+            setSelectedOption={setSelectedOption}
+            setIsUserLoggedIn={setIsUserLoggedIn}
+          />
         );
       case "rainbowkit":
-        return (
-          <div>
-            <p className="mb-4">
-              This will open the RainbowKit Wallet Connector.
-            </p>
-            <Button onClick={() => alert("RainbowKit Connector Opened")}>
-              Open Wallet Connector
-            </Button>
-          </div>
-        );
+        return <></>;
+
       case "web3onboard":
         return (
-          <div>
-            <p className="mb-4">
-              This will open the Web3-onboard Wallet Connector.
-            </p>
-            <Button onClick={() => alert("Web3-onboard Connector Opened")}>
-              Open Wallet Connector
-            </Button>
-          </div>
+          <Web3OnboardAuthenticationExample
+            setSelectedOption={setSelectedOption}
+            setIsUserLoggedIn={setIsUserLoggedIn}
+          />
         );
       default:
-        return (
-          <div>
-            <Button
-              onClick={() => setSelectedOption("email")}
-              className="mb-2 w-full"
-            >
-              Manual Email Authentication
-            </Button>
-            <Button
-              onClick={() => setSelectedOption("capsule")}
-              className="mb-2 w-full"
-            >
-              Capsule React Modal
-            </Button>
-            <Button
-              onClick={() => setSelectedOption("rainbowkit")}
-              className="mb-2 w-full"
-            >
-              RainbowKit Wallet Connector
-            </Button>
-            <Button
-              onClick={() => setSelectedOption("web3onboard")}
-              className="mb-2 w-full"
-            >
-              Web3-onboard Wallet Connector
-            </Button>
-          </div>
-        );
+        return AuthenticationOptions(setSelectedOption);
     }
   };
 
   return (
     <Card className="max-w-md mx-auto mt-10 bg-white">
-      <CardHeader>
-        <h2 className="text-xl font-bold">Authentication Options</h2>
-      </CardHeader>
-      <CardContent>{renderContent()}</CardContent>
-      {selectedOption !== "none" && (
-        <CardFooter>
-          <Button onClick={() => setSelectedOption("none")} className="w-full">
-            Back
-          </Button>
-        </CardFooter>
+      {selectedOption == "none" && (
+        <CardHeader>
+          <h2 className="text-xl font-bold">Capsule SDK Auth Options</h2>
+        </CardHeader>
       )}
+      {renderAuthOption()}
     </Card>
   );
 };
