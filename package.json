@@ -7,15 +7,18 @@
     "packages/*"
   ],
   "scripts": {
-    "watch:react-demo": "yarn workspace @usecapsule/react-demo watch",
-    "start:react-app": "yarn workspace react-app start",
-    "start:vite-app": "yarn workspace vite-app dev",
-    "start:nextjs-app": "yarn workspace nextjs-app dev",
-    "start:pwa-app": "yarn workspace pwa-app start",
-    "start:remix-app": "yarn workspace remix-app dev",
-    "start:all": "concurrently -k \"yarn watch:react-demo\" \"yarn start:react-app\" \"yarn start:vite-app\" \"yarn start:nextjs-app\" \"yarn start:pwa-app\" \"yarn start:remix-app\""
+    "bootstrap": "lerna bootstrap",
+    "build:react-demo": "lerna run build --scope @usecapsule/react-demo",
+    "watch:react-demo": "lerna watch --scope @usecapsule/react-demo -- lerna run build --scope @usecapsule/react-demo",
+    "start:react-app": "lerna run build --scope @usecapsule/react-demo && concurrently -k \"lerna watch --scope @usecapsule/react-demo -- lerna run build --scope @usecapsule/react-demo\" \"lerna run start --scope react-app\"",
+    "start:vite-app": "lerna run build --scope @usecapsule/react-demo && concurrently -k \"lerna watch --scope @usecapsule/react-demo -- lerna run build --scope @usecapsule/react-demo\" \"lerna run dev --scope vite-app\"",
+    "start:nextjs-app": "lerna run build --scope @usecapsule/react-demo && concurrently -k \"lerna watch --scope @usecapsule/react-demo -- lerna run build --scope @usecapsule/react-demo\" \"lerna run dev --scope nextjs-app\"",
+    "start:pwa-app": "lerna run build --scope @usecapsule/react-demo && concurrently -k \"lerna watch --scope @usecapsule/react-demo -- lerna run build --scope @usecapsule/react-demo\" \"lerna run start --scope pwa-app\"",
+    "start:remix-app": "lerna run build --scope @usecapsule/react-demo && concurrently -k \"lerna watch --scope @usecapsule/react-demo -- lerna run build --scope @usecapsule/react-demo\" \"lerna run dev --scope remix-app\"",
+    "start:all": "lerna run build --scope @usecapsule/react-demo && concurrently -k \"lerna watch --scope @usecapsule/react-demo -- lerna run build --scope @usecapsule/react-demo\" \"lerna run start --parallel\""
   },
   "devDependencies": {
-    "concurrently": "^7.0.0"
+    "concurrently": "^8.2.2",
+    "lerna": "^8.1.3"
   }
 }
