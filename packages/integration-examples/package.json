@@ -2,13 +2,6 @@
   "name": "@usecapsule/integration-examples",
   "version": "0.1.0",
   "main": "src/index.tsx",
-  "module": "src/index.tsx",
-  "exports": {
-    ".": {
-      "import": "./src/index.tsx",
-      "require": "./src/index.tsx"
-    }
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
