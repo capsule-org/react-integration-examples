@@ -8,17 +8,14 @@
   ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "build:integration-examples": "lerna run build --scope @usecapsule/integration-examples",
-    "watch:integration-examples": "lerna watch --scope @usecapsule/integration-examples -- lerna run build --scope @usecapsule/integration-examples",
-    "start:react-app": "lerna run build --scope @usecapsule/integration-examples && concurrently -k \"lerna watch --scope @usecapsule/integration-examples -- lerna run build --scope @usecapsule/integration-examples\" \"lerna run start --scope react-app\"",
-    "start:vite-app": "lerna run build --scope @usecapsule/integration-examples && concurrently -k \"lerna watch --scope @usecapsule/integration-examples -- lerna run build --scope @usecapsule/integration-examples\" \"lerna run dev --scope vite-app\"",
-    "start:nextjs-app": "lerna run build --scope @usecapsule/integration-examples && concurrently -k \"lerna watch --scope @usecapsule/integration-examples -- lerna run build --scope @usecapsule/integration-examples\" \"lerna run dev --scope nextjs-app\"",
-    "start:pwa-app": "lerna run build --scope @usecapsule/integration-examples && concurrently -k \"lerna watch --scope @usecapsule/integration-examples -- lerna run build --scope @usecapsule/integration-examples\" \"lerna run start --scope pwa-app\"",
-    "start:remix-app": "lerna run build --scope @usecapsule/integration-examples && concurrently -k \"lerna watch --scope @usecapsule/integration-examples -- lerna run build --scope @usecapsule/integration-examples\" \"lerna run dev --scope remix-app\"",
-    "start:all": "lerna run build --scope @usecapsule/integration-examples && concurrently -k \"lerna watch --scope @usecapsule/integration-examples -- lerna run build --scope @usecapsule/integration-examples\" \"lerna run start --parallel\""
+    "start:react-app": "lerna run start --scope react-app",
+    "start:vite-app": "lerna run dev --scope vite-app",
+    "start:nextjs-app": "lerna run dev --scope nextjs-app",
+    "start:pwa-app": "lerna run start --scope pwa-app",
+    "start:remix-app": "lerna run dev --scope remix-app",
+    "start:all": "lerna run start --parallel"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2",
     "lerna": "^8.1.3"
   }
 }

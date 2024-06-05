@@ -1,21 +1,16 @@
 {
   "name": "@usecapsule/integration-examples",
   "version": "0.1.0",
-  "main": "lib/capsule-demo.cjs.js",
-  "module": "lib/capsule-demo.es.js",
+  "main": "src/index.tsx",
+  "module": "src/index.tsx",
   "exports": {
     ".": {
-      "import": "./lib/capsule-demo.es.js",
-      "require": "./lib/capsule-demo.cjs.js"
-    },
-    "./style.css": "./lib/style.css"
+      "import": "./src/index.tsx",
+      "require": "./src/index.tsx"
+    }
   },
-  "files": [
-    "lib"
-  ],
   "scripts": {
-    "build": "vite build",
-    "watch": "vite build --watch"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "peerDependencies": {
     "react": "^18.3.1",
@@ -43,18 +38,22 @@
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-switch": "^1.0.3",
+    "@radix-ui/react-toast": "^1.1.5",
+    "@tanstack/react-query": "^5.40.0",
     "@usecapsule/ethers-v5-integration": "latest",
     "@usecapsule/ethers-v6-integration": "latest",
     "@usecapsule/rainbowkit": "latest",
     "@usecapsule/rainbowkit-wallet": "latest",
-    "@usecapsule/react-sdk": "dev",
+    "@usecapsule/react-sdk": "^2.3.1",
+    "@usecapsule/react-sdk-dev": "npm:@usecapsule/react-sdk@latest",
     "@usecapsule/viem-v1-integration": "latest",
     "@usecapsule/viem-v2-integration": "latest",
     "@usecapsule/wagmi-v1-integration": "latest",
     "@usecapsule/wagmi-v2-integration": "latest",
     "@usecapsule/web-sdk": "latest",
     "@web3-onboard/capsule": "^2.0.3",
-    "@web3-onboard/core": "^2.21.6",
+    "@web3-onboard/core": "^2.22.0",
+    "@web3-onboard/react": "^2.9.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "input-otp": "^1.2.4",
@@ -62,6 +61,8 @@
     "react-colorful": "^5.6.1",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
+    "viem": "^2.13.3",
+    "wagmi": "^2.9.8",
     "yarn": "^1.22.22"
   }
 }
