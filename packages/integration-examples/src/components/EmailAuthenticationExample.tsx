@@ -4,12 +4,20 @@ import { Button } from "./core/button";
 import { Label } from "@radix-ui/react-label";
 import { useEffect, useState } from "react";
 import { useToast } from "./core/toast/use-toast";
-import Capsule, {
-  ConstructorOpts,
-  Environment,
-} from "@usecapsule/react-sdk-dev";
+import Capsule, { ConstructorOpts, Environment } from "@usecapsule/react-sdk";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "./core/input-otp";
 import { CapsuleAuthOptions } from "..";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "./core/select";
+import { Alert } from "./core/alert";
+import { signMessage } from "../utils/signingUtils";
 
 // This component demonstrates how to use the Capsule SDK to authenticate users using their email address.
 // For additional details on the Capsule SDK, refer to: https://docs.usecapsule.com/
@@ -21,10 +29,11 @@ type EmailAuthenticationExampleProps = {
 // 1. Get your API key from https://usecapsule.com/beta
 const CAPSULE_API_KEY = "d0b61c2c8865aaa2fb12886651627271";
 
-// 2. Set the environment to development or production based on your use case
+// 2. Set the environment to development or production based on your use case. We recommend pulling this from an environment variable or a configuration file. But for the sake of simplicity, we're setting it here.
 const CAPSULE_ENVIRONMENT = Environment.DEVELOPMENT;
 
-// 3. Initialize the Capsule client. Add possible constructor parameters as needed. For more details on the full constructor options, refer to: https://docs.usecapsule.com/integration-guide/customize-capsule#constructor-options
+// 3. Initialize the Capsule client. Add possible constructor parameters as needed. This step is optional but recommended for customizing the embedded wallet to match your application's branding. For more details on the full constructor options, refer to: https://docs.usecapsule.com/integration-guide/customize-capsule#constructor-options
+
 const constructorOpts: ConstructorOpts = {
   emailPrimaryColor: "#ff6700",
   githubUrl: "https://github.com/capsule-org",
@@ -34,15 +43,18 @@ const constructorOpts: ConstructorOpts = {
   supportUrl: "https://usecapsule.com/talk-to-us",
 };
 
+// Setting the Capsule Client as a global variable for use in the component. For your application feel free to move this to a state management library, context, or any other global variable as needed.
 export const capsuleClient = new Capsule(
   CAPSULE_ENVIRONMENT,
   CAPSULE_API_KEY,
   constructorOpts
 );
 
+// This component demonstrates how to use the Capsule SDK to authenticate users using their email address.
 export const EmailAuthenticationExample: React.FC<
   EmailAuthenticationExampleProps
 > = ({ setSelectedAuthOption }) => {
+  // Use your own state management library or hooks as needed. For our startup examples we're keeping it simple with React state.
   const [email, setEmail] = useState("");
   const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(false);
   const [userNeedsWallet, setUserNeedsWallet] = useState<boolean>(false);
@@ -52,6 +64,8 @@ export const EmailAuthenticationExample: React.FC<
   const [userRecoverySecret, setUserRecoverySecret] = useState<string>("");
 
   const [message, setMessage] = useState<string>("");
+  const [signature, setSignature] = useState<string>("");
+  const [selectedSigner, setSelectedSigner] = useState<string>("");
 
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -127,7 +141,6 @@ export const EmailAuthenticationExample: React.FC<
       setUserRecoverySecret(recoverySecret);
 
       //13. Move to the next step of signing messages or transactions.
-
       setIsUserLoggedIn(true);
       setNeedsEmailVerification(false);
       toast({
@@ -149,7 +162,17 @@ export const EmailAuthenticationExample: React.FC<
 
   //14. Handle signing a messages or transaction using a Capsule compatible library like ethers.js or viem.js. Additional signing details can be found at: https://docs.usecapsule.com/integration-guide/signing-transactions
 
-  const handleSignMessage = async () => {};
+  const handleSignMessage = async () => {
+    setIsLoading(true);
+    await signMessage(
+      capsuleClient,
+      selectedSigner,
+      message,
+      setSignature,
+      toast
+    );
+    setIsLoading(false);
+  };
 
   //15. As a last step, handle the logout. This will clear the session and the user will have to login again. For additional details on session management, refer to: https://docs.usecapsule.com/integration-guide/session-management
 
@@ -172,18 +195,35 @@ export const EmailAuthenticationExample: React.FC<
     setSelectedAuthOption("none");
   };
 
-  const LoggedInComponent = () => (
+  return isUserLoggedIn ? (
     <>
       <CardHeader>
         <h2 className="text-xl font-bold">Sign A Message</h2>
       </CardHeader>
-      <CardContent>
+      <CardContent className="max-w-sm min-w-xs">
+        {signature && (
+          <Alert className="break-words mb-4">{`Signature: ${signature}`}</Alert>
+        )}
+        <Select onValueChange={setSelectedSigner}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select a signer" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Signers</SelectLabel>
+              <SelectItem value="ethers-v5">Ethers v5</SelectItem>
+              <SelectItem value="ethers-v6">Ethers v6</SelectItem>
+              <SelectItem value="viem-v1">Viem v1</SelectItem>
+              <SelectItem value="viem-v2">Viem v2</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
         <Label>Message:</Label>
         <Input
-          placeholder="Enter your message"
+          name="messageToSign"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          className="mb-4"
+          placeholder="Message to sign"
         />
       </CardContent>
       <CardFooter className="flex justify-between">
@@ -191,19 +231,14 @@ export const EmailAuthenticationExample: React.FC<
           Logout
         </Button>
         <Button
-          onClick={() =>
-            alert(`
-        Signing message: ${message}
-        `)
-          }
+          onClick={handleSignMessage}
+          disabled={!message || !selectedSigner || !isUserLoggedIn || isLoading}
         >
-          Sign
+          {isLoading ? "Signing..." : "Sign Message"}
         </Button>
       </CardFooter>
     </>
-  );
-
-  const EmailVerificationComponent = () => (
+  ) : needsEmailVerification ? (
     <>
       <CardHeader>
         <h2 className="text-xl font-bold">Email Verification</h2>
@@ -242,9 +277,7 @@ export const EmailAuthenticationExample: React.FC<
         </Button>
       </CardFooter>
     </>
-  );
-
-  const AuthFormComponent = () => (
+  ) : (
     <>
       <CardHeader>
         <h2 className="text-xl font-bold">Web SDK Auth</h2>
@@ -274,13 +307,5 @@ export const EmailAuthenticationExample: React.FC<
         </Button>
       </CardFooter>
     </>
-  );
-
-  return isUserLoggedIn ? (
-    <LoggedInComponent />
-  ) : needsEmailVerification ? (
-    <EmailVerificationComponent />
-  ) : (
-    <AuthFormComponent />
   );
 };
