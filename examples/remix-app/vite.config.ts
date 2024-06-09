@@ -3,6 +3,19 @@ import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
+  optimizeDeps: {
+    include: ["@usecapsule/react-components", "@usecapsule/react-sdk"],
+  },
+  build: {
+    commonjsOptions: {
+      transformMixedEsModules: true,
+      include: [
+        "node_modules/@usecapsule/react-sdk",
+        "node_modules/@usecapsule/react-components",
+      ],
+    },
+  },
+
   plugins: [
     remix({
       future: {
