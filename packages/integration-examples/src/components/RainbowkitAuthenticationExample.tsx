@@ -18,26 +18,28 @@ import { WagmiProvider, createConfig } from "wagmi";
 import { sepolia } from "wagmi/chains";
 import { createClient, http } from "viem";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { CardContent, CardFooter, CardHeader } from "./core/card";
-import { Button } from "./core/button";
+import { CardContent, CardFooter, CardHeader, Button } from "./core";
 
 import "@usecapsule/rainbowkit/styles.css";
 
-// This component demonstrates how to integrate Capsule with the RainbowKit Wallet Connector. When using Capsule with rainbowkit there are 2 options for displaying Capsule either the integrated or the Capsule Modal. The integrated Capsule connector will render the Capsule Modal directly in the RainbowKit Modal. The Capsule Modal option will open the Capsule Modal in a seperate modal. For additional details on the Capsule SDK, refer to: https://docs.usecapsule.com/
+// This component demonstrates how to integrate Capsule with the RainbowKit Wallet Connector.
+// When using Capsule with RainbowKit, there are two options for displaying Capsule:
+// 1. Integrated Capsule Connector - Renders the Capsule Modal directly in the RainbowKit Modal.
+// 2. Capsule Modal - Opens the Capsule Modal in a separate modal.
+// For additional details on the Capsule SDK, refer to: https://docs.usecapsule.com/
 
 type RainbowkitAuthenticationExampleProps = {
   setSelectedAuthOption: (option: CapsuleAuthOptions) => void;
 };
 
-// 1. Get your API key from https://usecapsule.com/beta
+// 1. Obtain your API key from https://usecapsule.com/beta
 const CAPSULE_API_KEY = "d0b61c2c8865aaa2fb12886651627271";
 
 // 2. Set the environment to development or production based on your use case
 const CAPSULE_ENVIRONMENT = Environment.DEVELOPMENT;
 
-// RainbowKit with Capsule Modal. See  below for the integrated Capsule connector setup.
-
-//3. Setup the capsule options. For additional details on the customization options refer to: https://docs.usecapsule.com/integration-guide/customize-capsule
+// Capsule Modal Configuration
+// 3. Setup the capsule options. For additional details on the customization options, refer to: https://docs.usecapsule.com/integration-guide/customize-capsule
 const capsuleWalletOpts: GetCapsuleOpts = {
   capsule: {
     apiKey: CAPSULE_API_KEY,
@@ -59,10 +61,10 @@ const capsuleWalletOpts: GetCapsuleOpts = {
   },
 };
 
-//4. Create the connector for Capsule.
+// 4. Create the connector for Capsule Modal.
 const capsuleWallet = getCapsuleWallet(capsuleWalletOpts);
 
-//5. Add Capsule to the RainbowKit Wallet Connector.
+// 5. Add Capsule to the RainbowKit Wallet Connector.
 const connectors = connectorsForWallets(
   [
     //...other connectors
@@ -79,7 +81,7 @@ const connectors = connectorsForWallets(
   }
 );
 
-//6. Configure Wagmi provider for the RainbowKit Wallet Connector
+// 6. Configure Wagmi provider for the RainbowKit Wallet Connector
 const wagmiConfig = createConfig({
   connectors,
   chains: [sepolia],
@@ -91,12 +93,11 @@ const wagmiConfig = createConfig({
 
 // Skip this section if you are using the Capsule Modal option.
 
-//3. Initialize a Capsule instance.
+// Integrated Capsule Configuration
+// 3. Initialize a Capsule instance.
 const capsuleClient = new CapsuleWeb(CAPSULE_ENVIRONMENT, CAPSULE_API_KEY);
 
-//3.1 See the Rainbowkit Provider component below for the capsuleIntegratedProps setup.
-
-//4. Setup the capsule options. For additional details on the customization options refer to: https://docs.usecapsule.com/integration-guide/customize-capsule
+// 4. Setup the capsule options for the integrated Capsule connector. For additional details on the customization options, refer to: https://docs.usecapsule.com/integration-guide/customize-capsule
 const capsuleWalletIntegratedOpts: GetCapsuleIntegratedOpts = {
   capsule: capsuleClient,
   nameOverride: "Sign in with Capsule",
@@ -104,12 +105,12 @@ const capsuleWalletIntegratedOpts: GetCapsuleIntegratedOpts = {
   iconBackgroundOverride: "#000000",
 };
 
-//5. Create the connector for Capsule.
+// 5. Create the connector for the integrated Capsule.
 const capsuleWalletIntegrated = getCapsuleWalletIntegrated(
   capsuleWalletIntegratedOpts
 );
 
-//6. Add Capsule to the RainbowKit Wallet Connector.
+// 6. Add the integrated Capsule to the RainbowKit Wallet Connector.
 const connectorsIntegrated = connectorsForWallets(
   [
     //...other connectors
@@ -126,7 +127,7 @@ const connectorsIntegrated = connectorsForWallets(
   }
 );
 
-//7. Configure Wagmi provider for the RainbowKit Wallet Connector
+// 7. Configure Wagmi provider for the integrated Capsule connector
 const wagmiConfigIntegrated = createConfig({
   connectors: connectorsIntegrated,
   chains: [sepolia],
@@ -152,7 +153,7 @@ export const RainbowkitAuthenticationExample: React.FC<
         <h2 className="text-xl font-bold">
           Rainbowkit with Capsule Integration
         </h2>
-        <p className="">
+        <p>
           Select between the Capsule Modal or the integrated Capsule connector.
           Integrated Capsule will render the Capsule Modal directly in the
           RainbowKit Modal.
@@ -170,6 +171,10 @@ export const RainbowkitAuthenticationExample: React.FC<
   );
 };
 
+// Component for using Capsule Modal with RainbowKit
+// This component configures the WagmiProvider and QueryClientProvider
+// to use the RainbowKitProvider with Capsule Modal.
+// The ConnectButton will trigger the Capsule Modal for authentication.
 const RainbowkitWithCapsuleModal = () => {
   return (
     <WagmiProvider config={wagmiConfig}>
@@ -182,6 +187,10 @@ const RainbowkitWithCapsuleModal = () => {
   );
 };
 
+// Component for using Integrated Capsule with RainbowKit
+// This component configures the WagmiProvider and QueryClientProvider
+// to use the RainbowKitProvider with integrated Capsule Modal.
+// The ConnectButton will render the Capsule Modal directly within the RainbowKit Modal.
 const RainbowkitWithCapsuleIntegrated = () => {
   return (
     <WagmiProvider config={wagmiConfigIntegrated}>

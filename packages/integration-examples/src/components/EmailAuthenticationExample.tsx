@@ -1,26 +1,30 @@
-import { CardContent, CardFooter, CardHeader } from "./core/card";
-import { Input } from "./core/input";
-import { Button } from "./core/button";
-import { Label } from "@radix-ui/react-label";
 import { useEffect, useState } from "react";
-import { useToast } from "./core/toast/use-toast";
 import Capsule, { ConstructorOpts, Environment } from "@usecapsule/react-sdk";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "./core/input-otp";
 import { CapsuleAuthOptions } from "..";
 import {
+  Alert,
+  CardContent,
+  CardHeader,
   Select,
   SelectContent,
   SelectGroup,
-  SelectItem,
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "./core/select";
-import { Alert } from "./core/alert";
+  Label,
+  Input,
+  Button,
+  CardFooter,
+  SelectItem,
+  useToast,
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "./core";
+
 import { signMessage } from "../utils/signingUtils";
 
-// This component demonstrates how to use the Capsule SDK to authenticate users using their email address.
-// For additional details on the Capsule SDK, refer to: https://docs.usecapsule.com/
+//Capsule SDK integration example for email-based authentication and message signing. For additional details on the Capsule SDK, refer to: https://docs.usecapsule.com/
 
 type EmailAuthenticationExampleProps = {
   setSelectedAuthOption: (option: CapsuleAuthOptions) => void;
@@ -29,10 +33,12 @@ type EmailAuthenticationExampleProps = {
 // 1. Get your API key from https://usecapsule.com/beta
 const CAPSULE_API_KEY = "d0b61c2c8865aaa2fb12886651627271";
 
-// 2. Set the environment to development or production based on your use case. We recommend pulling this from an environment variable or a configuration file. But for the sake of simplicity, we're setting it here.
+// 2. Set the environment to development or production based on your use case
 const CAPSULE_ENVIRONMENT = Environment.DEVELOPMENT;
 
-// 3. Initialize the Capsule client. Add possible constructor parameters as needed. This step is optional but recommended for customizing the embedded wallet to match your application's branding. For more details on the full constructor options, refer to: https://docs.usecapsule.com/integration-guide/customize-capsule#constructor-options
+// NOTE: The parameters below are optional and can be used to customize the Capsule SDK integration.
+// For a comprehensive list of all available constructor options and detailed explanations, please visit:
+// https://docs.usecapsule.com/integration-guide/customize-capsule#constructor-options
 
 const constructorOpts: ConstructorOpts = {
   emailPrimaryColor: "#ff6700",
@@ -43,18 +49,17 @@ const constructorOpts: ConstructorOpts = {
   supportUrl: "https://usecapsule.com/talk-to-us",
 };
 
-// Setting the Capsule Client as a global variable for use in the component. For your application feel free to move this to a state management library, context, or any other global variable as needed.
+//3. Initialize the Capsule client with optional constructor parameters
 export const capsuleClient = new Capsule(
   CAPSULE_ENVIRONMENT,
   CAPSULE_API_KEY,
   constructorOpts
 );
 
-// This component demonstrates how to use the Capsule SDK to authenticate users using their email address.
+// Main component for email authentication and message signing
 export const EmailAuthenticationExample: React.FC<
   EmailAuthenticationExampleProps
 > = ({ setSelectedAuthOption }) => {
-  // Use your own state management library or hooks as needed. For our startup examples we're keeping it simple with React state.
   const [email, setEmail] = useState("");
   const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(false);
   const [userNeedsWallet, setUserNeedsWallet] = useState<boolean>(false);
@@ -70,17 +75,18 @@ export const EmailAuthenticationExample: React.FC<
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  //4. Check if the user is already logged in
+  // 4. Check if the user is already logged in. isFullyLoggedIn() will return true if the user is already logged in and has a wallet setup.
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
         const isLoggedIn = await capsuleClient.isFullyLoggedIn();
         setIsUserLoggedIn(isLoggedIn);
-        isLoggedIn &&
+        if (isLoggedIn) {
           toast({
             title: "Already Logged In",
             description: "You can now proceed with the transaction",
           });
+        }
       } catch (err) {
         console.error(err);
       }
@@ -88,27 +94,22 @@ export const EmailAuthenticationExample: React.FC<
     checkLoginStatus();
   }, []);
 
-  //5. Handle the authentication on the click of the continue button
+  // 5. Handle authentication on the "Continue" button click. For new users, this will create a new user and automatically send a verification code to the user's email. The email branding can be customized using the ConstructorOpts passed to the Capsule client from step 3. For existing users, this will initiate the login process and open a popup window for the user to authenticate.
   const handleContinue = async () => {
     setIsLoading(true);
     try {
-      //6. Check if the user exists
       const isExistingUser = await capsuleClient.checkIfUserExists(email);
 
-      //7. If the user exists, initiate the login flow
       if (isExistingUser) {
-        //7.1 Initiate the login flow
         const authUrl = await capsuleClient.initiateUserLogin(email);
-        //7.2 Open the authentication URL in a new window
         window.open(authUrl, "popup", "popup=true,width=400,height=500");
-        //7.3 Wait for the user to login and setup the wallet
+
         const { needsWallet } = await capsuleClient.waitForLoginAndSetup();
-        //Handle needs wallet here if required
-        needsWallet && (await capsuleClient.createWallet());
+        if (needsWallet) await capsuleClient.createWallet();
+
         setIsUserLoggedIn(true);
         setUserNeedsWallet(needsWallet);
       } else {
-        //8. If the user does not exist, create a new user. Verification code is automatically sent to the user's email
         await capsuleClient.createUser(email);
         setNeedsEmailVerification(true);
       }
@@ -125,22 +126,19 @@ export const EmailAuthenticationExample: React.FC<
     }
   };
 
-  //9. Handle the verification of the email
+  //6. Handle the verification code automatically sent to the user's email. If the code is valid the user is directed to a URL for completing their credentials. Once their credentials are completed, the user is logged in and a wallet is created. A recovery secret is returned which can be used to recover the wallet in case the user loses access to their device.
   const handleVerifyEmail = async () => {
     setIsLoading(true);
-
     try {
-      //10. Verify the email using the verification code
       const url = await capsuleClient.verifyEmail(verificationCode);
+
       window.open(url, "popup", "popup=true,width=400,height=500");
 
-      //11. Wait for the user to setup the wallet
       const recoverySecret =
         await capsuleClient.waitForPasskeyAndCreateWallet();
-      //12. Handle the recovery secret here. You can store it in a secure location or show it to the user for backup. This example just sets it in the state. Make sure to handle it securely in your application.
+
       setUserRecoverySecret(recoverySecret);
 
-      //13. Move to the next step of signing messages or transactions.
       setIsUserLoggedIn(true);
       setNeedsEmailVerification(false);
       toast({
@@ -160,8 +158,7 @@ export const EmailAuthenticationExample: React.FC<
     }
   };
 
-  //14. Handle signing a messages or transaction using a Capsule compatible library like ethers.js or viem.js. Additional signing details can be found at: https://docs.usecapsule.com/integration-guide/signing-transactions
-
+  //7. Handle signing a messages or transaction using a Capsule compatible library like ethers.js or viem.js. Please view the signingUtils.ts file for invdividual signing implementations for each library. Additional signing details can be found at: https://docs.usecapsule.com/integration-guide/signing-transactions
   const handleSignMessage = async () => {
     setIsLoading(true);
     await signMessage(
@@ -174,8 +171,7 @@ export const EmailAuthenticationExample: React.FC<
     setIsLoading(false);
   };
 
-  //15. As a last step, handle the logout. This will clear the session and the user will have to login again. For additional details on session management, refer to: https://docs.usecapsule.com/integration-guide/session-management
-
+  //8. Handle logging out the user. This will clear the session and the user will have to login again. For additional details on session management, refer to: https://docs.usecapsule.com/integration-guide/session-management
   const handleLogout = async () => {
     await capsuleClient.logout();
     toast({

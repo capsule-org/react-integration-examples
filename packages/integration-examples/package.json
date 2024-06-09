@@ -37,8 +37,7 @@
     "@usecapsule/ethers-v6-integration": "latest",
     "@usecapsule/rainbowkit": "latest",
     "@usecapsule/rainbowkit-wallet": "latest",
-    "@usecapsule/react-sdk": "^2.3.1",
-    "@usecapsule/react-sdk-dev": "npm:@usecapsule/react-sdk@latest",
+    "@usecapsule/react-sdk": "latest",
     "@usecapsule/viem-v1-integration": "latest",
     "@usecapsule/viem-v2-integration": "latest",
     "@usecapsule/wagmi-v1-integration": "latest",
@@ -55,6 +54,7 @@
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "viem": "^2.13.3",
+    "viem-v1": "npm:viem@1.21.4",
     "wagmi": "^2.9.8",
     "yarn": "^1.22.22"
   }

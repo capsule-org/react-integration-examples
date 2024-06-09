@@ -3,9 +3,9 @@ import Capsule, {
   ConstructorOpts,
   Environment,
   OAuthMethod,
-} from "@usecapsule/react-sdk-dev"; //Note this is an alias for @usecapsule/react-sdk to prevent conflicts with web3-onboard using an older version of the Capsule SDK
+} from "@usecapsule/react-sdk";
 import { useEffect, useState } from "react";
-import "@usecapsule/react-sdk-dev/styles.css";
+import "@usecapsule/react-sdk/styles.css";
 import Logo from "../assets/images/capsule-logo.svg";
 import { HexColorPicker } from "react-colorful";
 import {
@@ -15,15 +15,28 @@ import {
 } from "@radix-ui/react-popover";
 import { PaletteIcon } from "lucide-react";
 import { CapsuleAuthOptions } from "..";
-import { useToast } from "./core/toast/use-toast";
-import { CardContent, CardFooter, CardHeader } from "./core/card";
-import { Button } from "./core/button";
-import { Label } from "./core/label";
-import { Switch } from "./core/switch";
-import { Input } from "./core/input";
 
-// This component demonstrates how to use the Capsule Modal for a managed authentication flow.
-// For additional details on the Capsule SDK, refer to: https://docs.usecapsule.com/
+import { signMessage } from "../utils/signingUtils";
+import {
+  Alert,
+  CardContent,
+  CardHeader,
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+  Label,
+  Input,
+  Switch,
+  Button,
+  CardFooter,
+  SelectItem,
+  useToast,
+} from "./core";
+
+// Capsule Modal integration example for managed authentication using the Capsule React SDK. For additional details on the integrating with Capsule, refer to: https://docs.usecapsule.com/
 
 type CapsuleModalAuthenticationExampleProps = {
   setSelectedAuthOption: (option: CapsuleAuthOptions) => void;
@@ -35,7 +48,10 @@ const CAPSULE_API_KEY = "d0b61c2c8865aaa2fb12886651627271";
 // 2. Set the environment to development or production based on your use case
 const CAPSULE_ENVIRONMENT = Environment.DEVELOPMENT;
 
-// 3. Initialize the Capsule client. Add possible constructor parameters as needed. For more details on the full constructor options, refer to: https://docs.usecapsule.com/integration-guide/customize-capsule#constructor-options
+// NOTE: The parameters below are optional and can be used to customize the Capsule SDK integration.
+// For a comprehensive list of all available constructor options and detailed explanations, please visit:
+// https://docs.usecapsule.com/integration-guide/customize-capsule#constructor-options
+
 const constructorOpts: ConstructorOpts = {
   emailPrimaryColor: "#ff6700",
   githubUrl: "https://github.com/capsule-org",
@@ -44,38 +60,46 @@ const constructorOpts: ConstructorOpts = {
   homepageUrl: "https://usecapsule.com/",
   supportUrl: "https://usecapsule.com/talk-to-us",
 };
+
+//3. Initialize the Capsule client with optional constructor parameters
 export const capsuleClient = new Capsule(
   CAPSULE_ENVIRONMENT,
   CAPSULE_API_KEY,
   constructorOpts
 );
 
+// Main component for Capsule Modal based authentication and message signing
 export const CapsuleModalAuthenticationExample: React.FC<
   CapsuleModalAuthenticationExampleProps
 > = ({ setSelectedAuthOption }) => {
   const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(false);
   const [isCapsuleModalOpen, setIsCapsuleModalOpen] = useState<boolean>(false);
-  const [message, setMessage] = useState<string>("");
 
-  // These states are used to customize the Capsule Modal and are passed as props to the CapsuleModal component. You can pass these as props directly to the CapsuleModal component or from your apps theme settings. For more details on the Capsule customization options, refer to: https://docs.usecapsule.com/integration-guide/customize-capsule
+  const [message, setMessage] = useState<string>("");
+  const [signature, setSignature] = useState<string>("");
+  const [selectedSigner, setSelectedSigner] = useState<string>("");
+
+  //Note: These states are used to customize the Capsule Modal and are passed as props to the CapsuleModal component. You can pass these as props directly to the CapsuleModal component or from your apps theme settings. For more details on the Capsule customization options, refer to: https://docs.usecapsule.com/integration-guide/customize-capsule
   const [backgroundColor, setBackgroundColor] = useState<string>("#ffffff");
   const [foregroundColor, setForegroundColor] = useState<string>("#ff6700");
   const [disableEmailLogin, setDisableEmailLogin] = useState<boolean>(false);
   const [disablePhoneLogin, setDisablePhoneLogin] = useState<boolean>(false);
 
-  //4. Check if the user is already logged in
+  // 4. Check if the user is already logged in. isFullyLoggedIn() will return true if the user is already logged in and has a wallet setup.
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
         const isLoggedIn = await capsuleClient.isFullyLoggedIn();
         setIsUserLoggedIn(isLoggedIn);
-        isLoggedIn &&
+        if (isLoggedIn) {
           toast({
             title: "Already Logged In",
             description: "You can now proceed with the transaction",
           });
+        }
       } catch (err) {
         console.error(err);
       }
@@ -88,10 +112,28 @@ export const CapsuleModalAuthenticationExample: React.FC<
     setIsCapsuleModalOpen(true);
   };
 
-  // 6.  Handle signing a messages or transaction using a Capsule compatible library like ethers.js or viem.js. Additional signing details can be found at: https://docs.usecapsule.com/integration-guide/signing-transactions
-  const handleSignMessage = async () => {};
+  // 6. Handle any cleanup or trigger any app specific actions after the Capsule Modal is closed. This is triggered if the user closes the Capsule Modal or after the user is logged in successfully. Any app specific after effects can be triggered here.
+  const handleModalClose = async () => {
+    setIsCapsuleModalOpen(false);
+    if (await capsuleClient.isFullyLoggedIn()) {
+      setIsUserLoggedIn(true);
+    }
+  };
 
-  // 7. As a last step, handle the logout. This will clear the session and the user will have to login again. For additional details on session management, refer to: https://docs.usecapsule.com/integration-guide/session-management
+  //7. Handle signing a messages or transaction using a Capsule compatible library like ethers.js or viem.js. Please view the signingUtils.ts file for invdividual signing implementations for each library. Additional signing details can be found at: https://docs.usecapsule.com/integration-guide/signing-transactions
+  const handleSignMessage = async () => {
+    setIsLoading(true);
+    await signMessage(
+      capsuleClient,
+      selectedSigner,
+      message,
+      setSignature,
+      toast
+    );
+    setIsLoading(false);
+  };
+
+  //8. Handle logging out the user. This will clear the session and the user will have to login again. For additional details on session management, refer to: https://docs.usecapsule.com/integration-guide/session-management
   const handleLogout = async () => {
     await capsuleClient.logout();
     toast({
@@ -99,14 +141,6 @@ export const CapsuleModalAuthenticationExample: React.FC<
       description: "You have been successfully logged out.",
     });
     resetState();
-  };
-
-  // Handle any cleanup or trigger any app specific actions after the Capsule Modal is closed
-  const handleModalClose = async () => {
-    setIsCapsuleModalOpen(false);
-    if (await capsuleClient.isFullyLoggedIn()) {
-      setIsUserLoggedIn(true);
-    }
   };
 
   const resetState = () => {
@@ -119,7 +153,50 @@ export const CapsuleModalAuthenticationExample: React.FC<
     setSelectedAuthOption("none");
   };
 
-  const CapsuleModalComponent = () => (
+  return isUserLoggedIn ? (
+    <>
+      <CardHeader>
+        <h2 className="text-xl font-bold">Sign A Message</h2>
+      </CardHeader>
+      <CardContent className="max-w-sm min-w-xs">
+        {signature && (
+          <Alert className="break-words mb-4">{`Signature: ${signature}`}</Alert>
+        )}
+        <Select onValueChange={setSelectedSigner}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select a signer" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Signers</SelectLabel>
+              <SelectItem value="ethers-v5">Ethers v5</SelectItem>
+              <SelectItem value="ethers-v6">Ethers v6</SelectItem>
+              <SelectItem value="viem-v1">Viem v1</SelectItem>
+              <SelectItem value="viem-v2">Viem v2</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <Label>Message:</Label>
+        <Input
+          name="messageToSign"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Message to sign"
+        />
+      </CardContent>
+      <CardFooter className="flex justify-between">
+        <Button variant="outline" onClick={handleLogout}>
+          Logout
+        </Button>
+        <Button
+          onClick={handleSignMessage}
+          disabled={!message || !selectedSigner || !isUserLoggedIn || isLoading}
+        >
+          {isLoading ? "Signing..." : "Sign Message"}
+        </Button>
+      </CardFooter>
+    </>
+  ) : (
     <>
       <CardHeader>
         <h2 className="text-xl font-bold">
@@ -229,37 +306,4 @@ export const CapsuleModalAuthenticationExample: React.FC<
       </CardFooter>
     </>
   );
-
-  const LoggedInComponent = () => (
-    <>
-      <CardHeader>
-        <h2 className="text-xl font-bold">Sign A Message</h2>
-      </CardHeader>
-      <CardContent>
-        <Label>Message:</Label>
-        <Input
-          placeholder="Enter your message"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          className="mb-4"
-        />
-      </CardContent>
-      <CardFooter className="flex justify-between">
-        <Button variant="outline" onClick={handleLogout}>
-          Logout
-        </Button>
-        <Button
-          onClick={() =>
-            alert(`
-        Signing message: ${message}
-        `)
-          }
-        >
-          Sign
-        </Button>
-      </CardFooter>
-    </>
-  );
-
-  return isUserLoggedIn ? <LoggedInComponent /> : <CapsuleModalComponent />;
 };
