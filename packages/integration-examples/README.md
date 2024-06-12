@@ -1,1 +1,1 @@
-# Capsule React Demo
+# Capsule React Integration Examples

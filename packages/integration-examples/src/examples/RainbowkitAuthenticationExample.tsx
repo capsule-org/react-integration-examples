@@ -18,7 +18,12 @@ import { WagmiProvider, createConfig } from "wagmi";
 import { sepolia } from "wagmi/chains";
 import { createClient, http } from "viem";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { CardContent, CardFooter, CardHeader, Button } from "./core";
+import {
+  CardContent,
+  CardFooter,
+  CardHeader,
+  Button,
+} from "../components/core";
 
 import "@usecapsule/rainbowkit/styles.css";
 
@@ -137,7 +142,7 @@ const wagmiConfigIntegrated = createConfig({
   },
 });
 
-// Lastly, initiate a QueryClient
+// 8. Lastly, initiate a QueryClient
 const queryClient = new QueryClient();
 
 export const RainbowkitAuthenticationExample: React.FC<
@@ -159,13 +164,14 @@ export const RainbowkitAuthenticationExample: React.FC<
           RainbowKit Modal.
         </p>
       </CardHeader>
-      <CardContent></CardContent>
+      <CardContent className="flex flex-grow flex-col items-start space-y-4">
+        <RainbowkitWithCapsuleModal />
+        <RainbowkitWithCapsuleIntegrated />
+      </CardContent>
       <CardFooter className="flex justify-between">
         <Button variant={"outline"} onClick={handleBack}>
           Back
         </Button>
-        <RainbowkitWithCapsuleModal />
-        <RainbowkitWithCapsuleIntegrated />
       </CardFooter>
     </>
   );
@@ -199,7 +205,7 @@ const RainbowkitWithCapsuleIntegrated = () => {
           capsule={capsuleClient}
           capsuleIntegratedProps={{
             appName: "Capsule RainbowKit Example", // Your app name
-            logo: Logo, // Your logo
+            // logo: Logo, // Your logo
             oAuthMethods: [
               // The OAuth methods you want to enable
               OAuthMethod.GOOGLE,

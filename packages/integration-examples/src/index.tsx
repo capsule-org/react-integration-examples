@@ -3,10 +3,11 @@ import CapsuleSunriseHero from "./assets/images/capsule-sunrise-hero.svg";
 import { Toaster } from "./components/core/toast/toaster";
 import { Card, CardContent, CardHeader } from "./components/core/card";
 import { Button } from "./components/core/button";
-import { EmailAuthenticationExample } from "./components/EmailAuthenticationExample";
-import { CapsuleModalAuthenticationExample } from "./components/CapsuleModalAuthenticationExample";
-import { RainbowkitAuthenticationExample } from "./components/RainbowkitAuthenticationExample";
-import { Web3OnboardAuthenticationExample } from "./components/Web3OnboardAuthenticationExample";
+import { EmailAuthenticationExample } from "./examples/EmailAuthenticationExample";
+import { CapsuleModalAuthenticationExample } from "./examples/CapsuleModalAuthenticationExample";
+import { RainbowkitAuthenticationExample } from "./examples/RainbowkitAuthenticationExample";
+import { Web3OnboardAuthenticationExample } from "./examples/Web3OnboardAuthenticationExample";
+import { WalletPregenerationExample } from "./examples/WalletPregenerationExample";
 
 type CapsuleDemoProps = {
   framework: string;
@@ -53,7 +54,11 @@ export const CapsuleDemo: React.FC<CapsuleDemoProps> = ({ framework }) => {
           />
         );
       case "wallet-pregeneration":
-        return <></>;
+        return (
+          <WalletPregenerationExample
+            setSelectedAuthOption={setSelectedAuthOption}
+          />
+        );
       default:
         return AuthenticationOptions(setSelectedAuthOption);
     }
@@ -66,31 +71,31 @@ export const CapsuleDemo: React.FC<CapsuleDemoProps> = ({ framework }) => {
       <CardContent>
         <Button
           onClick={() => setSelectedOption("email")}
-          className="mb-2 w-full"
+          className="mb-2 w-full text-primary-foreground"
         >
           Capsule Web SDK Auth
         </Button>
         <Button
           onClick={() => setSelectedOption("capsule-modal")}
-          className="mb-2 w-full"
+          className="mb-2 w-full text-primary-foreground"
         >
           Capsule React Modal Auth
         </Button>
         <Button
           onClick={() => setSelectedOption("rainbowkit")}
-          className="mb-2 w-full"
+          className="mb-2 w-full text-primary-foreground"
         >
           RainbowKit Wallet Connector Auth
         </Button>
         <Button
           onClick={() => setSelectedOption("web3onboard")}
-          className="mb-2 w-full"
+          className="mb-2 w-full text-primary-foreground"
         >
           Web3-onboard Wallet Connector Auth
         </Button>
         <Button
           onClick={() => setSelectedOption("wallet-pregeneration")}
-          className="mb-2 w-full"
+          className="mb-2 w-full text-primary-foreground"
         >
           Wallet Pregeneration
         </Button>
@@ -99,19 +104,33 @@ export const CapsuleDemo: React.FC<CapsuleDemoProps> = ({ framework }) => {
   };
 
   return (
-    <div className="relative flex justify-center items-center h-screen">
+    <div className="relative flex flex-col h-screen">
+      <nav className="fixed top-0 left-0 right-0 bg-background z-20">
+        <h1 className="text-2xl text-center p-4 font-bold">
+          {`Capsule Demo for ${framework}`}
+        </h1>
+      </nav>
       <div
         className="absolute inset-0 bg-no-repeat bg-cover bg-center"
         style={{ backgroundImage: `url(${CapsuleSunriseHero})` }}
       />
-      <div className="relative z-10 flex flex-col items-center">
-        <h1 className="text-5xl text-center mb-4 font-bold">
-          {`Capsule Demo for ${framework}`}
-        </h1>
-        <Card className="max-w-md mx-auto mt-10 bg-white min-w-fit">
-          {selectedAuthOption == "none" && (
+      <div className="relative flex flex-1 justify-center items-center z-10">
+        <Card
+          className="mx-auto shadow-lg
+          flex flex-col
+    min-h-[400px] max-h-[500px]
+    min-w-[320px] max-w-xs
+    sm:min-w-xs sm:max-w-sm
+    md:min-w-sm md:max-w-md
+    lg:min-w-sm lg:max-w-md
+  "
+        >
+          {selectedAuthOption === "none" && (
             <CardHeader>
               <h2 className="text-xl font-bold">Capsule SDK Auth Options</h2>
+              <p className="text-sm text-muted-foreground">
+                Select an option to start testing Capsule SDK Options
+              </p>
             </CardHeader>
           )}
           {renderAuthOption()}

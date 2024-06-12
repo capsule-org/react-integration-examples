@@ -7,8 +7,8 @@ import capsuleModule, {
 } from "@web3-onboard/capsule";
 import Logo from "../assets/images/capsule-logo.svg";
 import { CapsuleAuthOptions } from "..";
-import { CardContent, CardFooter, CardHeader } from "./core/card";
-import { Button } from "./core/button";
+import { CardContent, CardFooter, CardHeader } from "../components/core/card";
+import { Button } from "../components/core/button";
 import { ethers } from "ethers";
 import { useConnectWallet, init } from "@web3-onboard/react";
 import { useState } from "react";
@@ -23,7 +23,7 @@ import {
   SelectItem,
   Label,
   Input,
-} from "./core";
+} from "../components/core";
 
 type Web3OnboardAuthenticationExampleProps = {
   setSelectedAuthOption: (option: CapsuleAuthOptions) => void;
@@ -133,7 +133,7 @@ export const Web3OnboardAuthenticationExample: React.FC<
           This will open the BlockNative Modal with Capsule as a wallet option.
         </p>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex flex-grow flex-col items-start	">
         {wallet ? (
           <div>
             <p>Connected as {wallet.accounts[0].address}</p>
