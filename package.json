@@ -7,7 +7,6 @@
     "packages/*"
   ],
   "scripts": {
-    "bootstrap": "lerna bootstrap",
     "start:react-app": "lerna run start --scope react-app",
     "start:vite-app": "lerna run dev --scope vite-app",
     "start:nextjs-app": "lerna run dev --scope nextjs-app",
