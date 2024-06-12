@@ -73,31 +73,31 @@ export const CapsuleDemo: React.FC<CapsuleDemoProps> = ({ framework }) => {
           onClick={() => setSelectedOption("email")}
           className="mb-2 w-full text-primary-foreground"
         >
-          Capsule Web SDK Auth
+          Capsule Web SDK Email
         </Button>
         <Button
           onClick={() => setSelectedOption("capsule-modal")}
           className="mb-2 w-full text-primary-foreground"
         >
-          Capsule React Modal Auth
+          Capsule React Modal
         </Button>
         <Button
           onClick={() => setSelectedOption("rainbowkit")}
           className="mb-2 w-full text-primary-foreground"
         >
-          RainbowKit Wallet Connector Auth
+          RainbowKit Connector
         </Button>
         <Button
           onClick={() => setSelectedOption("web3onboard")}
           className="mb-2 w-full text-primary-foreground"
         >
-          Web3-onboard Wallet Connector Auth
+          Web3-Onboard Connector
         </Button>
         <Button
           onClick={() => setSelectedOption("wallet-pregeneration")}
           className="mb-2 w-full text-primary-foreground"
         >
-          Wallet Pregeneration
+          Capsule Wallet Pregeneration
         </Button>
       </CardContent>
     );
