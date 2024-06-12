@@ -10,6 +10,9 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "paths": {
       "@usecapsule/integration-examples/*": [
         "packages/integration-examples/src/*"
@@ -17,6 +20,9 @@
     },
     "baseUrl": "."
   },
-  "include": ["packages/*/src"],
+  "include": [
+    "packages/*/src",
+    "examples/remix-app/app/components/capsule.client.tsx"
+  ],
   "exclude": ["node_modules"]
 }
