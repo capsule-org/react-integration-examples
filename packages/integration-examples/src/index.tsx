@@ -105,7 +105,12 @@ export const CapsuleDemo: React.FC<CapsuleDemoProps> = ({ framework }) => {
 
   return (
     <div className="relative flex flex-col h-screen">
-      <nav className="fixed top-0 left-0 right-0 bg-background z-20">
+      <nav
+        className="fixed top-0 left-0 right-0 bg-background z-20"
+        style={{
+          background: "radial-gradient(circle, #00000080 0%, black 100%)",
+        }}
+      >
         <h1 className="text-2xl text-center p-4 font-bold">
           {`Capsule Demo for ${framework}`}
         </h1>
@@ -115,17 +120,7 @@ export const CapsuleDemo: React.FC<CapsuleDemoProps> = ({ framework }) => {
         style={{ backgroundImage: `url(${CapsuleSunriseHero})` }}
       />
       <div className="relative flex flex-1 justify-center items-center z-10">
-        <Card
-          className="mx-auto shadow-lg
-          overflow-auto	
-          flex flex-col
-    min-h-[400px] max-h-[500px]
-    min-w-[320px] max-w-xs
-    sm:min-w-xs sm:max-w-sm
-    md:min-w-sm md:max-w-md
-    lg:min-w-sm lg:max-w-md
-  "
-        >
+        <Card className="mx-auto shadow-lg overflow-auto flex flex-col min-h-[400px] max-h-[500px] min-w-[320px] max-w-xs sm:min-w-xs sm:max-w-sm md:min-w-sm md:max-w-md lg:min-w-sm lg:max-w-md">
           {selectedAuthOption === "none" && (
             <CardHeader>
               <h2 className="text-xl font-bold">Capsule SDK Auth Options</h2>

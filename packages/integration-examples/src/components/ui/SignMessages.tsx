@@ -54,26 +54,21 @@ export const SignMessages: React.FC<SignMessageProps> = ({
       </p>
     </CardHeader>
     <CardContent className="flex flex-grow flex-col items-start	">
-      <Alert className="break-words mb-4 line-clamp-2">
-        {isLoading
-          ? "Signing..."
-          : signature
-          ? `Signature: ${signature}`
-          : "No signature"}
+      <Alert className="break-words mb-4 ">
+        {walletId ? `Your Wallet ID: ${walletId}` : "No wallet ID"}
       </Alert>
-      <Alert className="break-words mb-4 line-clamp-2">
-        {walletId ? `Wallet ID: ${walletId}` : "No wallet ID"}
+      <Alert className="break-words mb-4 ">
+        {walletAddress ? `Your Wallet Address: ${walletAddress}` : "No address"}
       </Alert>
-      <Alert className="break-words mb-4 line-clamp-2">
-        {walletAddress ? `Wallet Address: ${walletAddress}` : "No address"}
-      </Alert>
-      <Alert className="break-words mb-4 line-clamp-2">
-        {userRecoverySecret
-          ? `Recovery Secret: ${userRecoverySecret}`
-          : "No recovery secret"}
-      </Alert>
+      {userRecoverySecret && (
+        <Alert className="break-words mb-4 ">
+          {userRecoverySecret
+            ? `Recovery Secret: ${userRecoverySecret}`
+            : "No recovery secret"}
+        </Alert>
+      )}
       <Select onValueChange={setSelectedSigner}>
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="w-full mb-4">
           <SelectValue placeholder="Select a signer" />
         </SelectTrigger>
         <SelectContent>
@@ -86,13 +81,21 @@ export const SignMessages: React.FC<SignMessageProps> = ({
           </SelectGroup>
         </SelectContent>
       </Select>
-      <Label>Message:</Label>
+      <Label className="block mb-2">Message To Sign:</Label>
       <Input
         name="messageToSign"
         value={message}
         onChange={setMessage}
         placeholder="Message to sign"
+        className="w-full mb-4"
       />
+      <Alert className="break-words mb-4 ">
+        {isLoading
+          ? "Signing..."
+          : signature
+          ? `Signature: ${signature}`
+          : "No signature"}
+      </Alert>
     </CardContent>
     <CardFooter className="flex justify-between">
       <Button variant="outline" onClick={handleLogout}>
