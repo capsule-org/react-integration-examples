@@ -73,13 +73,14 @@ export const EmailAuthenticationExample: React.FC<
 
       if (isLoggedIn) {
         const wallets = await capsuleClient.getWallets();
-        setWalletId(wallets[0].id);
-        setWalletAddress(wallets[0].address!);
+        setWalletId(Object.values(wallets)[0].id!);
+        setWalletAddress(Object.values(wallets)[0].address!);
         toast({
           title: "Logged In",
           description: "You're logged in and ready to sign messages.",
         });
       }
+      setNeedsEmailVerification(false);
       setIsUserLoggedIn(isLoggedIn);
     } catch (err) {
       console.error(err);
@@ -226,6 +227,7 @@ export const EmailAuthenticationExample: React.FC<
       verificationCode={verificationCode}
       setVerificationCode={setVerificationCode}
       handleVerifyEmail={handleVerifyEmail}
+      resetState={resetState}
     />
   ) : (
     <Authenticate

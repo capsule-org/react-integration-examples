@@ -117,6 +117,7 @@ export const CapsuleDemo: React.FC<CapsuleDemoProps> = ({ framework }) => {
       <div className="relative flex flex-1 justify-center items-center z-10">
         <Card
           className="mx-auto shadow-lg
+          overflow-auto	
           flex flex-col
     min-h-[400px] max-h-[500px]
     min-w-[320px] max-w-xs

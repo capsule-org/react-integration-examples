@@ -15,6 +15,7 @@ interface EmailVerificationProps {
   verificationCode: string;
   setVerificationCode: (code: string) => void;
   handleVerifyEmail: () => void;
+  resetState: () => void;
 }
 
 export const EmailVerification: React.FC<EmailVerificationProps> = ({
