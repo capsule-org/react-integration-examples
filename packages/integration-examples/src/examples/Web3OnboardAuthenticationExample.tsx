@@ -26,7 +26,6 @@ const capsule = capsuleModule({
   environment: CAPSULE_ENVIRONMENT,
   apiKey: CAPSULE_API_KEY,
   modalProps: {
-    theme: Theme.dark,
     oAuthMethods: [
       OAuthMethod.GOOGLE,
       OAuthMethod.TWITTER,
