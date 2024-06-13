@@ -1,3 +1,4 @@
+"use client";
 import { CapsuleAuthOptions } from "..";
 import { Environment } from "@usecapsule/react-sdk";
 import {
@@ -96,9 +97,9 @@ const wagmiConfig = createConfig({
   },
 });
 
-// Skip this section if you are using the Capsule Modal option.
-
+// NOTE: SKIP THIS SECTION IF YOU ARE USING THE CAPSULE MODAL AND PROCEED TO STEP 8
 // Integrated Capsule Configuration
+
 // 3. Initialize a Capsule instance.
 const capsuleClient = new CapsuleWeb(CAPSULE_ENVIRONMENT, CAPSULE_API_KEY);
 
@@ -155,9 +156,7 @@ export const RainbowkitAuthenticationExample: React.FC<
   return (
     <>
       <CardHeader>
-        <h2 className="text-xl font-bold">
-          Rainbowkit with Capsule Integration
-        </h2>
+        <h2 className="text-xl font-bold">Rainbowkit with Capsule Connector</h2>
         <p>
           Select between the Capsule Modal or the integrated Capsule connector.
           Integrated Capsule will render the Capsule Modal directly in the
@@ -178,9 +177,6 @@ export const RainbowkitAuthenticationExample: React.FC<
 };
 
 // Component for using Capsule Modal with RainbowKit
-// This component configures the WagmiProvider and QueryClientProvider
-// to use the RainbowKitProvider with Capsule Modal.
-// The ConnectButton will trigger the Capsule Modal for authentication.
 const RainbowkitWithCapsuleModal = () => {
   return (
     <WagmiProvider config={wagmiConfig}>
@@ -194,9 +190,6 @@ const RainbowkitWithCapsuleModal = () => {
 };
 
 // Component for using Integrated Capsule with RainbowKit
-// This component configures the WagmiProvider and QueryClientProvider
-// to use the RainbowKitProvider with integrated Capsule Modal.
-// The ConnectButton will render the Capsule Modal directly within the RainbowKit Modal.
 const RainbowkitWithCapsuleIntegrated = () => {
   return (
     <WagmiProvider config={wagmiConfigIntegrated}>
@@ -215,7 +208,7 @@ const RainbowkitWithCapsuleIntegrated = () => {
               OAuthMethod.APPLE,
             ],
             theme: {
-              backgroundColor: "#ffffff",
+              backgroundColor: "#0c0a09",
               foregroundColor: "#ff6700",
             },
           }}
