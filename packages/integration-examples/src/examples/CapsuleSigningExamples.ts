@@ -110,13 +110,13 @@ export const signMessage = async (
   message: string
 ): Promise<string> => {
   switch (selectedSigner) {
-    case "ethers-v5":
+    case "ethers-v5-integration":
       return await signWithEthersV5(capsule, message);
-    case "ethers-v6":
+    case "ethers-v6-integration":
       return await signWithEthersV6(capsule, message);
-    case "viem-v1":
+    case "viem-v1-integration":
       return await signWithViemV1(capsule, message);
-    case "viem-v2":
+    case "viem-v2-integration":
       return await signWithViemV2(capsule, message);
     default:
       throw new Error(
