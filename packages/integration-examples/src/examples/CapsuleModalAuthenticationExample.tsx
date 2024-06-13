@@ -205,15 +205,20 @@ export const CapsuleModalAuthenticationExample: React.FC<
         isOpen={isCapsuleModalOpen}
         onClose={handleModalClose}
         appName="Capsule Modal Demo"
-        oAuthMethods={[
-          OAuthMethod.GOOGLE,
-          OAuthMethod.TWITTER,
-          OAuthMethod.FACEBOOK,
-          OAuthMethod.DISCORD,
-          OAuthMethod.APPLE,
-        ]}
+        oAuthMethods={Object.values(OAuthMethod)}
         disableEmailLogin={disableEmailLogin}
         disablePhoneLogin={disablePhoneLogin}
+        onRampConfig={{
+          asset: "eth",
+          providers: [
+            { id: "STRIPE" },
+            // {
+            //   id: "RAMP",
+            //   hostApiKey: "your-ramp-api-key",
+            // },
+          ],
+          testMode: true,
+        }}
       />
     </CapsuleModalExampleWrapper>
   );
