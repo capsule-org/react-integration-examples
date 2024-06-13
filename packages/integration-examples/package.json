@@ -43,7 +43,7 @@
     "@usecapsule/wagmi-v1-integration": "latest",
     "@usecapsule/wagmi-v2-integration": "latest",
     "@usecapsule/web-sdk": "latest",
-    "@web3-onboard/capsule": "^2.0.3",
+    "@web3-onboard/capsule": "2.2.0-alpha.1",
     "@web3-onboard/core": "^2.22.0",
     "@web3-onboard/react": "^2.9.0",
     "class-variance-authority": "^0.7.0",

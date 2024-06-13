@@ -1,5 +1,4 @@
 "use client";
-
 import capsuleModule, {
   Environment,
   OAuthMethod,
@@ -9,21 +8,8 @@ import Logo from "../assets/images/capsule-logo.svg";
 import { CapsuleAuthOptions } from "..";
 import { CardContent, CardFooter, CardHeader } from "../components/core/card";
 import { Button } from "../components/core/button";
-import { ethers } from "ethers";
 import { useConnectWallet, init } from "@web3-onboard/react";
-import { useState } from "react";
-import {
-  Alert,
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectGroup,
-  SelectLabel,
-  SelectItem,
-  Label,
-  Input,
-} from "../components/core";
+import { Alert } from "../components/core";
 
 type Web3OnboardAuthenticationExampleProps = {
   setSelectedAuthOption: (option: CapsuleAuthOptions) => void;
@@ -90,113 +76,65 @@ export const Web3OnboardAuthenticationExample: React.FC<
 
   // 8. Use the useConnectWallet hook to manage wallet connection state.
   const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
-  const [signing, setSigning] = useState(false);
-  const [signedMessage, setSignedMessage] = useState<string | null>(null);
-  const [selectedSigner, setSelectedSigner] = useState<string | null>(null);
-  const [message, setMessage] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [signature, setSignature] = useState<string | null>(null);
 
   // 9. Function to connect the wallet.
   const connectWallet = async () => {
-    const wallets = await connect();
-    console.log(wallets);
+    await connect();
   };
 
-  // 10. Function to sign a message.
-  const handleSignMessage = async () => {
-    if (!wallet || !message) return;
-
-    try {
-      setIsLoading(true);
-      const ethersProvider = new ethers.providers.Web3Provider(
-        wallet.provider,
-        "any"
-      );
-      const signer = ethersProvider.getSigner();
-      const signature = await signer.signMessage(message);
-      setSignature(signature);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
+  // 10. Disconnect the wallet.
+  const disconnectWallet = async () => {
+    if (!wallet) return;
+    await disconnect(wallet);
   };
+
+  // Note: This example doesn't include signing example and is focused on connecting the wallet with Capsule. For signing specifics please refer to the BlockNative Web3-Onboard documentation at https://onboard.blocknative.com/docs/modules/react
 
   return (
     <>
       <CardHeader>
         <h2 className="text-xl font-bold">
-          BlockNative Web3-Onboard Capsule Authentication
+          BlockNative Web3-Onboard Capsule Connector
         </h2>
-        <p className="">
-          This will open the BlockNative Modal with Capsule as a wallet option.
+        <p className="text-sm text-muted-foreground">
+          This will open the BlockNative Modal with Capsule as the sole wallet
+          option. Authentication is handled by the Capsule Modal.
         </p>
       </CardHeader>
-      <CardContent className="flex flex-grow flex-col items-start	">
+      <CardContent className="flex flex-grow flex-col items-start">
         {wallet ? (
-          <div>
-            <p>Connected as {wallet.accounts[0].address}</p>
-            <Button onClick={disconnect.bind(null, wallet)}>
-              Disconnect Wallet
-            </Button>
-            <>
-              <CardHeader>
-                <h2 className="text-xl font-bold">Sign A Message</h2>
-              </CardHeader>
-              <CardContent className="max-w-sm min-w-xs">
-                {signature && (
-                  <Alert className="break-words mb-4">{`Signature: ${signature}`}</Alert>
-                )}
-                <Select onValueChange={setSelectedSigner}>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select a signer" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Signers</SelectLabel>
-                      <SelectItem value="ethers-v5">Ethers v5</SelectItem>
-                      <SelectItem value="ethers-v6">Ethers v6</SelectItem>
-                      <SelectItem value="viem-v1">Viem v1</SelectItem>
-                      <SelectItem value="viem-v2">Viem v2</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-                <Label>Message:</Label>
-                <Input
-                  name="messageToSign"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Message to sign"
-                />
-              </CardContent>
-              <CardFooter className="flex justify-between">
-                <Button
-                  variant="outline"
-                  onClick={disconnect.bind(null, wallet)}
-                >
-                  Logout
-                </Button>
-                <Button
-                  onClick={handleSignMessage}
-                  disabled={!message || !selectedSigner || isLoading}
-                >
-                  {isLoading ? "Signing..." : "Sign Message"}
-                </Button>
-              </CardFooter>
-            </>
-          </div>
+          <>
+            <Alert>Connected as {wallet.accounts[0].address}</Alert>
+            <CardHeader>
+              <h2 className="text-xl font-bold">Signing Instructions</h2>
+            </CardHeader>
+            <CardContent className="max-w-sm min-w-xs">
+              <Alert>
+                For signing instructions, please refer to the
+                <a href="https://onboard.blocknative.com/docs/modules/react">
+                  BlockNative Web3-Onboard documentation
+                </a>
+                .
+              </Alert>
+            </CardContent>
+          </>
         ) : (
-          <p>No wallet connected</p>
+          <Alert>No wallet connected. Click 'Connect Wallet' to proceed.</Alert>
         )}
       </CardContent>
       <CardFooter className="flex justify-between">
         <Button variant={"outline"} onClick={handleBack}>
           Back
         </Button>
-        <Button onClick={connectWallet} disabled={connecting}>
-          {connecting ? "Connecting..." : "Connect Wallet"}
-        </Button>
+        {wallet ? (
+          <Button variant="outline" onClick={disconnectWallet}>
+            Disconnect Wallet
+          </Button>
+        ) : (
+          <Button onClick={connectWallet} disabled={connecting}>
+            {connecting ? "Connecting..." : "Connect Wallet"}
+          </Button>
+        )}
       </CardFooter>
     </>
   );
