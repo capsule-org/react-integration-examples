@@ -1,7 +1,5 @@
 "use client";
-import { CapsuleDemo } from "@usecapsule/react-demo";
-import "@usecapsule/react-demo/lib/style.css";
-
+import { CapsuleDemo } from "@usecapsule/integration-examples";
 export default function App() {
   return <CapsuleDemo framework="Next.js" />;
 }

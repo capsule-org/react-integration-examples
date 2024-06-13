@@ -10,11 +10,19 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "paths": {
-      "@usecapsule/react-demo": ["packages/react-demo/src"]
+      "@usecapsule/integration-examples/*": [
+        "packages/integration-examples/src/*"
+      ]
     },
     "baseUrl": "."
   },
-  "include": ["packages/*/src"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "packages/*/src",
+    "examples/remix-app/app/components/capsule.client.tsx"
+  ],
+  "exclude": ["node_modules"]
 }

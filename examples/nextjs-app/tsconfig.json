@@ -7,15 +7,21 @@
       "ESNext"
     ],
     "allowJs": true,
+    "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Bundler",
+    "jsx": "preserve",
     "incremental": true,
+    "paths": {
+      "@usecapsule/integration-examples/*": [
+        "../../packages/integration-examples/src/*"
+      ]
+    },
     "plugins": [
       {
         "name": "next"
       }
-    ],
-    "jsx": "preserve"
+    ]
   },
   "include": [
     "next-env.d.ts",

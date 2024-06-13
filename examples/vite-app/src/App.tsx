@@ -1,8 +1,7 @@
-import { CapsuleDemo } from "@usecapsule/react-demo";
-import "@usecapsule/react-demo/lib/style.css";
+import { CapsuleDemo } from "@usecapsule/integration-examples";
 
 function App() {
-  return <CapsuleDemo framework="React Vite" />;
+  return <CapsuleDemo framework="Vite/React" />;
 }
 
 export default App;
