@@ -79,10 +79,10 @@ export const SignMessages: React.FC<SignMessageProps> = ({
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Signers</SelectLabel>
-            <SelectItem value="ethers-v5">Ethers v5</SelectItem>
-            <SelectItem value="ethers-v6">Ethers v6</SelectItem>
-            <SelectItem value="viem-v1">Viem v1</SelectItem>
-            <SelectItem value="viem-v2">Viem v2</SelectItem>
+            <SelectItem value="ethers-v5-integration">Ethers v5</SelectItem>
+            <SelectItem value="ethers-v6-integration">Ethers v6</SelectItem>
+            <SelectItem value="viem-v1-integration">Viem v1</SelectItem>
+            <SelectItem value="viem-v2-integration">Viem v2</SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>

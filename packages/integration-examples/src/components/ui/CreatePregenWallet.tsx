@@ -22,7 +22,7 @@ export const CreatePreGeneratedWallet: React.FC<
   <>
     <CardHeader>
       <h2 className="text-xl font-bold">Create a Pre-generated Wallet</h2>
-      <p>
+      <p className="text-sm text-muted-foreground">
         Use the Capsule Web SDK for manual authentication to create a
         pre-generated wallet.
       </p>

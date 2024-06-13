@@ -28,7 +28,7 @@ export const EmailVerification: React.FC<EmailVerificationProps> = ({
       <h2 className="text-xl font-bold">
         Verify Email Address with Capsule SDK
       </h2>
-      <p>
+      <p className="text-sm text-muted-foreground">
         A verification code was sent to your email. Please enter the code to
         verify your email address and complete the registration process.
       </p>
