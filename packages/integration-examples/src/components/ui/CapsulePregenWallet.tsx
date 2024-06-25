@@ -34,7 +34,7 @@ export const CapsulePregenWallet: React.FC<CapsulePregenWalletProps> = ({
         the onboarding experience.
       </p>
     </CardHeader>
-    <CardContent className="flex flex-grow flex-col items-start">
+    <CardContent className="flex flex-grow overflow-auto flex-col items-start">
       <Label htmlFor="capsule-pregen-email-input" className="block mb-2">
         Email for Capsule Pre-generated Wallet:
       </Label>
@@ -55,13 +55,18 @@ export const CapsulePregenWallet: React.FC<CapsulePregenWalletProps> = ({
         You'll authenticate with this email later.
       </p>
     </CardContent>
-    <CardFooter className="flex justify-between">
-      <Button variant="outline" onClick={onCancel}>
+    <CardFooter className="flex flex-col sm:flex-row justify-between gap-2 p-4">
+      <Button
+        variant="outline"
+        onClick={onCancel}
+        className="w-full sm:w-auto text-sm"
+      >
         Back to Options
       </Button>
       <Button
         onClick={pregenerateWallet}
         disabled={!email || !email.includes("@") || isLoading}
+        className="w-full sm:w-auto text-sm"
       >
         {isLoading
           ? "Creating Capsule Wallet..."

@@ -168,8 +168,12 @@ export const RainbowkitAuthenticationExample: React.FC<
         <RainbowkitWithCapsuleModal />
         <RainbowkitWithCapsuleIntegrated />
       </CardContent>
-      <CardFooter className="flex justify-between">
-        <Button variant="outline" onClick={handleBack}>
+      <CardFooter className="flex flex-col sm:flex-row justify-between gap-2 p-4">
+        <Button
+          variant="outline"
+          onClick={handleBack}
+          className="w-full sm:w-auto text-sm"
+        >
           Back to Options
         </Button>
       </CardFooter>

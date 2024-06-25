@@ -32,7 +32,7 @@ export const CapsuleEmailAuthForm: React.FC<CapsuleEmailAuthFormProps> = ({
         users.
       </p>
     </CardHeader>
-    <CardContent className="flex flex-grow flex-col items-start">
+    <CardContent className="flex flex-grow overflow-auto flex-col items-start">
       <Label htmlFor="capsule-email-input" className="block mb-2">
         Enter Your Email for Capsule Authentication:
       </Label>
@@ -53,13 +53,18 @@ export const CapsuleEmailAuthForm: React.FC<CapsuleEmailAuthFormProps> = ({
         Capsule will send a verification code to this email address.
       </p>
     </CardContent>
-    <CardFooter className="flex justify-between">
-      <Button variant="outline" onClick={onCancel}>
+    <CardFooter className="flex flex-col sm:flex-row justify-between gap-2 p-4">
+      <Button
+        variant="outline"
+        onClick={onCancel}
+        className="w-full sm:w-auto text-sm"
+      >
         Back to Options
       </Button>
       <Button
         onClick={handleAuthentication}
         disabled={isLoading || !email || !email.includes("@")}
+        className="w-full sm:w-auto text-sm"
       >
         {isLoading
           ? "Authenticating with Capsule..."

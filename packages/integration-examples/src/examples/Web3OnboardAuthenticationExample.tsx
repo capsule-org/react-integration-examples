@@ -150,16 +150,28 @@ export const Web3OnboardAuthenticationExample: React.FC<
           </Alert>
         )}
       </CardContent>
-      <CardFooter className="flex justify-between">
-        <Button variant="outline" onClick={handleBack}>
+      <CardFooter className="flex flex-col sm:flex-row justify-between gap-2 p-4">
+        <Button
+          variant="outline"
+          onClick={handleBack}
+          className="w-full sm:w-auto text-sm"
+        >
           Back to Options
         </Button>
         {wallet ? (
-          <Button variant="outline" onClick={disconnectWallet}>
+          <Button
+            variant="outline"
+            onClick={disconnectWallet}
+            className="w-full sm:w-auto text-sm"
+          >
             Disconnect Capsule Wallet
           </Button>
         ) : (
-          <Button onClick={connectWallet} disabled={connecting}>
+          <Button
+            onClick={connectWallet}
+            disabled={connecting}
+            className="w-full sm:w-auto text-sm"
+          >
             {connecting ? "Connecting to Capsule..." : "Connect Capsule Wallet"}
           </Button>
         )}

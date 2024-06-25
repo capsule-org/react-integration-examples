@@ -4,6 +4,7 @@ export {
   CapsuleAuthOptions,
 } from "./AuthenticationOptions";
 export { CapsuleModalExampleWrapper } from "./CapsuleModalExampleWrapper";
-export { CapsulePregenWallet } from "./CreatePregenWallet";
+export { CapsulePregenWallet } from "./CapsulePregenWallet";
 export { CapsuleEmailVerification } from "./CapsuleEmailVerification";
 export { CapsuleSignMessages } from "./CapsuleSignMessages";
+export { CapsuleOAuthAuthForm } from "./CapsuleOAuthForm";
