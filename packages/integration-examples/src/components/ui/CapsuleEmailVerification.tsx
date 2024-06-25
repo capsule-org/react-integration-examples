@@ -38,7 +38,7 @@ export const CapsuleEmailVerification: React.FC<
         Capsule authentication process.
       </p>
     </CardHeader>
-    <CardContent className="flex flex-grow flex-col items-start">
+    <CardContent className="flex flex-grow overflow-auto flex-col items-start">
       <Label htmlFor="capsule-verification-code-input" className="block mb-2">
         Enter Capsule Verification Code:
       </Label>
@@ -69,13 +69,18 @@ export const CapsuleEmailVerification: React.FC<
         account. It's a crucial step in Capsule's authentication process.
       </p>
     </CardContent>
-    <CardFooter className="flex justify-between">
-      <Button variant="outline" onClick={onCancel}>
+    <CardFooter className="flex flex-col sm:flex-row justify-between gap-2 p-4">
+      <Button
+        variant="outline"
+        onClick={onCancel}
+        className="w-full sm:w-auto text-sm"
+      >
         Back to Email Input
       </Button>
       <Button
         onClick={handleVerifyEmail}
         disabled={isLoading || verificationCode.length !== 6}
+        className="w-full sm:w-auto text-sm"
       >
         {isLoading ? "Verifying with Capsule..." : "Verify with Capsule"}
       </Button>

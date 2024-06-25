@@ -57,7 +57,7 @@ export const CapsuleModalExampleWrapper: React.FC<
         available with the Capsule SDK.
       </p>
     </CardHeader>
-    <CardContent className="flex flex-grow flex-col items-start">
+    <CardContent className="flex flex-grow overflow-auto flex-col items-start">
       <Label className="text-base font-semibold mb-2">
         Customize Capsule Modal Appearance:
       </Label>
@@ -122,11 +122,15 @@ export const CapsuleModalExampleWrapper: React.FC<
       </div>
       {children}
     </CardContent>
-    <CardFooter className="flex justify-between">
-      <Button variant="outline" onClick={onCancel}>
+    <CardFooter className="flex flex-col sm:flex-row justify-between gap-2 p-4">
+      <Button
+        variant="outline"
+        onClick={onCancel}
+        className="w-full sm:w-auto text-sm"
+      >
         Back to Options
       </Button>
-      <Button onClick={handleModalOpen}>
+      <Button onClick={handleModalOpen} className="w-full sm:w-auto text-sm">
         Open Capsule Authentication Modal
       </Button>
     </CardFooter>

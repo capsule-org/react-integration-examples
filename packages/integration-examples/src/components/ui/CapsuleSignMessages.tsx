@@ -57,7 +57,7 @@ export const CapsuleSignMessages: React.FC<CapsuleSignMessagesProps> = ({
         signing libraries.
       </p>
     </CardHeader>
-    <CardContent className="flex flex-grow flex-col items-start">
+    <CardContent className="flex flex-grow overflow-auto flex-col items-start">
       <Alert className="break-words mb-4">
         <strong>Capsule Wallet ID:</strong> {walletId || "Not available"}
       </Alert>
@@ -116,13 +116,18 @@ export const CapsuleSignMessages: React.FC<CapsuleSignMessagesProps> = ({
           : "No Capsule signature yet"}
       </Alert>
     </CardContent>
-    <CardFooter className="flex justify-between">
-      <Button variant="outline" onClick={handleLogout}>
+    <CardFooter className="flex flex-col sm:flex-row justify-between gap-2 p-4">
+      <Button
+        variant="outline"
+        onClick={handleLogout}
+        className="w-full sm:w-auto text-sm"
+      >
         Logout from Capsule
       </Button>
       <Button
         onClick={handleSignMessage}
         disabled={!message || !selectedSigner || !isUserLoggedIn || isLoading}
+        className="w-full sm:w-auto text-sm"
       >
         {isLoading ? "Signing with Capsule..." : "Sign Message using Capsule"}
       </Button>
