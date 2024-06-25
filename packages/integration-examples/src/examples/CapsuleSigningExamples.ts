@@ -1,6 +1,4 @@
 import type Capsule from "@usecapsule/web-sdk";
-import type { Dispatch, SetStateAction } from "react";
-import type { Toast } from "../components/core/toast/use-toast";
 
 // Ethers v5 and v6
 import { CapsuleEthersSigner as CapsuleEthersV6Signer } from "@usecapsule/ethers-v6-integration";
@@ -28,7 +26,7 @@ import {
 } from "viem";
 import { sepolia as sepoliaViemV2 } from "viem/chains";
 
-export const signWithEthersV5 = async (
+const signWithEthersV5 = async (
   capsule: Capsule,
   message: string
 ): Promise<string> => {
@@ -43,7 +41,7 @@ export const signWithEthersV5 = async (
   }
 };
 
-export const signWithEthersV6 = async (
+const signWithEthersV6 = async (
   capsule: Capsule,
   message: string
 ): Promise<string> => {
@@ -58,7 +56,7 @@ export const signWithEthersV6 = async (
   }
 };
 
-export const signWithViemV1 = async (
+const signWithViemV1 = async (
   capsule: Capsule,
   message: string
 ): Promise<string> => {
@@ -81,7 +79,7 @@ export const signWithViemV1 = async (
   }
 };
 
-export const signWithViemV2 = async (
+const signWithViemV2 = async (
   capsule: Capsule,
   message: string
 ): Promise<string> => {

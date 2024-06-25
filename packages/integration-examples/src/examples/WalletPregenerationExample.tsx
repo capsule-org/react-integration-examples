@@ -1,29 +1,35 @@
 import { useEffect, useState } from "react";
 import Capsule, { ConstructorOpts, Environment } from "@usecapsule/react-sdk";
-import { CapsuleAuthOptions } from "..";
-import { useToast } from "../components/core";
+import {
+  CapsuleEmailAuthForm,
+  CapsuleAuthOptions,
+  CapsulePregenWallet,
+  CapsuleEmailVerification,
+  CapsuleSignMessages,
+  useToast,
+} from "../components";
 import { signMessage } from "./CapsuleSigningExamples";
-import { SignMessages } from "../components/ui/SignMessages";
-import { EmailVerification } from "../components/ui/EmailVerification";
-import { Authenticate } from "../components/ui/Authenticate";
-import { CreatePreGeneratedWallet } from "../components/ui/CreatePregenWallet";
 
-//Capsule SDK integration example for Wallet Pre-generation. For additional details on the Capsule SDK, refer to: https://docs.usecapsule.com/integration-guides/wallet-pregeneration
+// Capsule SDK integration example for Wallet Pre-generation.
+// This tutorial provides a step-by-step guide to implement Capsule's wallet pre-generation flow.
+// For additional details on the Capsule SDK, refer to: https://docs.usecapsule.com/integration-guides/wallet-pregeneration
 
 type WalletPregenerationExampleProps = {
   setSelectedAuthOption: (option: CapsuleAuthOptions) => void;
 };
 
-// 1. Get your API key from https://usecapsule.com/beta
+// Step 1: Set up your Capsule API key
+// Obtain your API key from https://usecapsule.com/beta
 const CAPSULE_API_KEY = "d0b61c2c8865aaa2fb12886651627271";
 
-// 2. Set the environment to development or production based on your use case
+// Step 2: Set the Capsule environment
+// Choose between Environment.DEVELOPMENT or Environment.PRODUCTION based on your use case
 const CAPSULE_ENVIRONMENT = Environment.DEVELOPMENT;
 
-// NOTE: The parameters below are optional and can be used to customize the Capsule SDK integration.
-// For a comprehensive list of all available constructor options and detailed explanations, please visit:
+// Step 3: (Optional) Customize the Capsule SDK integration
+// These options allow you to tailor the look and feel of the Capsule integration
+// For a full list of constructor options, visit:
 // https://docs.usecapsule.com/integration-guide/customize-capsule#constructor-options
-
 const constructorOpts: ConstructorOpts = {
   emailPrimaryColor: "#ff6700",
   githubUrl: "https://github.com/capsule-org",
@@ -33,7 +39,8 @@ const constructorOpts: ConstructorOpts = {
   supportUrl: "https://usecapsule.com/talk-to-us",
 };
 
-//3. Initialize the Capsule client with optional constructor parameters
+// Step 4: Initialize the Capsule client
+// Create a new Capsule instance with your environment, API key, and optional constructor parameters
 export const capsuleClient = new Capsule(
   CAPSULE_ENVIRONMENT,
   CAPSULE_API_KEY,
@@ -45,6 +52,7 @@ export const WalletPregenerationExample: React.FC<
 > = ({ setSelectedAuthOption }) => {
   const { toast } = useToast();
 
+  // State management for the wallet pre-generation flow
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(false);
   const [userHasPregenWallet, setUserHasPregenWallet] =
@@ -65,7 +73,8 @@ export const WalletPregenerationExample: React.FC<
   const [userShare, setUserShare] = useState<string>("");
   const [userRecoverySecret, setUserRecoverySecret] = useState<string>("");
 
-  // 4. Check if the user is already logged in. isFullyLoggedIn() will return true if the user is already logged in and has a wallet setup.
+  // Step 5: Check user's login status
+  // This effect runs on component mount to determine if the user is already logged in
   useEffect(() => {
     checkLoginStatus();
   }, []);
@@ -80,23 +89,24 @@ export const WalletPregenerationExample: React.FC<
         setWalletAddress(Object.values(wallets)[0].address!);
         toast({
           title: "Logged In",
-          description: "You're logged in and ready to sign messages.",
+          description: "You're logged in and ready to use your Capsule wallet.",
         });
       }
       setNeedsEmailVerification(false);
       setIsUserLoggedIn(isLoggedIn);
     } catch (err) {
-      console.error(err);
+      console.error("Capsule login status check failed:", err);
       toast({
-        title: "Error",
+        title: "Capsule Login Check Error",
         description:
-          "An error occurred while checking login status. Check the console for more details.",
+          "Failed to check Capsule login status. See console for details.",
         variant: "destructive",
       });
     }
   };
 
-  // 5. Pregenerate a wallet for the user using the Capsule SDK. Note the user wallet share is stored in the user's browser and can be retrieved using the `getUserShare` method. The user share is required for wallet recovery.
+  // Step 6: Pre-generate a wallet for the user
+  // This function demonstrates how to create a pre-generated wallet using Capsule SDK
   const pregenerateWallet = async () => {
     setIsLoading(true);
     try {
@@ -105,8 +115,9 @@ export const WalletPregenerationExample: React.FC<
       if (hasPregenWallet) {
         setUserHasPregenWallet(true);
         toast({
-          title: "Pregenerated Wallet Exists",
-          description: "A pregenerated wallet already exists for this email.",
+          title: "Capsule Pre-generated Wallet Exists",
+          description:
+            "A Capsule pre-generated wallet already exists for this email.",
         });
         return;
       }
@@ -120,12 +131,16 @@ export const WalletPregenerationExample: React.FC<
         setUserShare(userWalletShare);
       }
       setUserHasPregenWallet(true);
-    } catch (error) {
-      console.error(error);
       toast({
-        title: "Error",
+        title: "Capsule Wallet Pre-generated",
+        description: "A Capsule wallet has been pre-generated for your email.",
+      });
+    } catch (error) {
+      console.error("Capsule wallet pre-generation failed:", error);
+      toast({
+        title: "Capsule Wallet Pre-generation Error",
         description:
-          "An error occurred during wallet pregeneration. Check the console for more details.",
+          "Failed to pre-generate Capsule wallet. See console for details.",
         variant: "destructive",
       });
     } finally {
@@ -133,13 +148,15 @@ export const WalletPregenerationExample: React.FC<
     }
   };
 
-  // 6. Handle authentication on the "Continue" button click. For new users, this will create a new user and automatically send a verification code to the user's email. The verifyEmail step will handle pregenerated wallets for new users. For existing users, this will initiate the login process and open a popup window for the user to authenticate. Once authenticated we check if the user has a pregenerated wallet and claim it if they do.
+  // Step 7: Handle user authentication
+  // This function handles both new and existing user authentication flows
   const handleAuthenticateUser = async () => {
     setIsLoading(true);
     try {
       const isExistingUser = await capsuleClient.checkIfUserExists(email);
 
       if (isExistingUser) {
+        // Existing user authentication flow
         const authUrl = await capsuleClient.initiateUserLogin(email);
         window.open(authUrl, "popup", "popup=true,width=400,height=500");
         await capsuleClient.waitForLoginAndSetup();
@@ -150,20 +167,26 @@ export const WalletPregenerationExample: React.FC<
           const [pregenWallet, recovery] =
             await capsuleClient.claimPregenWallet(email);
           setUserRecoverySecret(recovery);
+          toast({
+            title: "Capsule Pre-generated Wallet Claimed",
+            description:
+              "Your pre-generated Capsule wallet has been successfully claimed.",
+          });
         }
 
         checkLoginStatus();
         return;
       }
 
+      // New user authentication flow
       await capsuleClient.createUser(email);
       setNeedsEmailVerification(true);
     } catch (err) {
-      console.error(err);
+      console.error("Capsule authentication failed:", err);
       toast({
-        title: "An error occurred",
+        title: "Capsule Authentication Error",
         description:
-          "An error occurred during authentication. Check the console for more details.",
+          "Failed to authenticate with Capsule. See console for details.",
         variant: "destructive",
       });
     } finally {
@@ -171,7 +194,8 @@ export const WalletPregenerationExample: React.FC<
     }
   };
 
-  // 7. Handle the verification code automatically sent to the user's email. If the code is valid the user is directed to a URL for completing their credentials. Once logged in and verification is complete `waitForPasskeyAndCreateWallet` will call the `claimPregenWallet` method internally to claim the pregenerated wallet. This differs from the above flow for an existing user where the `claimPregenWallet` method is called directly.
+  // Step 8: Handle email verification
+  // This function verifies the user's email and claims the pre-generated wallet if it exists
   const handleVerifyEmail = async () => {
     setIsLoading(true);
     try {
@@ -182,18 +206,18 @@ export const WalletPregenerationExample: React.FC<
         await capsuleClient.waitForPasskeyAndCreateWallet();
 
       toast({
-        title: "Email Verified",
-        description: "You have been successfully verified.",
+        title: "Capsule Email Verified",
+        description: "Your email has been verified with Capsule.",
       });
       setUserRecoverySecret(recoverySecret);
 
       checkLoginStatus();
     } catch (err) {
-      console.error(err);
+      console.error("Capsule email verification failed:", err);
       toast({
-        title: "An error occurred",
+        title: "Capsule Verification Error",
         description:
-          "An error occurred during email verification. Check the console for more details.",
+          "Failed to verify email with Capsule. See console for details.",
         variant: "destructive",
       });
     } finally {
@@ -201,6 +225,8 @@ export const WalletPregenerationExample: React.FC<
     }
   };
 
+  // Step 9: Handle message signing
+  // This function demonstrates how to sign a message using the Capsule wallet
   const handleSignMessage = async () => {
     setIsLoading(true);
     try {
@@ -211,16 +237,17 @@ export const WalletPregenerationExample: React.FC<
       );
       setSignature(signature);
       toast({
-        title: "Message signed",
-        description: "Message has been signed successfully.",
+        title: "Capsule Message Signed",
+        description:
+          "Message has been signed successfully using your Capsule wallet.",
         duration: 3000,
       });
     } catch (error) {
-      console.error(error);
+      console.error("Capsule message signing failed:", error);
       toast({
-        title: "Error",
+        title: "Capsule Signing Error",
         description:
-          "An error occurred while signing the message. Check the console for more details.",
+          "Failed to sign message with Capsule. See console for details.",
         duration: 3000,
         variant: "destructive",
       });
@@ -229,16 +256,19 @@ export const WalletPregenerationExample: React.FC<
     }
   };
 
+  // Step 10: Handle user logout
+  // This function demonstrates how to log out a user from Capsule
   const handleLogout = async () => {
     await capsuleClient.logout();
     toast({
-      title: "Logged Out",
-      description: "You have been successfully logged out.",
+      title: "Capsule Logout",
+      description: "You have been successfully logged out from Capsule.",
     });
     resetState();
-    setSelectedAuthOption("none");
+    setSelectedAuthOption(CapsuleAuthOptions.None);
   };
 
+  // Helper function to reset the component state
   const resetState = () => {
     setEmail("");
     setIsUserLoggedIn(false);
@@ -252,10 +282,12 @@ export const WalletPregenerationExample: React.FC<
     setUserShare("");
     setUserRecoverySecret("");
   };
+
+  // Render the appropriate component based on the authentication state
   return (
     <>
       {isUserLoggedIn ? (
-        <SignMessages
+        <CapsuleSignMessages
           isLoading={isLoading}
           signature={signature}
           walletId={walletId}
@@ -270,31 +302,31 @@ export const WalletPregenerationExample: React.FC<
           handleSignMessage={handleSignMessage}
         />
       ) : !userHasPregenWallet ? (
-        <CreatePreGeneratedWallet
+        <CapsulePregenWallet
           email={email}
           setEmail={(e) => setEmail(e.target.value)}
           isLoading={isLoading}
           pregenerateWallet={pregenerateWallet}
-          resetState={() => {
+          onCancel={() => {
             resetState();
-            setSelectedAuthOption("none");
+            setSelectedAuthOption(CapsuleAuthOptions.None);
           }}
         />
       ) : needsEmailVerification ? (
-        <EmailVerification
+        <CapsuleEmailVerification
           isLoading={isLoading}
           verificationCode={verificationCode}
           setVerificationCode={setVerificationCode}
           handleVerifyEmail={handleVerifyEmail}
-          resetState={resetState}
+          onCancel={resetState}
         />
       ) : (
-        <Authenticate
+        <CapsuleEmailAuthForm
           isLoading={isLoading}
           email={email}
           setEmail={(e) => setEmail(e.target.value)}
-          handleAuthenticateUser={handleAuthenticateUser}
-          resetState={resetState}
+          handleAuthentication={handleAuthenticateUser}
+          onCancel={resetState}
         />
       )}
     </>
