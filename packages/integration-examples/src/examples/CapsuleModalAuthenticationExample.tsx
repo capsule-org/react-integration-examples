@@ -8,29 +8,34 @@ import { useEffect, useState } from "react";
 import "@usecapsule/react-sdk/styles.css";
 import Logo from "../assets/images/capsule-logo.svg";
 
-import { CapsuleAuthOptions } from "..";
-
 import { signMessage } from "./CapsuleSigningExamples";
-import { useToast } from "../components/core";
-import { SignMessages } from "../components/ui/SignMessages";
-import { CapsuleModalExampleWrapper } from "../components/ui/CapsuleModalExampleWrapper";
+import {
+  CapsuleAuthOptions,
+  CapsuleModalExampleWrapper,
+  CapsuleSignMessages,
+  useToast,
+} from "../components";
 
-// Capsule Modal integration example for managed authentication using the Capsule React SDK. For additional details on the integrating with Capsule, refer to: https://docs.usecapsule.com/
+// Capsule Modal integration example for managed authentication using the Capsule React SDK.
+// This tutorial provides a step-by-step guide to implement Capsule's modal-based authentication flow.
+// For additional details on integrating with Capsule, refer to: https://docs.usecapsule.com/
 
 type CapsuleModalAuthenticationExampleProps = {
   setSelectedAuthOption: (option: CapsuleAuthOptions) => void;
 };
 
-// 1. Get your API key from https://usecapsule.com/beta
+// Step 1: Set up your Capsule API key
+// Obtain your API key from https://usecapsule.com/beta
 const CAPSULE_API_KEY = "d0b61c2c8865aaa2fb12886651627271";
 
-// 2. Set the environment to development or production based on your use case
+// Step 2: Set the Capsule environment
+// Choose between Environment.DEVELOPMENT or Environment.PRODUCTION based on your use case
 const CAPSULE_ENVIRONMENT = Environment.DEVELOPMENT;
 
-// NOTE: The parameters below are optional and can be used to customize the Capsule SDK integration.
-// For a comprehensive list of all available constructor options and detailed explanations, please visit:
+// Step 3: (Optional) Customize the Capsule SDK integration
+// These options allow you to tailor the look and feel of the Capsule integration
+// For a full list of constructor options, visit:
 // https://docs.usecapsule.com/integration-guide/customize-capsule#constructor-options
-
 const constructorOpts: ConstructorOpts = {
   emailPrimaryColor: "#ff6700",
   githubUrl: "https://github.com/capsule-org",
@@ -40,14 +45,15 @@ const constructorOpts: ConstructorOpts = {
   supportUrl: "https://usecapsule.com/talk-to-us",
 };
 
-//3. Initialize the Capsule client with optional constructor parameters
+// Step 4: Initialize the Capsule client
+// Create a new Capsule instance with your environment, API key, and optional constructor parameters
 export const capsuleClient = new Capsule(
   CAPSULE_ENVIRONMENT,
   CAPSULE_API_KEY,
   constructorOpts
 );
 
-// Main component for Capsule Modal based authentication and message signing
+// Main component for Capsule Modal based authentication and message signing tutorial
 export const CapsuleModalAuthenticationExample: React.FC<
   CapsuleModalAuthenticationExampleProps
 > = ({ setSelectedAuthOption }) => {
@@ -66,13 +72,18 @@ export const CapsuleModalAuthenticationExample: React.FC<
 
   const [userRecoverySecret, setUserRecoverySecret] = useState<string>("");
 
-  //Note: These states are used to customize the Capsule Modal and are passed as props to the CapsuleModal component. You can pass these as props directly to the CapsuleModal component or from your apps theme settings. For more details on the Capsule customization options, refer to: https://docs.usecapsule.com/integration-guide/customize-capsule
+  // Step 5: Set up Capsule Modal customization options
+  // These states are used to customize the Capsule Modal and are passed as props to the CapsuleModal component.
+  // You can pass these as props directly to the CapsuleModal component or from your app's theme settings.
+  // For more details on Capsule customization options, refer to:
+  // https://docs.usecapsule.com/integration-guide/customize-capsule
   const [backgroundColor, setBackgroundColor] = useState<string>("#0c0a09");
   const [foregroundColor, setForegroundColor] = useState<string>("#ff6700");
   const [disableEmailLogin, setDisableEmailLogin] = useState<boolean>(false);
   const [disablePhoneLogin, setDisablePhoneLogin] = useState<boolean>(false);
 
-  // 4. Check if the user is already logged in. isFullyLoggedIn() will return true if the user is already logged in and has a wallet setup.
+  // Step 6: Check user's login status
+  // This effect runs on component mount to determine if the user is already logged in
   useEffect(() => {
     checkLoginStatus();
   }, []);
@@ -87,27 +98,31 @@ export const CapsuleModalAuthenticationExample: React.FC<
         setWalletAddress(Object.values(wallets)[0].address!);
         toast({
           title: "Logged In",
-          description: "You're logged in and ready to sign messages.",
+          description:
+            "You're logged in and ready to sign messages with Capsule.",
         });
       }
       setIsUserLoggedIn(isLoggedIn);
     } catch (err) {
-      console.error(err);
+      console.error("Capsule login status check failed:", err);
       toast({
-        title: "Error",
+        title: "Capsule Login Check Error",
         description:
-          "An error occurred while checking login status. Check the console for more details.",
+          "Failed to check Capsule login status. See console for details.",
         variant: "destructive",
       });
     }
   };
 
-  // 5. Open the Capsule Modal by simply setting the isCapsuleModalOpen state to true
+  // Step 7: Handle opening the Capsule Modal
+  // Simply set the isCapsuleModalOpen state to true to display the modal
   const handleModalOpen = () => {
     setIsCapsuleModalOpen(true);
   };
 
-  // 6. Handle any cleanup or trigger any app specific actions after the Capsule Modal is closed. This is triggered if the user closes the Capsule Modal or after the user is logged in successfully. Any app specific after effects can be triggered here.
+  // Step 8: Handle Capsule Modal closure
+  // This function is called when the modal is closed, either by the user or after successful login
+  // You can perform any necessary cleanup or trigger app-specific actions here
   const handleModalClose = async () => {
     setIsCapsuleModalOpen(false);
     if (await capsuleClient.isFullyLoggedIn()) {
@@ -115,7 +130,8 @@ export const CapsuleModalAuthenticationExample: React.FC<
     }
   };
 
-  //7. Handle signing a messages or transaction using a Capsule compatible library like ethers.js or viem.js. Please view the signingUtils.ts file for invdividual signing implementations for each library. Additional signing details can be found at: https://docs.usecapsule.com/integration-guide/signing-transactions
+  // Step 9: Handle message signing
+  // This function demonstrates how to sign a message using Capsule
   const handleSignMessage = async () => {
     setIsLoading(true);
     try {
@@ -126,16 +142,16 @@ export const CapsuleModalAuthenticationExample: React.FC<
       );
       setSignature(signature);
       toast({
-        title: "Message signed",
-        description: "Message has been signed successfully.",
+        title: "Capsule Message Signed",
+        description: "Message has been signed successfully using Capsule.",
         duration: 3000,
       });
     } catch (error) {
-      console.error(error);
+      console.error("Capsule message signing failed:", error);
       toast({
-        title: "Error",
+        title: "Capsule Signing Error",
         description:
-          "An error occurred while signing the message. Check the console for more details.",
+          "Failed to sign message with Capsule. See console for details.",
         duration: 3000,
         variant: "destructive",
       });
@@ -144,16 +160,18 @@ export const CapsuleModalAuthenticationExample: React.FC<
     }
   };
 
-  //8. Handle logging out the user. This will clear the session and the user will have to login again. For additional details on session management, refer to: https://docs.usecapsule.com/integration-guide/session-management
+  // Step 10: Handle user logout
+  // This function demonstrates how to log out a user from Capsule
   const handleLogout = async () => {
     await capsuleClient.logout();
     toast({
-      title: "Logged Out",
-      description: "You have been successfully logged out.",
+      title: "Capsule Logout",
+      description: "You have been successfully logged out from Capsule.",
     });
     resetState();
   };
 
+  // Helper function to reset the component state
   const resetState = () => {
     setMessage("");
     setBackgroundColor("#0c0a09");
@@ -161,11 +179,12 @@ export const CapsuleModalAuthenticationExample: React.FC<
     setDisableEmailLogin(false);
     setDisablePhoneLogin(false);
     isCapsuleModalOpen && setIsCapsuleModalOpen(false);
-    setSelectedAuthOption("none");
+    setSelectedAuthOption(CapsuleAuthOptions.None);
   };
 
+  // Render the appropriate component based on the authentication state
   return isUserLoggedIn ? (
-    <SignMessages
+    <CapsuleSignMessages
       isLoading={isLoading}
       signature={signature}
       walletId={walletId}
@@ -191,7 +210,7 @@ export const CapsuleModalAuthenticationExample: React.FC<
       setDisablePhoneLogin={setDisablePhoneLogin}
       handleModalClose={handleModalClose}
       handleModalOpen={handleModalOpen}
-      resetState={resetState}
+      onCancel={resetState}
       isCapsuleModalOpen={isCapsuleModalOpen}
     >
       <CapsuleModal
@@ -212,6 +231,7 @@ export const CapsuleModalAuthenticationExample: React.FC<
           asset: "eth",
           providers: [
             { id: "STRIPE" },
+            // Uncomment the following to add Ramp as a provider
             // {
             //   id: "RAMP",
             //   hostApiKey: "your-ramp-api-key",

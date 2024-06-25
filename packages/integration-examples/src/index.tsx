@@ -1,118 +1,61 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
+import {
+  EmailAuthenticationExample,
+  CapsuleModalAuthenticationExample,
+  RainbowkitAuthenticationExample,
+  Web3OnboardAuthenticationExample,
+  WalletPregenerationExample,
+} from "./examples/";
+import {
+  AuthenticationOptions,
+  CapsuleAuthOptions,
+  Card,
+  CardHeader,
+  Toaster,
+} from "./components";
 import CapsuleSunriseHero from "./assets/images/capsule-sunrise-hero.svg";
-import { Toaster } from "./components/core/toast/toaster";
-import { Card, CardContent, CardHeader } from "./components/core/card";
-import { Button } from "./components/core/button";
-import { EmailAuthenticationExample } from "./examples/EmailAuthenticationExample";
-import { CapsuleModalAuthenticationExample } from "./examples/CapsuleModalAuthenticationExample";
-import { RainbowkitAuthenticationExample } from "./examples/RainbowkitAuthenticationExample";
-import { Web3OnboardAuthenticationExample } from "./examples/Web3OnboardAuthenticationExample";
-import { WalletPregenerationExample } from "./examples/WalletPregenerationExample";
 
 type CapsuleDemoProps = {
   framework: string;
 };
 
-export type CapsuleAuthOptions =
-  | "none"
-  | "email"
-  | "verify-email"
-  | "capsule-modal"
-  | "rainbowkit"
-  | "web3onboard"
-  | "wallet-pregeneration";
+type AuthComponentProps = {
+  setSelectedAuthOption: (option: CapsuleAuthOptions) => void;
+};
 
 export const CapsuleDemo: React.FC<CapsuleDemoProps> = ({ framework }) => {
   const [selectedAuthOption, setSelectedAuthOption] =
-    useState<CapsuleAuthOptions>("none");
+    useState<CapsuleAuthOptions>(CapsuleAuthOptions.None);
 
-  const renderAuthOption = () => {
-    switch (selectedAuthOption) {
-      case "email":
-        return (
-          <EmailAuthenticationExample
-            setSelectedAuthOption={setSelectedAuthOption}
-          />
-        );
-      case "capsule-modal":
-        return (
-          <CapsuleModalAuthenticationExample
-            setSelectedAuthOption={setSelectedAuthOption}
-          />
-        );
-      case "rainbowkit":
-        return (
-          <RainbowkitAuthenticationExample
-            setSelectedAuthOption={setSelectedAuthOption}
-          />
-        );
+  const renderAuthOption = useMemo(() => {
+    const options: Record<
+      CapsuleAuthOptions,
+      React.FC<AuthComponentProps> | null
+    > = {
+      [CapsuleAuthOptions.None]: null,
+      [CapsuleAuthOptions.Email]: EmailAuthenticationExample,
+      [CapsuleAuthOptions.CapsuleModal]: CapsuleModalAuthenticationExample,
+      [CapsuleAuthOptions.Rainbowkit]: RainbowkitAuthenticationExample,
+      [CapsuleAuthOptions.Web3Onboard]: Web3OnboardAuthenticationExample,
+      [CapsuleAuthOptions.WalletPregeneration]: WalletPregenerationExample,
+    };
 
-      case "web3onboard":
-        return (
-          <Web3OnboardAuthenticationExample
-            setSelectedAuthOption={setSelectedAuthOption}
-          />
-        );
-      case "wallet-pregeneration":
-        return (
-          <WalletPregenerationExample
-            setSelectedAuthOption={setSelectedAuthOption}
-          />
-        );
-      default:
-        return AuthenticationOptions(setSelectedAuthOption);
+    const SelectedComponent = options[selectedAuthOption];
+
+    if (SelectedComponent) {
+      return (
+        <SelectedComponent setSelectedAuthOption={setSelectedAuthOption} />
+      );
     }
-  };
 
-  const AuthenticationOptions = (
-    setSelectedOption: (option: CapsuleAuthOptions) => void
-  ) => {
-    return (
-      <CardContent>
-        <Button
-          onClick={() => setSelectedOption("email")}
-          className="mb-2 w-full text-primary-foreground"
-        >
-          Capsule Web SDK Email
-        </Button>
-        <Button
-          onClick={() => setSelectedOption("capsule-modal")}
-          className="mb-2 w-full text-primary-foreground"
-        >
-          Capsule React Modal
-        </Button>
-        <Button
-          onClick={() => setSelectedOption("rainbowkit")}
-          className="mb-2 w-full text-primary-foreground"
-        >
-          RainbowKit Connector
-        </Button>
-        <Button
-          onClick={() => setSelectedOption("web3onboard")}
-          className="mb-2 w-full text-primary-foreground"
-        >
-          Web3-Onboard Connector
-        </Button>
-        <Button
-          onClick={() => setSelectedOption("wallet-pregeneration")}
-          className="mb-2 w-full text-primary-foreground"
-        >
-          Capsule Wallet Pregeneration
-        </Button>
-      </CardContent>
-    );
-  };
+    return <AuthenticationOptions setSelectedOption={setSelectedAuthOption} />;
+  }, [selectedAuthOption]);
 
   return (
     <div className="relative flex flex-col h-screen">
-      <nav
-        className="fixed top-0 left-0 right-0 bg-background z-20"
-        style={{
-          background: "radial-gradient(circle, #00000080 0%, black 100%)",
-        }}
-      >
+      <nav className="fixed top-0 left-0 right-0 bg-background z-20 bg-gradient-radial from-black/50 to-black">
         <h1 className="text-2xl text-center p-4 font-bold">
-          {`Capsule Demo for ${framework}`}
+          Capsule SDK Demo for {framework}
         </h1>
       </nav>
       <div
@@ -121,15 +64,18 @@ export const CapsuleDemo: React.FC<CapsuleDemoProps> = ({ framework }) => {
       />
       <div className="relative flex flex-1 justify-center items-center z-10">
         <Card className="mx-auto shadow-lg overflow-auto flex flex-col min-h-[400px] max-h-[500px] min-w-[320px] max-w-xs sm:min-w-xs sm:max-w-sm md:min-w-sm md:max-w-md lg:min-w-sm lg:max-w-md">
-          {selectedAuthOption === "none" && (
+          {selectedAuthOption === CapsuleAuthOptions.None && (
             <CardHeader>
-              <h2 className="text-xl font-bold">Capsule SDK Auth Options</h2>
+              <h2 className="text-xl font-bold">
+                Capsule SDK Authentication Options
+              </h2>
               <p className="text-sm text-muted-foreground">
-                Select an option to start testing Capsule SDK Options
+                Select an option to explore different Capsule SDK integration
+                methods
               </p>
             </CardHeader>
           )}
-          {renderAuthOption()}
+          {renderAuthOption}
         </Card>
       </div>
       <Toaster />

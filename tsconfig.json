@@ -20,9 +20,6 @@
     },
     "baseUrl": "."
   },
-  "include": [
-    "packages/*/src",
-    "examples/remix-app/app/components/capsule.client.tsx"
-  ],
+  "include": ["packages/*/src"],
   "exclude": ["node_modules"]
 }
