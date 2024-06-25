@@ -5,7 +5,8 @@ import {
   RainbowkitAuthenticationExample,
   Web3OnboardAuthenticationExample,
   WalletPregenerationExample,
-} from "./examples/";
+  OAuthAuthenticationExample,
+} from "./examples";
 import {
   AuthenticationOptions,
   CapsuleAuthOptions,
@@ -38,6 +39,7 @@ export const CapsuleDemo: React.FC<CapsuleDemoProps> = ({ framework }) => {
       [CapsuleAuthOptions.Rainbowkit]: RainbowkitAuthenticationExample,
       [CapsuleAuthOptions.Web3Onboard]: Web3OnboardAuthenticationExample,
       [CapsuleAuthOptions.WalletPregeneration]: WalletPregenerationExample,
+      [CapsuleAuthOptions.OAuth]: OAuthAuthenticationExample,
     };
 
     const SelectedComponent = options[selectedAuthOption];

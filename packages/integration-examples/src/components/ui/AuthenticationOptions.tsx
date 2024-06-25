@@ -7,46 +7,56 @@ export enum CapsuleAuthOptions {
   Rainbowkit = "rainbowkit",
   Web3Onboard = "web3onboard",
   WalletPregeneration = "wallet-pregeneration",
+  OAuth = "oauth",
 }
+
+const AuthButton: React.FC<{
+  option: CapsuleAuthOptions;
+  label: string;
+  setSelectedOption: (option: CapsuleAuthOptions) => void;
+}> = ({ option, label, setSelectedOption }) => (
+  <Button
+    onClick={() => setSelectedOption(option)}
+    className="mb-2 w-full text-primary-foreground"
+    aria-label={label}
+  >
+    {label}
+  </Button>
+);
 
 export const AuthenticationOptions: React.FC<{
   setSelectedOption: (option: CapsuleAuthOptions) => void;
 }> = ({ setSelectedOption }) => (
   <CardContent>
-    <Button
-      onClick={() => setSelectedOption(CapsuleAuthOptions.Email)}
-      className="mb-2 w-full text-primary-foreground"
-      aria-label="Capsule Web SDK Email"
-    >
-      Capsule Web SDK Email
-    </Button>
-    <Button
-      onClick={() => setSelectedOption(CapsuleAuthOptions.CapsuleModal)}
-      className="mb-2 w-full text-primary-foreground"
-      aria-label="Capsule React Modal"
-    >
-      Capsule React Modal
-    </Button>
-    <Button
-      onClick={() => setSelectedOption(CapsuleAuthOptions.Rainbowkit)}
-      className="mb-2 w-full text-primary-foreground"
-      aria-label="RainbowKit Connector"
-    >
-      RainbowKit Connector
-    </Button>
-    <Button
-      onClick={() => setSelectedOption(CapsuleAuthOptions.Web3Onboard)}
-      className="mb-2 w-full text-primary-foreground"
-      aria-label="Web3-Onboard Connector"
-    >
-      Web3-Onboard Connector
-    </Button>
-    <Button
-      onClick={() => setSelectedOption(CapsuleAuthOptions.WalletPregeneration)}
-      className="mb-2 w-full text-primary-foreground"
-      aria-label="Capsule Wallet Pregeneration"
-    >
-      Capsule Wallet Pregeneration
-    </Button>
+    <AuthButton
+      option={CapsuleAuthOptions.CapsuleModal}
+      label="Capsule React Modal"
+      setSelectedOption={setSelectedOption}
+    />
+    <AuthButton
+      option={CapsuleAuthOptions.Email}
+      label="Capsule Web SDK - Email"
+      setSelectedOption={setSelectedOption}
+    />
+    <AuthButton
+      option={CapsuleAuthOptions.OAuth}
+      label="Capsule Web SDK - OAuth"
+      setSelectedOption={setSelectedOption}
+    />
+    <AuthButton
+      option={CapsuleAuthOptions.Rainbowkit}
+      label="Capsule RainbowKit Connector"
+      setSelectedOption={setSelectedOption}
+    />
+    <AuthButton
+      option={CapsuleAuthOptions.Web3Onboard}
+      label="Capsule Web3-Onboard Connector"
+      setSelectedOption={setSelectedOption}
+    />
+    <AuthButton
+      option={CapsuleAuthOptions.WalletPregeneration}
+      label="Capsule Wallet Pregeneration"
+      setSelectedOption={setSelectedOption}
+    />
   </CardContent>
 );
