@@ -2,13 +2,42 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
-    <script src="https://js.stripe.com/v3/"></script>
-    <script src="https://crypto-js.stripe.com/crypto-onramp-outer.js"></script>
+    <meta
+      name="description"
+      content="Capsule SDK integration example using Vite, React, and TypeScript"
+    />
+    <meta name="theme-color" content="#ff6700" />
+
+    <title>Capsule SDK Integration Example</title>
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <link rel="preconnect" href="https://js.stripe.com" />
+    <link rel="preconnect" href="https://crypto-js.stripe.com" />
+
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src script-src 'self' 'unsafe-eval' https://js.stripe.com https://crypto-js.stripe.com; worker-src 'self' blob:;"
+    />
+    />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta
+      http-equiv="Referrer-Policy"
+      content="strict-origin-when-cross-origin"
+    />
+
+    <script src="https://js.stripe.com/v3/" defer></script>
+    <script
+      src="https://crypto-js.stripe.com/crypto-onramp-outer.js"
+      defer
+    ></script>
   </head>
   <body>
+    <noscript
+      >You need to enable JavaScript to run this Capsule SDK example.</noscript
+    >
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
