@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   },
   other: {
     "Content-Security-Policy":
-      "default-src 'self'; script-src 'self' 'unsafe-eval' https://js.stripe.com https://crypto-js.stripe.com; worker-src 'self' blob:;",
+      "script-src 'self' 'unsafe-eval' https://js.stripe.com https://crypto-js.stripe.com; worker-src 'self' blob:;",
     "X-Content-Type-Options": "nosniff",
     "Referrer-Policy": "strict-origin-when-cross-origin",
   },
