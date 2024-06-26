@@ -4,6 +4,7 @@ export enum CapsuleAuthOptions {
   None = "none",
   Email = "email",
   CapsuleModal = "capsule-modal",
+  CapsuleModalSolana = "capsule-modal-solana",
   Rainbowkit = "rainbowkit",
   Web3Onboard = "web3onboard",
   WalletPregeneration = "wallet-pregeneration",
@@ -31,6 +32,11 @@ export const AuthenticationOptions: React.FC<{
     <AuthButton
       option={CapsuleAuthOptions.CapsuleModal}
       label="Capsule React Modal"
+      setSelectedOption={setSelectedOption}
+    />
+    <AuthButton
+      option={CapsuleAuthOptions.CapsuleModalSolana}
+      label="Capsule React Modal For Solana"
       setSelectedOption={setSelectedOption}
     />
     <AuthButton
