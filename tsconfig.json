@@ -24,6 +24,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "../../packages/integration-examples/src"],
+  "include": ["packages/integration-examples/src"],
   "exclude": ["node_modules"]
 }
