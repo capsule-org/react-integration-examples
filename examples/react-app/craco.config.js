@@ -4,49 +4,30 @@ const webpack = require("webpack");
 module.exports = {
   webpack: {
     configure: (webpackConfig, { env, paths }) => {
-      // Set up the alias for integration-examples
-      webpackConfig.resolve.alias["@usecapsule/integration-examples"] =
-        path.resolve(__dirname, "../../packages/integration-examples/src");
+      webpackConfig.resolve.alias = {
+        ...webpackConfig.resolve.alias,
+        "@usecapsule/integration-examples": path.resolve(
+          __dirname,
+          "../../packages/integration-examples/src"
+        ),
+        "ethers-v5": path.resolve(__dirname, "../../node_modules/ethers"),
+        "ethers-v6": path.resolve(
+          __dirname,
+          "../../node_modules/@usecapsule/ethers-v6-integration/node_modules/ethers"
+        ),
+        "ethers/lib/utils": path.resolve(
+          __dirname,
+          "../../node_modules/ethers/lib/utils"
+        ),
+        "./icon": path.resolve(
+          __dirname,
+          "../../node_modules/@web3-onboard/capsule/dist/icon.js"
+        ),
+      };
 
-      // Add babel-loader for handling JS/TS files in integration-examples
-      webpackConfig.module.rules.push({
-        test: /\.(js|mjs|jsx|ts|tsx)$/,
-        include: [
-          path.resolve(__dirname, "../../packages/integration-examples/src"),
-        ],
-        loader: require.resolve("babel-loader"),
-        options: {
-          presets: [
-            [
-              require.resolve("babel-preset-react-app"),
-              { runtime: "automatic" },
-            ],
-          ],
-          cacheDirectory: true,
-          cacheCompression: false,
-          compact: env === "production",
-        },
-      });
-
-      // Add source-map-loader to suppress warnings
-      webpackConfig.module.rules.push({
-        test: /\.(js|mjs|jsx|ts|tsx)$/,
-        enforce: "pre",
-        use: ["source-map-loader"],
-      });
-
-      // Remove ModuleScopePlugin to allow importing from outside src/
-      const scopePluginIndex = webpackConfig.resolve.plugins.findIndex(
-        ({ constructor }) =>
-          constructor && constructor.name === "ModuleScopePlugin"
-      );
-      if (scopePluginIndex !== -1) {
-        webpackConfig.resolve.plugins.splice(scopePluginIndex, 1);
-      }
-
-      // Configure file extensions
       webpackConfig.resolve.extensions = [
         ".mjs",
+        ".cjs",
         ".js",
         ".json",
         ".ts",
@@ -54,19 +35,14 @@ module.exports = {
         ".jsx",
       ];
 
-      // Ensure the correct modules resolution
       webpackConfig.resolve.modules = [
         ...(webpackConfig.resolve.modules || []),
         path.resolve(__dirname, "../../packages"),
-        path.resolve(__dirname, "src"),
+        path.resolve(__dirname, "../../node_modules"),
+        path.resolve(__dirname, "node_modules"),
+        "node_modules",
       ];
 
-      webpackConfig.resolve.alias = {
-        ...webpackConfig.resolve.alias,
-        "./icon": "./icon.js",
-      };
-
-      // Add Node polyfills using fallback
       webpackConfig.resolve.fallback = {
         crypto: require.resolve("crypto-browserify"),
         stream: require.resolve("stream-browserify"),
@@ -76,9 +52,56 @@ module.exports = {
         os: require.resolve("os-browserify/browser"),
         url: require.resolve("url"),
         buffer: require.resolve("buffer/"),
+        vm: false,
       };
 
-      // Add ProvidePlugin for Buffer
+      webpackConfig.module.rules.push(
+        {
+          test: /\.(js|mjs|jsx|ts|tsx)$/,
+          include: [
+            path.resolve(__dirname, "../../packages"),
+            path.resolve(__dirname, "node_modules/@usecapsule"),
+            path.resolve(__dirname, "node_modules/@web3-onboard"),
+          ],
+          loader: require.resolve("babel-loader"),
+          options: {
+            presets: [
+              [require.resolve("@babel/preset-env"), { targets: "defaults" }],
+              [
+                require.resolve("@babel/preset-react"),
+                { runtime: "automatic" },
+              ],
+              require.resolve("@babel/preset-typescript"),
+            ],
+            plugins: [
+              ["@babel/plugin-proposal-class-properties", { loose: true }],
+              "@babel/plugin-transform-runtime",
+            ],
+            cacheDirectory: true,
+            cacheCompression: false,
+            compact: env === "production",
+          },
+        },
+        {
+          test: /[\\/]node_modules[\\/]@usecapsule[\\/]ethers-v6-integration[\\/].*\.js$/,
+          loader: "string-replace-loader",
+          options: {
+            search: "from ['\"]ethers['\"]",
+            replace: 'from "ethers-v6"',
+            flags: "g",
+          },
+        },
+        {
+          test: /[\\/]node_modules[\\/]@usecapsule[\\/]ethers-v5-integration[\\/].*\.js$/,
+          loader: "string-replace-loader",
+          options: {
+            search: "from ['\"]ethers['\"]",
+            replace: 'from "ethers-v5"',
+            flags: "g",
+          },
+        }
+      );
+
       webpackConfig.plugins = [
         ...webpackConfig.plugins,
         new webpack.ProvidePlugin({
@@ -86,6 +109,23 @@ module.exports = {
           process: "process/browser",
         }),
       ];
+
+      const scopePluginIndex = webpackConfig.resolve.plugins.findIndex(
+        ({ constructor }) =>
+          constructor && constructor.name === "ModuleScopePlugin"
+      );
+      if (scopePluginIndex !== -1) {
+        webpackConfig.resolve.plugins.splice(scopePluginIndex, 1);
+      }
+
+      webpackConfig.module.rules.push({
+        test: /\.js$/,
+        enforce: "pre",
+        use: ["source-map-loader"],
+        exclude: /node_modules/,
+      });
+
+      webpackConfig.ignoreWarnings = [/Failed to parse source map/];
 
       return webpackConfig;
     },
