@@ -9,3 +9,4 @@ export * from "./popover";
 export * from "./select";
 export * from "./switch";
 export * from "./toast";
+export * from "./navbar";

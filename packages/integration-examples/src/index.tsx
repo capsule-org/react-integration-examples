@@ -13,6 +13,7 @@ import {
   Card,
   CardHeader,
   Toaster,
+  Navbar,
 } from "./components";
 import CapsuleSunriseHero from "./assets/images/capsule-sunrise-hero.svg";
 
@@ -70,11 +71,7 @@ export const CapsuleDemo: React.FC<CapsuleDemoProps> = ({ framework }) => {
 
   return (
     <div className="relative flex flex-col h-screen">
-      <nav className="fixed top-0 left-0 right-0 bg-background z-20 bg-gradient-radial from-black/50 to-black">
-        <h1 className="text-2xl text-center p-4 font-bold">
-          Capsule SDK Demo for {framework}
-        </h1>
-      </nav>
+      <Navbar framework={framework} />
       <div
         className="absolute inset-0 bg-no-repeat bg-cover bg-center"
         style={{ backgroundImage: `url(${CapsuleSunriseHero})` }}

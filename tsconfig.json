@@ -1,25 +1,29 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "esnext"],
-    "skipLibCheck": true,
+    "target": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "jsx": "react-jsx",
     "strict": true,
     "esModuleInterop": true,
+    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
+    "allowJs": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "incremental": true,
+    "baseUrl": "src",
     "paths": {
       "@usecapsule/integration-examples/*": [
-        "packages/integration-examples/src/*"
+        "../../packages/integration-examples/src/*"
       ]
     },
-    "baseUrl": "."
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
   },
-  "include": ["packages/*/src"],
+  "include": ["packages/integration-examples/src"],
   "exclude": ["node_modules"]
 }
