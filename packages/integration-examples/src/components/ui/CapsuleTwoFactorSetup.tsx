@@ -52,8 +52,8 @@ export const CapsuleTwoFactorSetup: React.FC<CapsuleTwoFactorSetupProps> = ({
         )}
         {twoFactorSecret && (
           <>
-            <div className="bg-white p-4 rounded-lg">
-              <QRCode value={twoFactorSecret} size={200} />
+            <div className="bg-primary p-4 rounded-lg">
+              <QRCode value={twoFactorSecret} size={128} />
             </div>
             <p className="text-sm text-center">
               Scan this QR code with your authenticator app
@@ -78,9 +78,8 @@ export const CapsuleTwoFactorSetup: React.FC<CapsuleTwoFactorSetupProps> = ({
               maxLength={6}
               value={verificationCode}
               onChange={setVerificationCode}
-              className="mb-4"
             >
-              <InputOTPGroup>
+              <InputOTPGroup className="mb-4">
                 <InputOTPSlot index={0} />
                 <InputOTPSlot index={1} />
                 <InputOTPSlot index={2} />

@@ -62,7 +62,7 @@ export const CapsuleDemo: React.FC<CapsuleDemoProps> = ({ framework }) => {
         style={{ backgroundImage: `url(${CapsuleSunriseHero})` }}
       />
       <div className="relative flex flex-1 justify-center items-center z-10">
-        <Card className="  mx-auto shadow-lg flex flex-col p-4 w-[calc(100%-1rem)] max-w-md min-h-[400px]max-h-[calc(100vh-4rem)] sm:w-[calc(100%-4rem)] sm:max-w-lg md:max-w-xl lg:max-w-2xl">
+        <Card className="  mx-auto shadow-lg flex flex-col p-4 w-[calc(100%-1rem)] max-w-md min-h-[400px] max-h-[calc(100vh-24rem)] sm:w-[calc(100%-4rem)] sm:max-w-lg md:max-w-xl lg:max-w-2xl">
           {selectedAuthOption === CapsuleAuthOptions.None && (
             <CardHeader>
               <h2 className="text-xl font-bold">

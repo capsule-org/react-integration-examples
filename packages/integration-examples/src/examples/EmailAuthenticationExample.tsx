@@ -168,7 +168,10 @@ export const EmailAuthenticationExample: React.FC<
         title: "Capsule Email Verified",
         description: "Your email has been verified with Capsule.",
       });
-      await checkAndSetupTwoFactor();
+      await checkLoginStatus();
+      if (isUserLoggedIn) {
+        await checkAndSetupTwoFactor();
+      }
     } catch (err) {
       console.error("Capsule email verification failed:", err);
       toast({
