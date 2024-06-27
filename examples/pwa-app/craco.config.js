@@ -27,12 +27,12 @@ module.exports = {
 
       webpackConfig.resolve.extensions = [
         ".mjs",
-        ".cjs",
         ".js",
-        ".json",
         ".ts",
         ".tsx",
         ".jsx",
+        ".json",
+        ".cjs",
       ];
 
       webpackConfig.resolve.modules = [

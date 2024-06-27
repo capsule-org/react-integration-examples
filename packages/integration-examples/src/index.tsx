@@ -6,7 +6,7 @@ import {
   Web3OnboardAuthenticationExample,
   WalletPregenerationExample,
   OAuthAuthenticationExample,
-  CapsuleLeapModalAuthenticationExample,
+  // CapsuleLeapModalAuthenticationExample,
 } from "./examples";
 import {
   AuthenticationOptions,
@@ -38,7 +38,7 @@ export const CapsuleDemo: React.FC<CapsuleDemoProps> = ({ framework }) => {
       [CapsuleAuthOptions.None]: null,
       [CapsuleAuthOptions.Email]: EmailAuthenticationExample,
       [CapsuleAuthOptions.CapsuleModal]: CapsuleModalAuthenticationExample,
-      [CapsuleAuthOptions.LeapModal]: CapsuleLeapModalAuthenticationExample,
+      // [CapsuleAuthOptions.LeapModal]: CapsuleLeapModalAuthenticationExample,
       [CapsuleAuthOptions.Rainbowkit]: RainbowkitAuthenticationExample,
       [CapsuleAuthOptions.Web3Onboard]: Web3OnboardAuthenticationExample,
       [CapsuleAuthOptions.WalletPregeneration]: WalletPregenerationExample,

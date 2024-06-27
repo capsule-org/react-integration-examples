@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { CustomCapsuleModalView } from "@leapwallet/cosmos-social-login-capsule-provider-ui";
 import {
   CapsuleProvider,
-  CapsuleEnvironment as Environment,
   OAuthMethod,
 } from "@leapwallet/cosmos-social-login-capsule-provider";
+import { Environment } from "@usecapsule/web-sdk";
 // Note: Import the necessary styles for the Leap Capsule Provider UI
 import "@leapwallet/cosmos-social-login-capsule-provider-ui/styles.css";
 import {

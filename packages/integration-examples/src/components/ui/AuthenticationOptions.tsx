@@ -4,7 +4,7 @@ export enum CapsuleAuthOptions {
   None = "none",
   Email = "email",
   CapsuleModal = "capsule-modal",
-  LeapModal = "leap-modal",
+  // LeapModal = "leap-modal",
   Rainbowkit = "rainbowkit",
   Web3Onboard = "web3onboard",
   WalletPregeneration = "wallet-pregeneration",
