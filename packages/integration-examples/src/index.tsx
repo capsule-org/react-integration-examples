@@ -6,6 +6,7 @@ import {
   Web3OnboardAuthenticationExample,
   WalletPregenerationExample,
   OAuthAuthenticationExample,
+  // CapsuleLeapModalAuthenticationExample,
 } from "./examples";
 import {
   AuthenticationOptions,
@@ -37,17 +38,16 @@ export const CapsuleDemo: React.FC<CapsuleDemoProps> = ({ framework }) => {
       [CapsuleAuthOptions.None]: null,
       [CapsuleAuthOptions.Email]: EmailAuthenticationExample,
       [CapsuleAuthOptions.CapsuleModal]: CapsuleModalAuthenticationExample,
-      [CapsuleAuthOptions.CapsuleModalSolana]: CapsuleModalAuthenticationExample,
+      [CapsuleAuthOptions.CapsuleModalSolana]:
+        CapsuleModalAuthenticationExample,
+      // [CapsuleAuthOptions.LeapModal]: CapsuleLeapModalAuthenticationExample,
       [CapsuleAuthOptions.Rainbowkit]: RainbowkitAuthenticationExample,
       [CapsuleAuthOptions.Web3Onboard]: Web3OnboardAuthenticationExample,
       [CapsuleAuthOptions.WalletPregeneration]: WalletPregenerationExample,
       [CapsuleAuthOptions.OAuth]: OAuthAuthenticationExample,
     };
 
-    const extraParams: Record<
-      CapsuleAuthOptions,
-      Object
-    > = {
+    const extraParams: Record<CapsuleAuthOptions, Object> = {
       [CapsuleAuthOptions.None]: {},
       [CapsuleAuthOptions.Email]: {},
       [CapsuleAuthOptions.CapsuleModal]: {},
@@ -62,7 +62,10 @@ export const CapsuleDemo: React.FC<CapsuleDemoProps> = ({ framework }) => {
     const params = extraParams[selectedAuthOption];
     if (SelectedComponent) {
       return (
-        <SelectedComponent setSelectedAuthOption={setSelectedAuthOption} {...params} />
+        <SelectedComponent
+          setSelectedAuthOption={setSelectedAuthOption}
+          {...params}
+        />
       );
     }
 
@@ -77,7 +80,7 @@ export const CapsuleDemo: React.FC<CapsuleDemoProps> = ({ framework }) => {
         style={{ backgroundImage: `url(${CapsuleSunriseHero})` }}
       />
       <div className="relative flex flex-1 justify-center items-center z-10">
-        <Card className="  mx-auto shadow-lg flex flex-col p-4 w-[calc(100%-1rem)] max-w-md min-h-[400px]max-h-[calc(100vh-4rem)] sm:w-[calc(100%-4rem)] sm:max-w-lg md:max-w-xl lg:max-w-2xl">
+        <Card className="  mx-auto shadow-lg flex flex-col p-4 w-[calc(100%-1rem)] max-w-md min-h-[400px] max-h-[calc(100vh-24rem)] sm:w-[calc(100%-4rem)] sm:max-w-lg md:max-w-xl lg:max-w-2xl">
           {selectedAuthOption === CapsuleAuthOptions.None && (
             <CardHeader>
               <h2 className="text-xl font-bold">
