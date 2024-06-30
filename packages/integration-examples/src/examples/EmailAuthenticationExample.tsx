@@ -6,6 +6,7 @@ import {
   CapsuleEmailVerification,
   CapsuleSignMessages,
   useToast,
+  CapsuleTwoFactorSetup,
 } from "../components";
 import { signMessage } from "./CapsuleSigningExamples";
 
@@ -70,6 +71,15 @@ export const EmailAuthenticationExample: React.FC<
   const [signature, setSignature] = useState<string>("");
   const [selectedSigner, setSelectedSigner] = useState<string>("");
 
+  const [isTwoFactorEnabled, setIsTwoFactorEnabled] = useState<boolean>(false);
+  const [showTwoFactorSetup, setShowTwoFactorSetup] = useState<boolean>(false);
+  const [twoFactorSecret, setTwoFactorSecret] = useState<string>("");
+  const [twoFactorVerificationCode, setTwoFactorVerificationCode] =
+    useState<string>("");
+  const [twoFactorSetupPhase, setTwoFactorSetupPhase] = useState<
+    "setup" | "verify" | null
+  >(null);
+
   // Step 5: Check user's login status
   // This effect runs on component mount to determine if the user is already logged in
   useEffect(() => {
@@ -111,7 +121,6 @@ export const EmailAuthenticationExample: React.FC<
       const isExistingUser = await capsuleClient.checkIfUserExists(email);
 
       if (isExistingUser) {
-        // For existing users, initiate login process
         const authUrl = await capsuleClient.initiateUserLogin(email);
         window.open(authUrl, "popup", "popup=true,width=400,height=500");
 
@@ -120,12 +129,14 @@ export const EmailAuthenticationExample: React.FC<
         if (needsWallet) {
           await capsuleClient.createWallet();
         }
-        checkLoginStatus();
-        return;
+        await checkLoginStatus();
+        if (isUserLoggedIn) {
+          await checkAndSetupTwoFactor();
+        }
+      } else {
+        await capsuleClient.createUser(email);
+        setNeedsEmailVerification(true);
       }
-      // For new users, create a new account and send verification email
-      await capsuleClient.createUser(email);
-      setNeedsEmailVerification(true);
     } catch (err) {
       console.error("Capsule authentication failed:", err);
       toast({
@@ -157,6 +168,10 @@ export const EmailAuthenticationExample: React.FC<
         title: "Capsule Email Verified",
         description: "Your email has been verified with Capsule.",
       });
+      await checkLoginStatus();
+      if (isUserLoggedIn) {
+        await checkAndSetupTwoFactor();
+      }
     } catch (err) {
       console.error("Capsule email verification failed:", err);
       toast({
@@ -220,39 +235,160 @@ export const EmailAuthenticationExample: React.FC<
     setUserRecoverySecret("");
     setUserNeedsWallet(false);
     setSelectedAuthOption(CapsuleAuthOptions.None);
+    setIsTwoFactorEnabled(false);
+    setShowTwoFactorSetup(false);
+    setTwoFactorSecret("");
+    setTwoFactorVerificationCode("");
+  };
+
+  // Optional Step: Implement Two-Factor Authentication (2FA)
+  // The following functions demonstrate how to add 2FA to your Capsule integration
+
+  // Optional Step A: Check and setup 2FA
+  const checkAndSetupTwoFactor = async () => {
+    try {
+      const { isSetup } = await capsuleClient.check2FAStatus();
+      setIsTwoFactorEnabled(isSetup);
+      if (isSetup) {
+        setTwoFactorSetupPhase("verify");
+      } else {
+        setTwoFactorSetupPhase("setup");
+      }
+      setShowTwoFactorSetup(true);
+    } catch (error) {
+      console.error("Error checking 2FA status:", error);
+      toast({
+        title: "2FA Status Check Error",
+        description: "Failed to check 2FA status. Please try again later.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  // Optional Step B: Initiate 2FA setup
+  const handleSetup2FA = async () => {
+    setIsLoading(true);
+    try {
+      const { uri } = await capsuleClient.setup2FA();
+      setTwoFactorSecret(uri || "");
+      toast({
+        title: "2FA Setup Initiated",
+        description:
+          "Please scan the QR code or enter the secret in your authenticator app.",
+      });
+    } catch (error) {
+      console.error("Error setting up 2FA:", error);
+      toast({
+        title: "2FA Setup Error",
+        description: "Failed to initiate 2FA setup. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Optional Step C: Enable 2FA
+  const handleEnable2FA = async () => {
+    setIsLoading(true);
+    try {
+      await capsuleClient.enable2FA(twoFactorVerificationCode);
+      toast({
+        title: "2FA Enabled",
+        description:
+          "Two-factor authentication has been successfully enabled for your account.",
+      });
+      setIsTwoFactorEnabled(true);
+      setShowTwoFactorSetup(false);
+    } catch (error) {
+      console.error("Error enabling 2FA:", error);
+      toast({
+        title: "2FA Enable Error",
+        description:
+          "Failed to enable 2FA. Please check your verification code and try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Optional Step D: Verify 2FA
+  const handleVerify2FA = async () => {
+    setIsLoading(true);
+    try {
+      // Assume capsuleClient has a method to verify 2FA
+      await capsuleClient.verify2FA(email, twoFactorVerificationCode);
+      toast({
+        title: "2FA Verified",
+        description: "Two-factor authentication code verified successfully.",
+      });
+      setShowTwoFactorSetup(false);
+    } catch (error) {
+      console.error("Error verifying 2FA:", error);
+      toast({
+        title: "2FA Verification Error",
+        description: "Failed to verify 2FA code. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Render the appropriate component based on the authentication state
-  return isUserLoggedIn ? (
-    <CapsuleSignMessages
-      isLoading={isLoading}
-      signature={signature}
-      walletId={walletId}
-      walletAddress={walletAddress}
-      userRecoverySecret={userRecoverySecret}
-      message={message}
-      selectedSigner={selectedSigner}
-      isUserLoggedIn={isUserLoggedIn}
-      setSelectedSigner={setSelectedSigner}
-      setMessage={(e) => setMessage(e.target.value)}
-      handleLogout={handleLogout}
-      handleSignMessage={handleSignMessage}
-    />
-  ) : needsEmailVerification ? (
-    <CapsuleEmailVerification
-      isLoading={isLoading}
-      verificationCode={verificationCode}
-      setVerificationCode={setVerificationCode}
-      handleVerifyEmail={handleVerifyEmail}
-      onCancel={resetState}
-    />
-  ) : (
-    <CapsuleEmailAuthForm
-      isLoading={isLoading}
-      email={email}
-      setEmail={(e) => setEmail(e.target.value)}
-      handleAuthentication={handleAuthenticateUser}
-      onCancel={resetState}
-    />
+  return (
+    <>
+      {isUserLoggedIn ? (
+        showTwoFactorSetup ? (
+          <CapsuleTwoFactorSetup
+            isLoading={isLoading}
+            twoFactorSecret={twoFactorSecret}
+            verificationCode={twoFactorVerificationCode}
+            setVerificationCode={setTwoFactorVerificationCode}
+            handleSetup2FA={handleSetup2FA}
+            handleEnable2FA={handleEnable2FA}
+            handleVerify2FA={handleVerify2FA}
+            onSkip={() => {
+              setShowTwoFactorSetup(false);
+              setTwoFactorSetupPhase(null);
+            }}
+            is2FAEnabled={isTwoFactorEnabled}
+            twoFactorSetupPhase={twoFactorSetupPhase}
+          />
+        ) : (
+          <CapsuleSignMessages
+            isLoading={isLoading}
+            signature={signature}
+            walletId={walletId}
+            walletAddress={walletAddress}
+            userRecoverySecret={userRecoverySecret}
+            message={message}
+            selectedSigner={selectedSigner}
+            isUserLoggedIn={isUserLoggedIn}
+            setSelectedSigner={setSelectedSigner}
+            setMessage={(e) => setMessage(e.target.value)}
+            handleLogout={handleLogout}
+            handleSignMessage={handleSignMessage}
+          />
+        )
+      ) : needsEmailVerification ? (
+        <CapsuleEmailVerification
+          isLoading={isLoading}
+          verificationCode={verificationCode}
+          setVerificationCode={setVerificationCode}
+          handleVerifyEmail={handleVerifyEmail}
+          onCancel={resetState}
+        />
+      ) : (
+        <CapsuleEmailAuthForm
+          isLoading={isLoading}
+          email={email}
+          setEmail={(e) => setEmail(e.target.value)}
+          handleAuthentication={handleAuthenticateUser}
+          onCancel={resetState}
+        />
+      )}
+    </>
   );
 };

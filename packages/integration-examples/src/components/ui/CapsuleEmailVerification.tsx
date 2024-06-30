@@ -49,10 +49,8 @@ export const CapsuleEmailVerification: React.FC<
         value={verificationCode}
         onChange={setVerificationCode}
         textAlign="center"
-        className="mb-4"
-        aria-describedby="capsule-verification-description"
       >
-        <InputOTPGroup>
+        <InputOTPGroup className="mb-4">
           <InputOTPSlot index={0} />
           <InputOTPSlot index={1} />
           <InputOTPSlot index={2} />

@@ -24,15 +24,14 @@ module.exports = {
           "../../node_modules/@web3-onboard/capsule/dist/icon.js"
         ),
       };
-
       webpackConfig.resolve.extensions = [
         ".mjs",
-        ".cjs",
         ".js",
-        ".json",
         ".ts",
         ".tsx",
         ".jsx",
+        ".json",
+        ".cjs",
       ];
 
       webpackConfig.resolve.modules = [

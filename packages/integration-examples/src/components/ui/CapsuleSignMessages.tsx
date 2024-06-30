@@ -108,12 +108,17 @@ export const CapsuleSignMessages: React.FC<CapsuleSignMessagesProps> = ({
         className="w-full mb-4"
       />
       <Alert className="break-words mb-4">
-        <strong>Capsule Signature Status:</strong>{" "}
-        {isLoading
-          ? "Signing with Capsule..."
-          : signature
-          ? `Capsule Signature: ${signature}`
-          : "No Capsule signature yet"}
+        {signature ? (
+          <>
+            <strong>Signature:</strong>
+            <p className="text-sm font-mono mt-2">{signature}</p>
+          </>
+        ) : (
+          <>
+            <strong>Signature Status:</strong>{" "}
+            {isLoading ? "Signing message..." : "No signature generated yet"}
+          </>
+        )}
       </Alert>
     </CardContent>
     <CardFooter className="flex flex-col sm:flex-row justify-between gap-2 p-4">
