@@ -57,8 +57,8 @@ export const CapsuleSignMessages: React.FC<CapsuleSignMessagesProps> = ({
   handleSignMessage,
   handleSendSolanaTransaction,
   useSolanaOverEVM,
-}) => (
-  useSolanaOverEVM ? 
+}) =>
+  useSolanaOverEVM ? (
     <>
       <CardHeader>
         <h2 className="text-xl font-bold">
@@ -105,12 +105,17 @@ export const CapsuleSignMessages: React.FC<CapsuleSignMessagesProps> = ({
           className="w-full mb-4"
         />
         <Alert className="break-words mb-4">
-          <strong>Capsule Signature Status:</strong>{" "}
-          {isLoading
-            ? "Signing with Capsule..."
-            : signature
-            ? `Capsule Signature: ${signature}`
-            : "No Capsule signature yet"}
+          {signature ? (
+            <>
+              <strong>Signature:</strong>
+              <p className="text-sm font-mono mt-2">{signature}</p>
+            </>
+          ) : (
+            <>
+              <strong>Signature Status:</strong>{" "}
+              {isLoading ? "Signing message..." : "No signature generated yet"}
+            </>
+          )}
         </Alert>
       </CardContent>
       <CardFooter className="flex flex-col sm:flex-row justify-between gap-2 p-4">
@@ -123,14 +128,22 @@ export const CapsuleSignMessages: React.FC<CapsuleSignMessagesProps> = ({
         </Button>
         <Button
           onClick={handleSendSolanaTransaction}
-          disabled={!solToSend || !solanaRecipientAddress || !isUserLoggedIn || isLoading}
+          disabled={
+            !solToSend ||
+            !solanaRecipientAddress ||
+            !isUserLoggedIn ||
+            isLoading
+          }
           className="w-full sm:w-auto text-sm"
         >
-          {isLoading ? "Signing with Capsule..." : "Send Solana transaction using Capsule"}
+          {isLoading
+            ? "Signing with Capsule..."
+            : "Send Solana transaction using Capsule"}
         </Button>
       </CardFooter>
       <Toaster />
-    </> :
+    </>
+  ) : (
     <>
       <CardHeader>
         <h2 className="text-xl font-bold">
@@ -138,8 +151,8 @@ export const CapsuleSignMessages: React.FC<CapsuleSignMessagesProps> = ({
         </h2>
         <p className="text-sm text-muted-foreground">
           Learn how to use Capsule SDK to sign messages with various Ethereum
-          libraries. This tutorial demonstrates Capsule's integration with popular
-          signing libraries.
+          libraries. This tutorial demonstrates Capsule's integration with
+          popular signing libraries.
         </p>
       </CardHeader>
       <CardContent className="flex flex-grow overflow-auto flex-col items-start">
@@ -193,17 +206,17 @@ export const CapsuleSignMessages: React.FC<CapsuleSignMessagesProps> = ({
           className="w-full mb-4"
         />
         <Alert className="break-words mb-4">
-        {signature ? (
-          <>
-            <strong>Signature:</strong>
-            <p className="text-sm font-mono mt-2">{signature}</p>
-          </>
-        ) : (
-          <>
-            <strong>Signature Status:</strong>{" "}
-            {isLoading ? "Signing message..." : "No signature generated yet"}
-          </>
-        )}
+          {signature ? (
+            <>
+              <strong>Signature:</strong>
+              <p className="text-sm font-mono mt-2">{signature}</p>
+            </>
+          ) : (
+            <>
+              <strong>Signature Status:</strong>{" "}
+              {isLoading ? "Signing message..." : "No signature generated yet"}
+            </>
+          )}
         </Alert>
       </CardContent>
       <CardFooter className="flex flex-col sm:flex-row justify-between gap-2 p-4">
@@ -224,4 +237,4 @@ export const CapsuleSignMessages: React.FC<CapsuleSignMessagesProps> = ({
       </CardFooter>
       <Toaster />
     </>
-);
+  );
