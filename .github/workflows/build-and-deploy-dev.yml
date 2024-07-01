@@ -1,33 +1,27 @@
-name: Build and Deploy Dev
+name: Build and Deploy Dev for QA
 
 on:
   push:
     branches:
       - dev
   workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Environment to deploy to'
-        required: true
-        default: 'dev'
-        type: choice
-        options:
-        - dev
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '18'
 
       - name: Install dependencies
-        run: yarn install
+        run: |
+          npm install -g yarn
+          yarn install
 
       - name: Build react-app
         run: yarn build:react-app
@@ -39,6 +33,3 @@ jobs:
           publish_dir: ./examples/react-app/build
           force_orphan: true
           branch: gh-pages
-
-      - name: Print selected environment
-        run: echo "Deploying to ${{ github.event.inputs.environment }} environment"
