@@ -38,6 +38,8 @@ export const CapsuleDemo: React.FC<CapsuleDemoProps> = ({ framework }) => {
       [CapsuleAuthOptions.None]: null,
       [CapsuleAuthOptions.Email]: EmailAuthenticationExample,
       [CapsuleAuthOptions.CapsuleModal]: CapsuleModalAuthenticationExample,
+      [CapsuleAuthOptions.CapsuleModalSolana]:
+        CapsuleModalAuthenticationExample,
       // [CapsuleAuthOptions.LeapModal]: CapsuleLeapModalAuthenticationExample,
       [CapsuleAuthOptions.Rainbowkit]: RainbowkitAuthenticationExample,
       [CapsuleAuthOptions.Web3Onboard]: Web3OnboardAuthenticationExample,
@@ -45,11 +47,25 @@ export const CapsuleDemo: React.FC<CapsuleDemoProps> = ({ framework }) => {
       [CapsuleAuthOptions.OAuth]: OAuthAuthenticationExample,
     };
 
-    const SelectedComponent = options[selectedAuthOption];
+    const extraParams: Record<CapsuleAuthOptions, Object> = {
+      [CapsuleAuthOptions.None]: {},
+      [CapsuleAuthOptions.Email]: {},
+      [CapsuleAuthOptions.CapsuleModal]: {},
+      [CapsuleAuthOptions.CapsuleModalSolana]: { useSolanaOverEVM: true },
+      [CapsuleAuthOptions.Rainbowkit]: {},
+      [CapsuleAuthOptions.Web3Onboard]: {},
+      [CapsuleAuthOptions.WalletPregeneration]: {},
+      [CapsuleAuthOptions.OAuth]: {},
+    };
 
+    const SelectedComponent = options[selectedAuthOption];
+    const params = extraParams[selectedAuthOption];
     if (SelectedComponent) {
       return (
-        <SelectedComponent setSelectedAuthOption={setSelectedAuthOption} />
+        <SelectedComponent
+          setSelectedAuthOption={setSelectedAuthOption}
+          {...params}
+        />
       );
     }
 
