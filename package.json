@@ -12,6 +12,11 @@
     "start:nextjs-app": "lerna run start --scope nextjs-app",
     "start:pwa-app": "lerna run start --scope pwa-app",
     "start:all": "lerna run start --parallel",
+    "build:react-app": "lerna run build --scope react-app",
+    "build:vite-app": "lerna run build --scope vite-app",
+    "build:nextjs-app": "lerna run build --scope nextjs-app",
+    "build:pwa-app": "lerna run build --scope pwa-app",
+    "build:all": "lerna run build",
     "clean-install": "rm -rf node_modules yarn.lock examples/nextjs-app/.next examples/pwa-app/.cache examples/vite-app/.vite && find . -name 'node_modules' -type d -prune -exec rm -rf {} + && find . -name '.cache' -type d -prune -exec rm -rf {} + && yarn install"
   },
   "devDependencies": {
