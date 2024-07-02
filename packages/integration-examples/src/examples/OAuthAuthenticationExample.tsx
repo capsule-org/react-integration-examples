@@ -7,10 +7,10 @@ import Capsule, {
 import {
   CapsuleOAuthAuthForm,
   CapsuleAuthOptions,
-  CapsuleSignMessages,
+  CapsuleSignEvmMessages,
   useToast,
 } from "../components";
-import { signMessage } from "./CapsuleSigningExamples";
+import { signEvmMessage } from "./CapsuleSigningExamples";
 
 type OAuthAuthenticationExampleProps = {
   setSelectedAuthOption: (option: CapsuleAuthOptions) => void;
@@ -176,7 +176,7 @@ export const OAuthAuthenticationExample: React.FC<
   const handleSignMessage = async () => {
     setIsLoading(true);
     try {
-      const signature = await signMessage(
+      const signature = await signEvmMessage(
         capsuleClient,
         selectedSigner,
         message
@@ -222,7 +222,7 @@ export const OAuthAuthenticationExample: React.FC<
   };
 
   return isUserLoggedIn ? (
-    <CapsuleSignMessages
+    <CapsuleSignEvmMessages
       isLoading={isLoading}
       signature={signature}
       walletId={walletId}

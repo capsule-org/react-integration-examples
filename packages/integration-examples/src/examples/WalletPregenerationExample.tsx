@@ -5,10 +5,10 @@ import {
   CapsuleAuthOptions,
   CapsulePregenWallet,
   CapsuleEmailVerification,
-  CapsuleSignMessages,
+  CapsuleSignEvmMessages,
   useToast,
 } from "../components";
-import { signMessage } from "./CapsuleSigningExamples";
+import { signEvmMessage } from "./CapsuleSigningExamples";
 
 // Capsule SDK integration example for Wallet Pre-generation.
 // This tutorial provides a step-by-step guide to implement Capsule's wallet pre-generation flow.
@@ -230,7 +230,7 @@ export const WalletPregenerationExample: React.FC<
   const handleSignMessage = async () => {
     setIsLoading(true);
     try {
-      const signature = await signMessage(
+      const signature = await signEvmMessage(
         capsuleClient,
         selectedSigner,
         message
@@ -287,7 +287,7 @@ export const WalletPregenerationExample: React.FC<
   return (
     <>
       {isUserLoggedIn ? (
-        <CapsuleSignMessages
+        <CapsuleSignEvmMessages
           isLoading={isLoading}
           signature={signature}
           walletId={walletId}
