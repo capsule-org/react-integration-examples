@@ -1,5 +1,6 @@
 {
   "name": "react-app",
+  "homepage": "https://capsule-org.github.io/react-integration-examples/",
   "version": "0.1.0",
   "private": true,
   "description": "A React application showcasing usage with Capsule",

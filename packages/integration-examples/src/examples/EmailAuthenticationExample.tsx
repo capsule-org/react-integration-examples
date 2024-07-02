@@ -4,11 +4,11 @@ import {
   CapsuleEmailAuthForm,
   CapsuleAuthOptions,
   CapsuleEmailVerification,
-  CapsuleSignMessages,
+  CapsuleSignEvmMessages,
   useToast,
   CapsuleTwoFactorSetup,
 } from "../components";
-import { signMessage } from "./CapsuleSigningExamples";
+import { signEvmMessage } from "./CapsuleSigningExamples";
 
 // Capsule SDK integration example for email-based authentication and message signing.
 // This tutorial provides a step-by-step guide to implement Capsule's authentication flow.
@@ -190,7 +190,7 @@ export const EmailAuthenticationExample: React.FC<
   const handleSignMessage = async () => {
     setIsLoading(true);
     try {
-      const signature = await signMessage(
+      const signature = await signEvmMessage(
         capsuleClient,
         selectedSigner,
         message
@@ -357,7 +357,7 @@ export const EmailAuthenticationExample: React.FC<
             twoFactorSetupPhase={twoFactorSetupPhase}
           />
         ) : (
-          <CapsuleSignMessages
+          <CapsuleSignEvmMessages
             isLoading={isLoading}
             signature={signature}
             walletId={walletId}

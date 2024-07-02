@@ -1,5 +1,6 @@
 {
   "name": "react-integration-examples",
+  "homepage": "https://capsule-org.github.io/react-integration-examples/",
   "packageManager": "yarn@1.22.22",
   "private": true,
   "workspaces": [

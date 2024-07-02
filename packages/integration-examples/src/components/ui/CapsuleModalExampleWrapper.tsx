@@ -131,7 +131,7 @@ export const CapsuleModalExampleWrapper: React.FC<
         Back to Options
       </Button>
       <Button onClick={handleModalOpen} className="w-full sm:w-auto text-sm">
-        Open Capsule Authentication Modal
+        Open Capsule Modal
       </Button>
     </CardFooter>
   </>
