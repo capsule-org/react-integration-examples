@@ -26,12 +26,6 @@ import {
 } from "viem";
 import { sepolia as sepoliaViemV2 } from "viem/chains";
 
-// solana/web3.js
-import { CapsuleSolanaWeb3Signer } from '@usecapsule/solana-web3.js-v1-integration';
-import * as solana from '@solana/web3.js';
-
-// Solana specific variables
-const SOLANA_DEVNET_RPC_ENDPOINT = 'https://api.devnet.solana.com';
 
 const signWithEthersV5 = async (
   capsule: Capsule,
@@ -109,7 +103,7 @@ const signWithViemV2 = async (
   }
 };
 
-export const signMessage = async (
+export const signEvmMessage = async (
   capsule: Capsule,
   selectedSigner: string,
   message: string
@@ -129,29 +123,3 @@ export const signMessage = async (
       );
   }
 };
-
-export const sendSolanaTransaction = async (
-  capsule: Capsule,
-  solToSend: string,
-  solanaRecipientAddress: string,
-): Promise<string> => {
-  const solToSendNumber = Number(solToSend);
-  if (!solToSendNumber) {
-    throw new Error(`Sol to send must be a non-zero number, received: ${solToSend}`);
-  }
-  const connection = new solana.Connection(SOLANA_DEVNET_RPC_ENDPOINT, 'confirmed');
-  const solanaSigner = new CapsuleSolanaWeb3Signer(capsule, connection);
-  const tx = new solana.Transaction().add(
-    solana.SystemProgram.transfer({
-      fromPubkey: solanaSigner.sender!,
-      toPubkey: new solana.PublicKey(solanaRecipientAddress),
-      lamports: solToSendNumber * solana.LAMPORTS_PER_SOL, // Convert SOL to lamports
-    }),
-  );
-  tx.feePayer = solanaSigner.sender;
-
-  return solanaSigner.sendTransaction(tx, {
-    skipPreflight: false,
-    preflightCommitment: 'confirmed',
-  });
-}

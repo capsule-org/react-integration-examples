@@ -3,17 +3,16 @@ import Capsule, {
   ConstructorOpts,
   Environment,
   OAuthMethod,
-  WalletType,
 } from "@usecapsule/react-sdk";
 import { useEffect, useState } from "react";
 import "@usecapsule/react-sdk/styles.css";
 import Logo from "../assets/images/capsule-logo.svg";
 
-import { signMessage, sendSolanaTransaction } from "./CapsuleSigningExamples";
+import { signEvmMessage } from "./CapsuleSigningExamples";
 import {
   CapsuleAuthOptions,
   CapsuleModalExampleWrapper,
-  CapsuleSignMessages,
+  CapsuleSignEvmMessages,
   useToast,
 } from "../components";
 
@@ -23,7 +22,6 @@ import {
 
 type CapsuleModalAuthenticationExampleProps = {
   setSelectedAuthOption: (option: CapsuleAuthOptions) => void;
-  useSolanaOverEVM?: boolean;
 };
 
 // Step 1: Set up your Capsule API key
@@ -34,37 +32,31 @@ const CAPSULE_API_KEY = "d0b61c2c8865aaa2fb12886651627271";
 // Choose between Environment.DEVELOPMENT or Environment.PRODUCTION based on your use case
 const CAPSULE_ENVIRONMENT = Environment.DEVELOPMENT;
 
+// Step 3: (Optional) Customize the Capsule SDK integration
+// These options allow you to tailor the look and feel of the Capsule integration
+// For a full list of constructor options, visit:
+// https://docs.usecapsule.com/integration-guide/customize-capsule#constructor-options
+const constructorOpts: ConstructorOpts = {
+  emailPrimaryColor: "#ff6700",
+  githubUrl: "https://github.com/capsule-org",
+  linkedinUrl: "https://www.linkedin.com/company/usecapsule/",
+  xUrl: "https://x.com/usecapsule",
+  homepageUrl: "https://usecapsule.com/",
+  supportUrl: "https://usecapsule.com/talk-to-us",
+};
 
-
-// Solana specific variables
-const SOLANA_RECIPIENT_PUBLIC_KEY = '4TUYF5Q6sCkBCjamQrTkNYJyxhyaCPiPnq9oVg6qXbTp';
+// Step 4: Initialize the Capsule client
+// Create a new Capsule instance with your environment, API key, and optional constructor parameters
+const capsuleClient = new Capsule(
+  CAPSULE_ENVIRONMENT,
+  CAPSULE_API_KEY,
+  constructorOpts
+);
 
 // Main component for Capsule Modal based authentication and message signing tutorial
 export const CapsuleModalAuthenticationExample: React.FC<
   CapsuleModalAuthenticationExampleProps
-> = ({ setSelectedAuthOption, useSolanaOverEVM }) => {
-  // Step 3: (Optional) Customize the Capsule SDK integration
-  // These options allow you to tailor the look and feel of the Capsule integration
-  // For a full list of constructor options, visit:
-  // https://docs.usecapsule.com/integration-guide/customize-capsule#constructor-options
-  const constructorOpts: ConstructorOpts = {
-    emailPrimaryColor: "#ff6700",
-    githubUrl: "https://github.com/capsule-org",
-    linkedinUrl: "https://www.linkedin.com/company/usecapsule/",
-    xUrl: "https://x.com/usecapsule",
-    homepageUrl: "https://usecapsule.com/",
-    supportUrl: "https://usecapsule.com/talk-to-us",
-    supportedWalletTypes: useSolanaOverEVM ? [WalletType.SOLANA] : undefined,
-  };
-
-  // Step 4: Initialize the Capsule client
-  // Create a new Capsule instance with your environment, API key, and optional constructor parameters
-  const capsuleClient = new Capsule(
-    CAPSULE_ENVIRONMENT,
-    CAPSULE_API_KEY,
-    constructorOpts
-  );
-
+> = ({ setSelectedAuthOption }) => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -72,8 +64,7 @@ export const CapsuleModalAuthenticationExample: React.FC<
   const [isCapsuleModalOpen, setIsCapsuleModalOpen] = useState<boolean>(false);
 
   const [message, setMessage] = useState<string>("");
-  const [solToSend, setSolToSend] = useState<string>("");
-  const [solanaRecipientAddress, setSolanaRecipientAddress] = useState<string>(SOLANA_RECIPIENT_PUBLIC_KEY);
+
   const [signature, setSignature] = useState<string>("");
   const [selectedSigner, setSelectedSigner] = useState<string>("");
 
@@ -103,27 +94,14 @@ export const CapsuleModalAuthenticationExample: React.FC<
       const isLoggedIn = await capsuleClient.isFullyLoggedIn();
 
       if (isLoggedIn) {
-        if (useSolanaOverEVM) {
-          const solanaWallets = capsuleClient.getED25519Wallets();
-          console.log(solanaWallets)
-          setWalletId(Object.values(solanaWallets)[0].id!);
-          setWalletAddress(Object.values(solanaWallets)[0].address!);
-          toast({
-            title: "Logged In",
-            description:
-              "You're logged in and ready to send transactions with Capsule.",
-          });
-        } else {
-          const wallets = capsuleClient.getWallets();
-          setWalletId(Object.values(wallets)[0].id!);
-          setWalletAddress(Object.values(wallets)[0].address!);
-          toast({
-            title: "Logged In",
-            description:
-              "You're logged in and ready to sign messages with Capsule.",
-          });
-        }
-        
+        const wallets = capsuleClient.getWallets();
+        setWalletId(Object.values(wallets)[0].id!);
+        setWalletAddress(Object.values(wallets)[0].address!);
+        toast({
+          title: "Logged In",
+          description:
+            "You're logged in and ready to sign messages with Capsule.",
+        });
       }
       setIsUserLoggedIn(isLoggedIn);
     } catch (err) {
@@ -148,9 +126,7 @@ export const CapsuleModalAuthenticationExample: React.FC<
   // You can perform any necessary cleanup or trigger app-specific actions here
   const handleModalClose = async () => {
     setIsCapsuleModalOpen(false);
-    if (await capsuleClient.isFullyLoggedIn()) {
-      setIsUserLoggedIn(true);
-    }
+    checkLoginStatus();
   };
 
   // Step 9: Handle message signing
@@ -158,7 +134,7 @@ export const CapsuleModalAuthenticationExample: React.FC<
   const handleSignMessage = async () => {
     setIsLoading(true);
     try {
-      const signature = await signMessage(
+      const signature = await signEvmMessage(
         capsuleClient,
         selectedSigner,
         message
@@ -175,34 +151,6 @@ export const CapsuleModalAuthenticationExample: React.FC<
         title: "Capsule Signing Error",
         description:
           "Failed to sign message with Capsule. See console for details.",
-        duration: 3000,
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleSendSolanaTransaction = async () => {
-    setIsLoading(true);
-    try {
-      const signature = await sendSolanaTransaction(
-        capsuleClient,
-        solToSend,
-        solanaRecipientAddress,
-      );
-      setSignature(signature);
-      toast({
-        title: "Capsule Transaction Sent",
-        description: "Transaction has been sent successfully using Capsule.",
-        duration: 3000,
-      });
-    } catch (error) {
-      console.error("Capsule transaction sending failed:", error);
-      toast({
-        title: "Capsule Transaction Sending Error",
-        description:
-          "Failed to send transaction with Capsule. See console for details.",
         duration: 3000,
         variant: "destructive",
       });
@@ -229,33 +177,25 @@ export const CapsuleModalAuthenticationExample: React.FC<
     setForegroundColor("#ff6700");
     setDisableEmailLogin(false);
     setDisablePhoneLogin(false);
-    setSolToSend("");
-    setSolanaRecipientAddress(SOLANA_RECIPIENT_PUBLIC_KEY);
     isCapsuleModalOpen && setIsCapsuleModalOpen(false);
     setSelectedAuthOption(CapsuleAuthOptions.None);
   };
 
   // Render the appropriate component based on the authentication state
   return isUserLoggedIn ? (
-    <CapsuleSignMessages
+    <CapsuleSignEvmMessages
       isLoading={isLoading}
       signature={signature}
       walletId={walletId}
       walletAddress={walletAddress}
       userRecoverySecret={userRecoverySecret}
       message={message}
-      solToSend={solToSend}
-      solanaRecipientAddress={solanaRecipientAddress}
       selectedSigner={selectedSigner}
       isUserLoggedIn={isUserLoggedIn}
       setSelectedSigner={setSelectedSigner}
       setMessage={(e) => setMessage(e.target.value)}
-      setSolToSend={(e) => setSolToSend(e.target.value)}
-      setSolanaRecipientAddress={(e) => setSolanaRecipientAddress}
       handleLogout={handleLogout}
       handleSignMessage={handleSignMessage}
-      handleSendSolanaTransaction={handleSendSolanaTransaction}
-      useSolanaOverEVM={!!useSolanaOverEVM}
     />
   ) : (
     <CapsuleModalExampleWrapper
