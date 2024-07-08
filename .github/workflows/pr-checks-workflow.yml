@@ -1,0 +1,18 @@
+name: Pull Request Checks
+
+on:
+  pull_request:
+    branches: [dev, main]
+
+jobs:
+  conventional-commits-check:
+    name: Conventional Commits Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Check Conventional Commits
+        uses: webiny/action-conventional-commits@v1.1.0
