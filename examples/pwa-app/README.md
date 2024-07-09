@@ -1,6 +1,6 @@
-# React Example App for Capsule Integration
+# Create React App (PWA) Example App for Capsule Integration
 
-Welcome to the React example app for Capsule integration! This app is part of the Capsule examples monorepo, designed to demonstrate how to integrate Capsule across various web development frameworks and setups.
+Welcome to the PWA example app for Capsule integration! This app is part of the Capsule examples monorepo, designed to demonstrate how to integrate Capsule across various web development frameworks and setups.
 
 ## Monorepo Structure
 
@@ -47,13 +47,13 @@ To get started:
 
 You can run the apps using the following commands from the root directory:
 
-- To run this React example:
+- To run this PWA example:
 
   ```
-  yarn start:react-app
+  yarn start:pwa-app
   ```
 
-  Replace `react` with one of: `react`, `vite`, `nextjs`, or `pwa`.
+  Replace `pwa` with one of: `react`, `vite`, `nextjs`, or `pwa`.
 
 - To run all apps simultaneously:
   ```
