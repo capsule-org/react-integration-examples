@@ -40,9 +40,16 @@ jobs:
 
       - name: Build react-app
         run: yarn build:react-app
+        env:
+          CI: true
+
+      - name: List build directory contents
+        run: ls -la examples/react-app/build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./examples/react-app/build
+          force_orphan: true
+          publish_branch: gh-pages
