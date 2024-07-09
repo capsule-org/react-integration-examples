@@ -4,19 +4,36 @@ on:
   push:
     branches: [main]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build React App
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up cache key prefix
+        id: vars
+        run: echo "CACHE_KEY_PREFIX=${{ github.ref_name }}" >> $GITHUB_ENV
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'yarn'
+          node-version: '20'
+
+      - name: Yarn cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-yarn-${{ env.CACHE_KEY_PREFIX }}-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-${{ env.CACHE_KEY_PREFIX }}
+            ${{ runner.os }}-yarn-
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
@@ -25,7 +42,7 @@ jobs:
         run: yarn build:react-app
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: react-app-build
           path: examples/react-app/build
@@ -36,7 +53,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download build artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: react-app-build
           path: build
@@ -52,29 +69,46 @@ jobs:
     needs: deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Get latest tag
-        id: get-latest-tag
-        run: echo "tag=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
+      - name: Get latest tag or create initial tag
+        id: get_tag
+        run: |
+          git fetch --tags
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          if [[ "$LATEST_TAG" == "v0.0.0" ]]; then
+            NEW_TAG="v0.0.1"
+          else
+            NEW_TAG=$(echo $LATEST_TAG | awk -F. -v OFS=. '{$NF++;print}')
+          fi
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git tag -a $NEW_TAG -m "Release $NEW_TAG"
+          git push origin $NEW_TAG
+          echo "tag=$NEW_TAG" >> $GITHUB_OUTPUT
 
       - name: Generate changelog
         id: changelog
-        uses: metcalfc/changelog-generator@v4.0.1
+        uses: metcalfc/changelog-generator@v4.1.0
         with:
           myToken: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Install GitHub CLI
+        run: |
+          type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
+          curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+          && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+          && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+          && sudo apt update \
+          && sudo apt install gh -y
+
       - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.get-latest-tag.outputs.tag }}
-          release_name: Release ${{ steps.get-latest-tag.outputs.tag }}
-          body: ${{ steps.changelog.outputs.changelog }}
-          draft: false
-          prerelease: false
+        run: |
+          gh release create ${{ steps.get_tag.outputs.tag }} \
+            --title "Release ${{ steps.get_tag.outputs.tag }}" \
+            --notes "${{ steps.changelog.outputs.changelog }}"
