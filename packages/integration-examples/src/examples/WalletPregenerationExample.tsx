@@ -164,9 +164,8 @@ export const WalletPregenerationExample: React.FC<
         const hasPregenWallet = await capsuleClient.hasPregenWallet(email);
 
         if (hasPregenWallet) {
-          const [pregenWallet, recovery] =
-            await capsuleClient.claimPregenWallet(email);
-          setUserRecoverySecret(recovery);
+          const recovery = await capsuleClient.claimPregenWallets(email);
+          setUserRecoverySecret(recovery ?? "");
           toast({
             title: "Capsule Pre-generated Wallet Claimed",
             description:

@@ -5601,9 +5601,9 @@
     "@stablelib/wipe" "^1.0.1"
 
 "@stencil/core@^4.7.0":
-  version "4.19.1"
-  resolved "https://registry.yarnpkg.com/@stencil/core/-/core-4.19.1.tgz#f497a26f50b0429024783e1eddcbc8ba5d875fdb"
-  integrity sha512-fjSBctHrobeSL2+XcuX7GVk/eaUhZ/lvIu21RJmzHAPcNyueuSAEv7J/Isn4UlYNk70o+yOK72H0FTlNkUibvw==
+  version "4.19.2"
+  resolved "https://registry.yarnpkg.com/@stencil/core/-/core-4.19.2.tgz#02d377aa0133fa211f5e4c1ace4baa329ed1cde2"
+  integrity sha512-ZdnbHmHEl8E5vN0GWDtONe5w6j3CrSqqxZM4hNLBPkV/aouWKug7D5/Mi6RazfYO5U4fmHQYLwMz60rHcx0G4g==
 
 "@stripe/crypto@^0.0.4":
   version "0.0.4"
@@ -6228,10 +6228,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/node@*", "@types/node@>=13.7.0", "@types/node@^20":
-  version "20.14.9"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.14.9.tgz#12e8e765ab27f8c421a1820c99f5f313a933b420"
-  integrity sha512-06OCtnTXtWOZBJlRApleWndH4JsRVs1pDCc8dLSQp+7PpUpX3ePdHyeNSFTeSe7FtKyQkrlPvHwJOW3SLd8Oyg==
+"@types/node@*":
+  version "20.14.12"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.14.12.tgz#129d7c3a822cb49fc7ff661235f19cfefd422b49"
+  integrity sha512-r7wNXakLeSsGT0H1AU863vS2wa5wBOK4bWMjZz2wj+8nBx+m5PeIn0k8AloSLpRuiwdRQZwarZqHE4FNArPuJQ==
   dependencies:
     undici-types "~5.26.4"
 
@@ -6244,6 +6244,13 @@
   version "18.15.13"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.15.13.tgz#f64277c341150c979e42b00e4ac289290c9df469"
   integrity sha512-N+0kuo9KgrUQ1Sn/ifDXsvg0TTleP7rIy4zOBGECxAljqvqfqpTfzx0Q1NUedOixRMBfe2Whhb056a42cWs26Q==
+
+"@types/node@>=13.7.0", "@types/node@^20":
+  version "20.14.9"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.14.9.tgz#12e8e765ab27f8c421a1820c99f5f313a933b420"
+  integrity sha512-06OCtnTXtWOZBJlRApleWndH4JsRVs1pDCc8dLSQp+7PpUpX3ePdHyeNSFTeSe7FtKyQkrlPvHwJOW3SLd8Oyg==
+  dependencies:
+    undici-types "~5.26.4"
 
 "@types/node@^10.12.18":
   version "10.17.60"
@@ -6666,10 +6673,10 @@
     lottie-web "^5.12.2"
     qr-code-styling "^1.6.0-rc.1"
 
-"@usecapsule/core-components@^3.1.2":
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/@usecapsule/core-components/-/core-components-3.1.2.tgz#755aa37da8447cfd47bf0f5689da3b27befacffc"
-  integrity sha512-48FXDjYpdOnN9yO8BuCkN9sBfkmm0+5+FO1Xj7wI9OcblkBR2z039XxgnA0u3xvVPr/YvHLTwmBVg/YDzVG/kA==
+"@usecapsule/core-components@^3.1.3":
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/@usecapsule/core-components/-/core-components-3.1.3.tgz#f4bcd159092813db1e9610acfb276b0855e775d8"
+  integrity sha512-ga+yxMdAf1j4CJe9uuXTg+HbXmkkz9MqP7no+RFF5Smjx7B6D0IriFT4+MKFIfEHeVLScMz0LmDsu33zwprvkA==
   dependencies:
     "@stencil/core" "^4.7.0"
     color-blend "^4.0.0"
@@ -6721,6 +6728,19 @@
   dependencies:
     "@celo/utils" "^3.2.0"
     "@usecapsule/user-management-client" "1.15.0"
+    base64url "^3.0.1"
+    buffer "6.0.3"
+    ethereumjs-util "7.1.5"
+    libphonenumber-js "1.11.2"
+    node-forge "^1.3.1"
+
+"@usecapsule/core-sdk@1.21.0":
+  version "1.21.0"
+  resolved "https://registry.yarnpkg.com/@usecapsule/core-sdk/-/core-sdk-1.21.0.tgz#f792fe57093e472461c22c6be0fcbb0643d2983c"
+  integrity sha512-zblf/9A5jyVhB2gEdUkkJsq9JLZ5EwsaSH+vWCJL+SqOFk2xD4TgfQoWymxtxtrbSbChrqLB68rrBtsevQNuuw==
+  dependencies:
+    "@celo/utils" "^3.2.0"
+    "@usecapsule/user-management-client" "1.18.0"
     base64url "^3.0.1"
     buffer "6.0.3"
     ethereumjs-util "7.1.5"
@@ -6780,14 +6800,14 @@
   dependencies:
     "@usecapsule/core-components" "^2.0.10"
 
-"@usecapsule/react-components@^3.1.2":
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/@usecapsule/react-components/-/react-components-3.1.2.tgz#708fe5faf657d51bdc5384cb53990fb3a03b9e09"
-  integrity sha512-yblj1l9elYrgoo7fbfM7Q9CrRI+1Me2uJTZbpNaZENuF32ckctRIB6Jy/woHQkJ822+dfjdCqunIg1LSLFJYGQ==
+"@usecapsule/react-components@^3.1.2", "@usecapsule/react-components@^3.1.3":
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/@usecapsule/react-components/-/react-components-3.1.3.tgz#7d71dbba9eee525c3c8564c2a3428d97a1024f9d"
+  integrity sha512-DDTApV13h6cJXTqVwF9x+Mk4eqMaFy67IvJlpsXcpnzJp4/FSE1Q0WkqO6oF/9VaoUoPk8SHZZok5axZeEub7w==
   dependencies:
-    "@usecapsule/core-components" "^3.1.2"
+    "@usecapsule/core-components" "^3.1.3"
 
-"@usecapsule/react-sdk@3.14.0", "@usecapsule/react-sdk@^3.7.0", "@usecapsule/react-sdk@latest":
+"@usecapsule/react-sdk@3.14.0", "@usecapsule/react-sdk@^3.7.0":
   version "3.14.0"
   resolved "https://registry.yarnpkg.com/@usecapsule/react-sdk/-/react-sdk-3.14.0.tgz#555aa8e465f708f9e338e615ae201d6469b9df3f"
   integrity sha512-Gb2vrMaOJQF+9w8QyBd3eTduMhVDz9yuIsQFU3D/xcuIZOfuOFeMPYmvBTgqUbERGZzILBL2ien/ITdDe5tXYQ==
@@ -6833,6 +6853,22 @@
     styled-components "^6.1.8"
     zustand "^4.5.2"
 
+"@usecapsule/react-sdk@^3.17.0":
+  version "3.17.0"
+  resolved "https://registry.yarnpkg.com/@usecapsule/react-sdk/-/react-sdk-3.17.0.tgz#9db376dd80b321a41e15219d5285355deeee525c"
+  integrity sha512-KpweheO9/1Y0HUBOXCdcaiWtzDsbkaSfLeQ+ukBu2rJyApSP1igPxosmJnv2WZJqDtd279iKchJa2aNc5U7P2g==
+  dependencies:
+    "@gsap/react" "^2.1.0"
+    "@ramp-network/ramp-instant-sdk" "^4.0.2"
+    "@stripe/crypto" "^0.0.4"
+    "@stripe/stripe-js" "^3.4.0"
+    "@usecapsule/react-components" "^3.1.3"
+    "@usecapsule/web-sdk" "1.23.0"
+    gsap "^3.12.5"
+    libphonenumber-js "^1.11.1"
+    styled-components "^6.1.8"
+    zustand "^4.5.2"
+
 "@usecapsule/solana-web3.js-v1-integration@latest":
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/@usecapsule/solana-web3.js-v1-integration/-/solana-web3.js-v1-integration-0.5.0.tgz#39d9e9224feaaf777b196a3e67e81a2ff02c60c6"
@@ -6853,6 +6889,14 @@
   version "1.15.0"
   resolved "https://registry.yarnpkg.com/@usecapsule/user-management-client/-/user-management-client-1.15.0.tgz#1d7773e0193c86d8637dae431ba35cc4e0885b34"
   integrity sha512-Eg8ra20/26TJiFD4SVBLUhHG/AOCKDqH2wAjv0dtryy+l6Bo5vAoiYNEuX2wDYIAvtthpo3AcAbfQtdXemBpcQ==
+  dependencies:
+    axios "^1.6.3"
+    qs "^6.12.0"
+
+"@usecapsule/user-management-client@1.18.0":
+  version "1.18.0"
+  resolved "https://registry.yarnpkg.com/@usecapsule/user-management-client/-/user-management-client-1.18.0.tgz#54d58150538b2608afe32ba8e7985665374c2252"
+  integrity sha512-F0q5OQV2GiXQ0US8hnEPaCQ3fITSaubodalhw83wLlYUnC9BY0Xd1hXfGh2lcru17TKQYWIoImWf3aZnwN3LnA==
   dependencies:
     axios "^1.6.3"
     qs "^6.12.0"
@@ -6958,13 +7002,26 @@
     cbor-web "8.1.0"
     node-forge "1.3.1"
 
-"@usecapsule/web-sdk@1.20.0", "@usecapsule/web-sdk@latest":
+"@usecapsule/web-sdk@1.20.0":
   version "1.20.0"
   resolved "https://registry.yarnpkg.com/@usecapsule/web-sdk/-/web-sdk-1.20.0.tgz#e6dba5c32b80f6cdfae6de698dff13a642a4dd61"
   integrity sha512-GUrrzABzsF3whnjvcK5pnVHArSK+7n+8RbLzk0+7tLwpg0ROwnGZ/C6OXopL6oiCafNsBFYHp4SS5hMeL17gEg==
   dependencies:
     "@usecapsule/core-sdk" "1.18.0"
     "@usecapsule/user-management-client" "1.15.0"
+    assert "^2.1.0"
+    base64url "3.0.1"
+    buffer "6.0.3"
+    cbor-web "8.1.0"
+    node-forge "1.3.1"
+
+"@usecapsule/web-sdk@1.23.0", "@usecapsule/web-sdk@^1.23.0":
+  version "1.23.0"
+  resolved "https://registry.yarnpkg.com/@usecapsule/web-sdk/-/web-sdk-1.23.0.tgz#b359653892300299b1898acf5241a4537d787da8"
+  integrity sha512-d0gG/CZR/zuJlpyGBNidfHrkQI1B7PRwRDkXFJrJEOBGX4oOUUUtRvhGxeK9l2fIdWjNO7hZ01V5hkm1u00YFw==
+  dependencies:
+    "@usecapsule/core-sdk" "1.21.0"
+    "@usecapsule/user-management-client" "1.18.0"
     assert "^2.1.0"
     base64url "3.0.1"
     buffer "6.0.3"
@@ -8369,9 +8426,9 @@ balanced-match@^1.0.0:
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
 
 base-x@^3.0.2:
-  version "3.0.9"
-  resolved "https://registry.yarnpkg.com/base-x/-/base-x-3.0.9.tgz#6349aaabb58526332de9f60995e548a53fe21320"
-  integrity sha512-H7JU6iBHTal1gp56aKoaa//YUxEaAOUiydvrV/pILqIHXTtqxSkATOnDA2u+jZ/61sD+L/412+7kzXRtWukhpQ==
+  version "3.0.10"
+  resolved "https://registry.yarnpkg.com/base-x/-/base-x-3.0.10.tgz#62de58653f8762b5d6f8d9fe30fa75f7b2585a75"
+  integrity sha512-7d0s06rR9rYaIWHkpfLIFICM/tkSVdoPC9qYAQRpxn9DdKNWNsKC0uk++akckyLq16Tx2WIinnZ6WRriAt6njQ==
   dependencies:
     safe-buffer "^5.0.1"
 
@@ -10527,7 +10584,20 @@ elliptic@6.5.4:
     minimalistic-assert "^1.0.1"
     minimalistic-crypto-utils "^1.0.1"
 
-elliptic@^6.4.0, elliptic@^6.5.2, elliptic@^6.5.3, elliptic@^6.5.4, elliptic@^6.5.5:
+elliptic@^6.4.0, elliptic@^6.5.2, elliptic@^6.5.4:
+  version "6.5.6"
+  resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.5.6.tgz#ee5f7c3a00b98a2144ac84d67d01f04d438fa53e"
+  integrity sha512-mpzdtpeCLuS3BmE3pO3Cpp5bbjlOPY2Q0PgoF+Od1XZrHLYI28Xe3ossCmYCQt11FQKEYd9+PF8jymTvtWJSHQ==
+  dependencies:
+    bn.js "^4.11.9"
+    brorand "^1.1.0"
+    hash.js "^1.0.0"
+    hmac-drbg "^1.0.1"
+    inherits "^2.0.4"
+    minimalistic-assert "^1.0.1"
+    minimalistic-crypto-utils "^1.0.1"
+
+elliptic@^6.5.3, elliptic@^6.5.5:
   version "6.5.5"
   resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.5.5.tgz#c715e09f78b6923977610d4c2346d6ce22e6dded"
   integrity sha512-7EjbcmUm17NQFu4Pmgmq2olYMj8nwMnpcddByChSUjArp8F5DQWcIcpriwO4ZToLNAJig0yiyjswfyGNje/ixw==
@@ -11321,9 +11391,9 @@ eth-rpc-errors@^4.0.2, eth-rpc-errors@^4.0.3:
     fast-safe-stringify "^2.0.6"
 
 ethereum-bloom-filters@^1.0.6:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/ethereum-bloom-filters/-/ethereum-bloom-filters-1.1.0.tgz#b3fc1eb789509ee30db0bf99a2988ccacb8d0397"
-  integrity sha512-J1gDRkLpuGNvWYzWslBQR9cDV4nd4kfvVTE/Wy4Kkm4yb3EYRSlyi0eB/inTsSTTVyA0+HyzHgbr95Fn/Z1fSw==
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/ethereum-bloom-filters/-/ethereum-bloom-filters-1.2.0.tgz#8294f074c1a6cbd32c39d2cc77ce86ff14797dab"
+  integrity sha512-28hyiE7HVsWubqhpVLVmZXFd4ITeHi+BUu05o9isf0GUpMtzBUi+8/gFrGaGYzvGAJQmJ3JKj77Mk9G98T84rA==
   dependencies:
     "@noble/hashes" "^1.4.0"
 
@@ -14383,9 +14453,9 @@ libphonenumber-js@1.11.2:
   integrity sha512-V9mGLlaXN1WETzqQvSu6qf6XVAr3nFuJvWsHcuzCCCo6xUKawwSxOPTpan5CGOSKTn5w/bQuCZcLPJkyysgC3w==
 
 libphonenumber-js@^1.11.1:
-  version "1.11.4"
-  resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.11.4.tgz#e63fe553f45661b30bb10bb8c82c9cf2b22ec32a"
-  integrity sha512-F/R50HQuWWYcmU/esP5jrH5LiWYaN7DpN0a/99U8+mnGGtnx8kmRE+649dQh3v+CowXXZc8vpkf5AmYkO0AQ7Q==
+  version "1.11.5"
+  resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.11.5.tgz#50a441da5ff9ed9a322d796a14f1e9cbc0fdabdf"
+  integrity sha512-TwHR5BZxGRODtAfz03szucAkjT5OArXr+94SMtAM2pYXIlQNVMrxvb6uSCbnaJJV6QXEyICk7+l6QPgn72WHhg==
 
 libsodium-sumo@^0.7.13:
   version "0.7.13"
@@ -17263,10 +17333,17 @@ qs@6.11.0:
   dependencies:
     side-channel "^1.0.4"
 
-qs@^6.11.2, qs@^6.12.0:
+qs@^6.11.2:
   version "6.12.2"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.12.2.tgz#5443b587f3bf73ac68968de491e5b25bafe04478"
   integrity sha512-x+NLUpx9SYrcwXtX7ob1gnkSems4i/mGZX5SlYxwIau6RrUSODO89TR/XDGGpn5RPWSYIB+aSfuSlV5+CmbTBg==
+  dependencies:
+    side-channel "^1.0.6"
+
+qs@^6.12.0:
+  version "6.12.3"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.12.3.tgz#e43ce03c8521b9c7fd7f1f13e514e5ca37727754"
+  integrity sha512-AWJm14H1vVaO/iNZ4/hO+HyaTehuy9nRqVdkTqlJt0HWvBiBIEXFmb4C0DGeYo3Xes9rrEW+TxHsaigCbN5ICQ==
   dependencies:
     side-channel "^1.0.6"
 
@@ -18999,9 +19076,9 @@ style-loader@^4.0.0:
   integrity sha512-1V4WqhhZZgjVAVJyt7TdDPZoPBPNHbekX4fWnCJL1yQukhCeZhJySUL+gL9y6sNdN95uEOS83Y55SqHcP7MzLA==
 
 styled-components@^6.1.8:
-  version "6.1.11"
-  resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-6.1.11.tgz#01948e5195bf1d39e57e0a85b41958c80e40cfb8"
-  integrity sha512-Ui0jXPzbp1phYij90h12ksljKGqF8ncGx+pjrNPsSPhbUUjWT2tD1FwGo2LF6USCnbrsIhNngDfodhxbegfEOA==
+  version "6.1.12"
+  resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-6.1.12.tgz#0d9d511aacfb9052936146dcc2856559e6fae4df"
+  integrity sha512-n/O4PzRPhbYI0k1vKKayfti3C/IGcPf+DqcrOB7O/ab9x4u/zjqraneT5N45+sIe87cxrCApXM8Bna7NYxwoTA==
   dependencies:
     "@emotion/is-prop-valid" "1.2.2"
     "@emotion/unitless" "0.8.1"
