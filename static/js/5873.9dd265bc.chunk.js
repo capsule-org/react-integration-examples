@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkreact_app=self.webpackChunkreact_app||[]).push([[5873],{15873:(e,a,r)=>{r.r(a),r.d(a,{cpsl_row:()=>c});var s=r(1759);const c=class{constructor(e){(0,s.r)(this,e)}render(){return(0,s.h)(s.H,{key:"7f72521f5a00092d54fb143c73334dfdc8d5daf7"},(0,s.h)("slot",{key:"a23bda8f3a3178b61e409f73e6004586f8b26509"}))}};c.style=":host{display:flex;flex-wrap:wrap}"}}]);
+//# sourceMappingURL=5873.9dd265bc.chunk.js.map
