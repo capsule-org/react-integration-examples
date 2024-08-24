@@ -10,12 +10,9 @@ import {
 import {
   AuthenticationOptions,
   CapsuleAuthOptions,
-  Card,
-  CardHeader,
   Toaster,
   Navbar,
 } from "./components";
-import CapsuleSunriseHero from "./assets/images/capsule-sunrise-hero.svg";
 
 type CapsuleDemoProps = {
   framework: string;
@@ -44,48 +41,42 @@ export const CapsuleDemo: React.FC<CapsuleDemoProps> = ({ framework }) => {
     };
 
     const SelectedComponent = options[selectedAuthOption];
-    // const params = extraParams[selectedAuthOption];
     if (SelectedComponent) {
       return (
-        <SelectedComponent
-          setSelectedAuthOption={setSelectedAuthOption}
-          // {...params}
-        />
+        <SelectedComponent setSelectedAuthOption={setSelectedAuthOption} />
       );
     }
 
-    return <AuthenticationOptions setSelectedOption={setSelectedAuthOption} />;
+    return null;
   }, [selectedAuthOption]);
 
   return (
-    <div className="relative flex flex-col h-screen">
+    <div className="flex flex-col h-screen">
       <Navbar framework={framework} />
-      <div
-        className="absolute inset-0 bg-no-repeat bg-cover bg-center"
-        style={{ backgroundImage: `url(${CapsuleSunriseHero})` }}
-      />
-      <div className="relative flex flex-1 justify-center items-center z-10">
-        <Card className="mx-auto shadow-lg flex flex-col p-4 w-[calc(100%-1rem)] max-w-md min-h-[400px] max-h-[calc(100vh-24rem)] sm:w-[calc(100%-4rem)] sm:max-w-lg md:max-w-xl lg:max-w-2xl overflow-auto">
+      <main className="flex-grow pt-12">
+        <div className="container mx-auto px-4 py-8 max-w-7xl">
           {selectedAuthOption === CapsuleAuthOptions.None ? (
             <>
-              <CardHeader>
-                <h2 className="text-xl font-bold">
+              <div className="text-center mb-8">
+                <h2 className="text-3xl font-bold mb-2">
                   Capsule SDK Authentication Options
                 </h2>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-lg text-muted-foreground">
                   Select an option to explore different Capsule SDK integration
                   methods
                 </p>
-              </CardHeader>
+              </div>
               <AuthenticationOptions
                 setSelectedOption={setSelectedAuthOption}
               />
             </>
           ) : (
-            renderAuthOption
+            <div className="bg-card p-6 rounded-lg shadow-lg">
+              {renderAuthOption}
+            </div>
           )}
-        </Card>
-      </div>
+        </div>
+      </main>
       <Toaster />
     </div>
   );
