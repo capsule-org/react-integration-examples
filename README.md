@@ -31,22 +31,22 @@ Each of these applications demonstrates how to set up and use Capsule within its
 
 Contains shared packages and components used by the example applications:
 
-- [`integration-examples/`](./packages/integration-examples/): Houses shared React components and example implementations
-  - [`src/examples/`](./packages/integration-examples/src/examples/): Contains end-to-end examples for various Capsule integration scenarios
+- [`integration-examples/`](./packages/shared-examples/): Houses shared React components and example implementations
+  - [`src/examples/`](./packages/shared-examples/src/examples/): Contains end-to-end examples for various Capsule integration scenarios
 
 ## Integration Examples
 
-The [`packages/integration-examples/src/examples`](./packages/integration-examples/src/examples/) folder contains dedicated files for each Capsule integration flow. Here's a brief overview:
+The [`packages/shared-examples/src/examples`](./packages/shared-examples/src/examples/) folder contains dedicated files for each Capsule integration flow. Here's a brief overview:
 
-- [**CapsuleModalAuthenticationExample**](./packages/integration-examples/src/examples/CapsuleModalAuthenticationExample.tsx): Shows how to implement authentication using the standard Capsule modal. (**Recommended**)
-- [**CapsuleSigningExamples**](./packages/integration-examples/src/examples/CapsuleSigningExamples.ts): Provides example methods for signing transactions or messages with Capsule using Ethers and Viem.
-- [**EmailAuthenticationExample**](./packages/integration-examples/src/examples/EmailAuthenticationExample.tsx): Demonstrates email-based authentication using Capsule, allowing for more white-labeling.
-- [**OAuthAuthenticationExample**](./packages/integration-examples/src/examples/OAuthAuthenticationExample.tsx): Shows OAuth authentication implementation with Capsule.
-- [**RainbowkitAuthenticationExample**](./packages/integration-examples/src/examples/RainbowkitAuthenticationExample.tsx): Demonstrates integrating Capsule with Rainbowkit.
-- [**WalletPregenerationExample**](./packages/integration-examples/src/examples/WalletPregenerationExample.tsx): Showcases Capsule's wallet pregeneration feature.
-- [**Web3OnboardAuthenticationExample**](./packages/integration-examples/src/examples/Web3OnboardAuthenticationExample.tsx): Illustrates using Capsule with Web3Onboard.
-- [**CapsuleLeapModalAuthenticationExample**](./packages/integration-examples/src/examples/CapsuleLeapModalAuthenticationExample.tsx): Demonstrates authentication using Leap Wallets.
-- [**CapsuleSolanaAuthenticationExample**](./packages/integration-examples/src/examples/CapsuleSolanaAuthenticationExample.tsx): Shows Solana-specific authentication flows with Capsule.
+- [**CapsuleModalAuthenticationExample**](./packages/shared-examples/src/examples/CapsuleModalAuthenticationExample.tsx): Shows how to implement authentication using the standard Capsule modal. (**Recommended**)
+- [**CapsuleSigningExamples**](./packages/shared-examples/src/examples/CapsuleSigningExamples.ts): Provides example methods for signing transactions or messages with Capsule using Ethers and Viem.
+- [**EmailAuthenticationExample**](./packages/shared-examples/src/examples/EmailAuthenticationExample.tsx): Demonstrates email-based authentication using Capsule, allowing for more white-labeling.
+- [**OAuthAuthenticationExample**](./packages/shared-examples/src/examples/OAuthAuthenticationExample.tsx): Shows OAuth authentication implementation with Capsule.
+- [**RainbowkitAuthenticationExample**](./packages/shared-examples/src/examples/RainbowkitAuthenticationExample.tsx): Demonstrates integrating Capsule with Rainbowkit.
+- [**WalletPregenerationExample**](./packages/shared-examples/src/examples/WalletPregenerationExample.tsx): Showcases Capsule's wallet pregeneration feature.
+- [**Web3OnboardAuthenticationExample**](./packages/shared-examples/src/examples/Web3OnboardAuthenticationExample.tsx): Illustrates using Capsule with Web3Onboard.
+- [**CapsuleLeapModalAuthenticationExample**](./packages/shared-examples/src/examples/CapsuleLeapModalAuthenticationExample.tsx): Demonstrates authentication using Leap Wallets.
+- [**CapsuleSolanaAuthenticationExample**](./packages/shared-examples/src/examples/CapsuleSolanaAuthenticationExample.tsx): Shows Solana-specific authentication flows with Capsule.
 
 ## Getting Started
 
@@ -104,7 +104,7 @@ yarn clean-install
 ## Why This Structure?
 
 1. **Framework Flexibility**: By separating framework-specific configurations, developers can easily understand how to integrate Capsule in their preferred React environment.
-2. **Shared Logic**: The [`packages/integration-examples`](./packages/integration-examples/) directory demonstrates how core Capsule integration logic can be shared across different React applications.
+2. **Shared Logic**: The [`packages/shared-examples`](./packages/shared-examples/) directory demonstrates how core Capsule integration logic can be shared across different React applications.
 3. **Comprehensive Examples**: Each integration example provides a full, end-to-end implementation, allowing developers to see the complete picture of a Capsule integration.
 4. **Easy Testing**: The ability to run all examples simultaneously allows for quick comparison and testing across different frameworks.
 

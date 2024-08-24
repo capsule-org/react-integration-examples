@@ -24,7 +24,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Yarn cache
         uses: actions/cache@v4
@@ -40,18 +40,15 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build react-app
-        run: yarn build:react-app
+        run: yarn build:with-react-craco
         env:
           CI: true
           PUBLIC_URL: /pr-preview/pr-${{ github.event.number }}
 
-      - name: List build directory contents
-        run: ls -la examples/react-app/build
-
       - name: Deploy preview
         uses: rossjrw/pr-preview-action@v1
         with:
-          source-dir: ./examples/react-app/build
+          source-dir: ./packages/with-react-craco/build
           preview-branch: gh-pages
           umbrella-dir: pr-preview
           action: deploy

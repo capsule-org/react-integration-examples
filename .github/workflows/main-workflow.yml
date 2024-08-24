@@ -23,7 +23,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Yarn cache
         uses: actions/cache@v4
@@ -39,17 +39,14 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build react-app
-        run: yarn build:react-app
+        run: yarn build:with-react-craco
         env:
           CI: true
-
-      - name: List build directory contents
-        run: ls -la examples/react-app/build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./examples/react-app/build
+          publish_dir: ./packages/with-react-craco/build
           force_orphan: true
           publish_branch: gh-pages

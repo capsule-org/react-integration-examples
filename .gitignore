@@ -15,4 +15,4 @@ node_modules
 
 .DS_Store
 
-packages/integration-examples/lib/*.DS_Store
+packages/shared-examples/lib/*.DS_Store
