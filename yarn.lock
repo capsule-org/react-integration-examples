@@ -6823,6 +6823,22 @@
     styled-components "^6.1.8"
     zustand "^4.5.2"
 
+"@usecapsule/react-sdk@3.17.0", "@usecapsule/react-sdk@latest":
+  version "3.17.0"
+  resolved "https://registry.yarnpkg.com/@usecapsule/react-sdk/-/react-sdk-3.17.0.tgz#9db376dd80b321a41e15219d5285355deeee525c"
+  integrity sha512-KpweheO9/1Y0HUBOXCdcaiWtzDsbkaSfLeQ+ukBu2rJyApSP1igPxosmJnv2WZJqDtd279iKchJa2aNc5U7P2g==
+  dependencies:
+    "@gsap/react" "^2.1.0"
+    "@ramp-network/ramp-instant-sdk" "^4.0.2"
+    "@stripe/crypto" "^0.0.4"
+    "@stripe/stripe-js" "^3.4.0"
+    "@usecapsule/react-components" "^3.1.3"
+    "@usecapsule/web-sdk" "1.23.0"
+    gsap "^3.12.5"
+    libphonenumber-js "^1.11.1"
+    styled-components "^6.1.8"
+    zustand "^4.5.2"
+
 "@usecapsule/react-sdk@3.7.1":
   version "3.7.1"
   resolved "https://registry.yarnpkg.com/@usecapsule/react-sdk/-/react-sdk-3.7.1.tgz#06ce68c6c91b89e05df12119cc6a7163e28cca80"
@@ -6848,22 +6864,6 @@
     "@stripe/stripe-js" "^3.4.0"
     "@usecapsule/react-components" "^2.0.9"
     "@usecapsule/web-sdk" "1.15.0"
-    gsap "^3.12.5"
-    libphonenumber-js "^1.11.1"
-    styled-components "^6.1.8"
-    zustand "^4.5.2"
-
-"@usecapsule/react-sdk@^3.17.0":
-  version "3.17.0"
-  resolved "https://registry.yarnpkg.com/@usecapsule/react-sdk/-/react-sdk-3.17.0.tgz#9db376dd80b321a41e15219d5285355deeee525c"
-  integrity sha512-KpweheO9/1Y0HUBOXCdcaiWtzDsbkaSfLeQ+ukBu2rJyApSP1igPxosmJnv2WZJqDtd279iKchJa2aNc5U7P2g==
-  dependencies:
-    "@gsap/react" "^2.1.0"
-    "@ramp-network/ramp-instant-sdk" "^4.0.2"
-    "@stripe/crypto" "^0.0.4"
-    "@stripe/stripe-js" "^3.4.0"
-    "@usecapsule/react-components" "^3.1.3"
-    "@usecapsule/web-sdk" "1.23.0"
     gsap "^3.12.5"
     libphonenumber-js "^1.11.1"
     styled-components "^6.1.8"
@@ -6939,6 +6939,13 @@
   dependencies:
     "@usecapsule/core-sdk" "1.18.0"
 
+"@usecapsule/viem-v2-integration@1.20.0":
+  version "1.20.0"
+  resolved "https://registry.yarnpkg.com/@usecapsule/viem-v2-integration/-/viem-v2-integration-1.20.0.tgz#092bc04c0f767bdb5300fb03c329adc04d2092ab"
+  integrity sha512-SkSsHEBFAAJoQMZVj0CPtsU487LMbr/cdkTgV26Obq91+nNoKMoc5cWAmcpI9+UgSQt9fbFo5IA4UacjSSvD2g==
+  dependencies:
+    "@usecapsule/core-sdk" "1.21.0"
+
 "@usecapsule/wagmi-v1-integration@latest":
   version "2.14.0"
   resolved "https://registry.yarnpkg.com/@usecapsule/wagmi-v1-integration/-/wagmi-v1-integration-2.14.0.tgz#bd5a09802a6f7b1f2f5476d8a300ad3df7412d6e"
@@ -6955,13 +6962,21 @@
     "@usecapsule/react-sdk" "3.9.0"
     "@usecapsule/viem-v2-integration" "1.12.0"
 
-"@usecapsule/wagmi-v2-integration@^2.8.0", "@usecapsule/wagmi-v2-integration@latest":
+"@usecapsule/wagmi-v2-integration@^2.8.0":
   version "2.15.0"
   resolved "https://registry.yarnpkg.com/@usecapsule/wagmi-v2-integration/-/wagmi-v2-integration-2.15.0.tgz#f0ac66e9cbe57c27bd6f712b65ae8300d931be4a"
   integrity sha512-RZNwAJ3zgxp3UT+53A908R5FSHj9xVvGvhSiaNuCgSC8wfsk0FQGMR4CJxQ1SwFB6zADKEHn50gNY93Kfo0s3A==
   dependencies:
     "@usecapsule/react-sdk" "3.14.0"
     "@usecapsule/viem-v2-integration" "1.17.0"
+
+"@usecapsule/wagmi-v2-integration@latest":
+  version "2.18.0"
+  resolved "https://registry.yarnpkg.com/@usecapsule/wagmi-v2-integration/-/wagmi-v2-integration-2.18.0.tgz#f030f9d090e3eb58882442e831a054d4c7ee0361"
+  integrity sha512-7Ho2EKq8/72w/RvbhRqNVdWdObm3pPOzwACq7GaqdVVuq1U3fwMrJOHUybiUC9iAJY6RseB6AhB5LKlTggZeGw==
+  dependencies:
+    "@usecapsule/react-sdk" "3.17.0"
+    "@usecapsule/viem-v2-integration" "1.20.0"
 
 "@usecapsule/web-sdk@1.12.0":
   version "1.12.0"

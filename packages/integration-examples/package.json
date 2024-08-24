@@ -42,7 +42,7 @@
     "@usecapsule/ethers-v6-integration": "latest",
     "@usecapsule/rainbowkit": "latest",
     "@usecapsule/rainbowkit-wallet": "latest",
-    "@usecapsule/react-sdk": "^3.17.0",
+    "@usecapsule/react-sdk": "latest",
     "@usecapsule/solana-web3.js-v1-integration": "latest",
     "@usecapsule/viem-v1-integration": "latest",
     "@usecapsule/viem-v2-integration": "latest",
