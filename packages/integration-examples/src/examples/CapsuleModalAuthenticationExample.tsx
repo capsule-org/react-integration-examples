@@ -227,6 +227,7 @@ export const CapsuleModalAuthenticationExample: React.FC<
         disableEmailLogin={disableEmailLogin}
         disablePhoneLogin={disablePhoneLogin}
         onRampConfig={{
+          network: "ethereum",
           asset: "eth",
           providers: [
             { id: "STRIPE" },
