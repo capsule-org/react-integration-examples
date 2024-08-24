@@ -16,7 +16,7 @@
     "incremental": true,
     "baseUrl": "src",
     "paths": {
-      "@usecapsule/shared-examples/*": ["../shared-examples/src/*"]
+      "@usecapsule/shared-examples/*": ["../shared-examples/*"]
     },
     "noUnusedLocals": true,
     "noUnusedParameters": true,

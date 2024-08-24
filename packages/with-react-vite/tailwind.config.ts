@@ -6,7 +6,7 @@ module.exports = {
   content: [
     "src/**/*.{js,jsx,ts,tsx}",
     "index.html",
-    "../shared-examples/src/**/*.{js,jsx,ts,tsx}",
+    "../shared-examples/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     container: {

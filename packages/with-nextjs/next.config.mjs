@@ -21,7 +21,7 @@ const nextConfig = {
   webpack: (config, { isServer }) => {
     config.resolve.alias["@usecapsule/shared-examples"] = path.resolve(
       __dirname,
-      "../shared-examples/src"
+      "../shared-examples"
     );
 
     config.module.rules.push({

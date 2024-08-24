@@ -4,7 +4,7 @@ module.exports = {
   darkMode: ["class"],
   content: [
     "src/**/*.{js,jsx,ts,tsx}",
-    "../shared-examples/src/**/*.{js,jsx,ts,tsx}",
+    "../shared-examples/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     container: {

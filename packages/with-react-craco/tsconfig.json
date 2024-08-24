@@ -16,12 +16,12 @@
     "incremental": true,
     "baseUrl": "src",
     "paths": {
-      "@usecapsule/shared-examples/*": ["../shared-examples/src/*"]
+      "@usecapsule/shared-examples/*": ["../shared-examples/*"]
     },
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "../shared-examples/src"],
+  "include": ["src", "../shared-examples"],
   "exclude": ["node_modules"]
 }

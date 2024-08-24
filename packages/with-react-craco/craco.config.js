@@ -8,7 +8,7 @@ module.exports = {
         ...webpackConfig.resolve.alias,
         "@usecapsule/shared-examples": path.resolve(
           __dirname,
-          "../shared-examples/src"
+          "../shared-examples"
         ),
         "ethers-v5": path.resolve(__dirname, "../../node_modules/ethers"),
         "ethers-v6": path.resolve(
