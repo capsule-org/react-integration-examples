@@ -9,6 +9,7 @@ import {
   Button,
 } from "../components";
 import { useConnectWallet, init } from "@web3-onboard/react";
+import { CapsuleInitOptions } from "@web3-onboard/capsule/dist/types";
 
 // Capsule SDK integration example with BlockNative's Web3-Onboard.
 // This tutorial demonstrates how to integrate Capsule as a wallet option in Web3-Onboard.
@@ -28,7 +29,8 @@ const CAPSULE_ENVIRONMENT = Environment.DEVELOPMENT;
 
 // Step 3: Initialize the Capsule module for Web3-Onboard
 // Configure the Capsule module with your API key, environment, and other options
-const capsule = capsuleModule({
+
+const initOptions:CapsuleInitOptions ={
   environment: CAPSULE_ENVIRONMENT,
   apiKey: CAPSULE_API_KEY,
   modalProps: {
@@ -44,7 +46,8 @@ const capsule = capsuleModule({
   walletLabel: "Sign in with Capsule",
   walletIcon: async () =>
     (await import("../assets/images/capsule-logo.svg")).default,
-});
+}
+const capsule = capsuleModule(initOptions);
 
 // Step 4: Configure the list of wallets for Web3-Onboard
 // In this example, we're only including Capsule, but you can add other wallets here
