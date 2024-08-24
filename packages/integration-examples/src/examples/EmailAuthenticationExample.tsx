@@ -127,7 +127,10 @@ export const EmailAuthenticationExample: React.FC<
         const { needsWallet } = await capsuleClient.waitForLoginAndSetup();
 
         if (needsWallet) {
-          await capsuleClient.createWallet();
+          const [wallet, secret] = await capsuleClient.createWallet();
+          setWalletId(wallet.id!);
+          setWalletAddress(wallet.address!);
+          setUserRecoverySecret(secret || "");
         }
         await checkLoginStatus();
         if (isUserLoggedIn) {
