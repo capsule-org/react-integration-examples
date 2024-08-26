@@ -1,7 +1,7 @@
 {
   "name": "@usecapsule/shared-examples",
   "version": "0.1.0",
-  "main": "src/index.tsx",
+  "main": "index.tsx",
   "peerDependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
@@ -56,6 +56,7 @@
     "lucide-react": "^0.435.0",
     "react-colorful": "^5.6.1",
     "react-qr-code": "^2.0.15",
+    "shiki": "^1.14.1",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "viem": "^2.13.3",
