@@ -6,10 +6,12 @@
   ],
   "scripts": {
     "start:with-react-craco": "lerna run start --scope with-react-craco",
+    "start:With-react-pwa": "lerna run start --scope with-react-pwa",
     "start:with-react-vite": "lerna run start --scope with-react-vite",
     "start:with-nextjs": "lerna run start --scope with-nextjs",
     "start:all": "lerna run start --parallel",
     "build:with-react-craco": "lerna run build --scope with-react-craco",
+    "build:with-react-pwa": "lerna run build --scope with-react-pwa",
     "build:with-react-vite": "lerna run build --scope with-react-vite",
     "build:with-nextjs": "lerna run build --scope with-nextjs",
     "build:all": "lerna run build --parallel",
