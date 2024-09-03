@@ -17,6 +17,7 @@ const nextConfig = {
     "@usecapsule/web-sdk",
     "@usecapsule/wagmi-v2-integration",
     "@usecapsule/viem-v2-integration",
+    "@usecapsule/shared-examples",
   ],
   webpack: (config, { isServer }) => {
     config.resolve.alias["@usecapsule/shared-examples"] = path.resolve(

@@ -2,6 +2,7 @@
   "name": "with-react-vite",
   "private": true,
   "version": "0.1.0",
+  "homepage": "https://capsule-org.github.io/react-integration-examples/",
   "scripts": {
     "start": "vite",
     "build": "tsc && vite build",

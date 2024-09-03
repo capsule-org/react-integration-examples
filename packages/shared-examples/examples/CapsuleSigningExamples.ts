@@ -26,7 +26,6 @@ import {
 } from "viem";
 import { sepolia as sepoliaViemV2 } from "viem/chains";
 
-
 const signWithEthersV5 = async (
   capsule: Capsule,
   message: string

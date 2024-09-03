@@ -51,7 +51,7 @@ export const CapsuleDemo: React.FC<CapsuleDemoProps> = ({ framework }) => {
   }, [selectedAuthOption]);
 
   return (
-    <div className="flex flex-col h-screen font-sans">
+    <div id="CapsuleApp" className="flex flex-col h-screen !font-sans">
       <Navbar framework={framework} />
       <main className="flex-grow pt-16 overflow-hidden">
         <div className="container mx-auto px-4 py-8 max-w-8xl h-full flex flex-col">

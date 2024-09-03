@@ -56,7 +56,9 @@ const constructorOpts: ConstructorOpts = {
   xUrl: "https://x.com/usecapsule",
   homepageUrl: "https://usecapsule.com/",
   supportUrl: "https://usecapsule.com/talk-to-us",
-  supportedWalletTypes: [WalletType.SOLANA],
+  supportedWalletTypes: {
+    [WalletType.SOLANA]: true, // Enable Solana wallet support
+  },
 };
 
 // Step 4: Initialize the Capsule client
@@ -83,7 +85,7 @@ export const CapsuleSolanaAuthenticationExample: React.FC<
   const [walletId, setWalletId] = useState<string>("");
   const [walletAddress, setWalletAddress] = useState<string>("");
 
-  const [userRecoverySecret, setUserRecoverySecret] = useState<string>("");
+  const [userRecoverySecret] = useState<string>("");
 
   // Step 5: Check user's login status
   // This effect runs on component mount to determine if the user is already logged in
@@ -96,10 +98,10 @@ export const CapsuleSolanaAuthenticationExample: React.FC<
       const isLoggedIn = await capsuleClient.isFullyLoggedIn();
 
       if (isLoggedIn) {
-        const solanaWallets = capsuleClient.getED25519Wallets();
-        console.log(solanaWallets);
-        setWalletId(Object.values(solanaWallets)[0].id!);
-        setWalletAddress(Object.values(solanaWallets)[0].address!);
+        const wallets = capsuleClient.getWallets();
+        console.log("Capsule wallets:", wallets);
+        setWalletId(Object.values(wallets)[0].id!);
+        setWalletAddress(Object.values(wallets)[0].address!);
         toast({
           title: "Logged In",
           description:

@@ -3,6 +3,7 @@ import Capsule, {
   ConstructorOpts,
   Environment,
   OAuthMethod,
+  WalletType,
 } from "@usecapsule/react-sdk";
 import { useEffect, useState } from "react";
 import "@usecapsule/react-sdk/styles.css";
@@ -43,6 +44,10 @@ const constructorOpts: ConstructorOpts = {
   xUrl: "https://x.com/usecapsule",
   homepageUrl: "https://usecapsule.com/",
   supportUrl: "https://usecapsule.com/talk-to-us",
+  supportedWalletTypes: {
+    //only add the wallet types you support
+    [WalletType.EVM]: true,
+  },
 };
 
 // Step 4: Initialize the Capsule client
@@ -71,7 +76,7 @@ export const CapsuleModalAuthenticationExample: React.FC<
   const [walletId, setWalletId] = useState<string>("");
   const [walletAddress, setWalletAddress] = useState<string>("");
 
-  const [userRecoverySecret, setUserRecoverySecret] = useState<string>("");
+  const [userRecoverySecret] = useState<string>("");
 
   // Step 5: Set up Capsule Modal customization options
   // These states are used to customize the Capsule Modal and are passed as props to the CapsuleModal component.

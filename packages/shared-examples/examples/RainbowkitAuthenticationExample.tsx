@@ -12,6 +12,7 @@ import {
   ConnectButton,
   RainbowKitProvider,
   connectorsForWallets,
+  lightTheme,
 } from "@usecapsule/rainbowkit";
 import { WagmiProvider, createConfig } from "wagmi";
 import { sepolia } from "wagmi/chains";
@@ -200,6 +201,7 @@ const RainbowkitWithCapsuleIntegrated = () => {
     <WagmiProvider config={wagmiConfigIntegrated}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider
+          theme={lightTheme()}
           capsule={capsuleClient as any}
           capsuleIntegratedProps={{
             appName: "Capsule RainbowKit Integrated Example",

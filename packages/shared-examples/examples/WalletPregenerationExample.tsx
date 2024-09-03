@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import Capsule, { ConstructorOpts, Environment } from "@usecapsule/react-sdk";
+import Capsule, {
+  ConstructorOpts,
+  Environment,
+  WalletType,
+} from "@usecapsule/react-sdk";
 import {
   CapsuleEmailAuthForm,
   CapsuleAuthOptions,
@@ -122,7 +126,7 @@ export const WalletPregenerationExample: React.FC<
         return;
       }
 
-      await capsuleClient.createWalletPreGen(email);
+      await capsuleClient.createWalletPreGen(WalletType.EVM, email);
 
       const userWalletShare = await capsuleClient.getUserShare();
 
@@ -158,8 +162,24 @@ export const WalletPregenerationExample: React.FC<
       if (isExistingUser) {
         // Existing user authentication flow
         const authUrl = await capsuleClient.initiateUserLogin(email);
-        window.open(authUrl, "popup", "popup=true,width=400,height=500");
-        await capsuleClient.waitForLoginAndSetup();
+        const popup = window.open(
+          authUrl,
+          "popup",
+          "popup=true,width=400,height=500"
+        );
+
+        if (!popup) {
+          console.error("Failed to open Capsule authentication popup");
+          toast({
+            title: "Capsule Authentication Error",
+            description:
+              "Failed to open Capsule authentication popup. Please enable popups and try again.",
+            variant: "destructive",
+          });
+          setIsLoading(false);
+          return;
+        }
+        await capsuleClient.waitForLoginAndSetup(popup);
 
         const hasPregenWallet = await capsuleClient.hasPregenWallet(email);
 
@@ -201,14 +221,14 @@ export const WalletPregenerationExample: React.FC<
       const url = await capsuleClient.verifyEmail(verificationCode);
       window.open(url, "popup", "popup=true,width=400,height=500");
 
-      const recoverySecret =
+      const { recoverySecret } =
         await capsuleClient.waitForPasskeyAndCreateWallet();
 
       toast({
         title: "Capsule Email Verified",
         description: "Your email has been verified with Capsule.",
       });
-      setUserRecoverySecret(recoverySecret);
+      setUserRecoverySecret(recoverySecret || "");
 
       checkLoginStatus();
     } catch (err) {

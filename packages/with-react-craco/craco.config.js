@@ -51,6 +51,7 @@ module.exports = {
         os: require.resolve("os-browserify/browser"),
         url: require.resolve("url"),
         buffer: require.resolve("buffer/"),
+        process: require.resolve("process/browser.js"), // Changed this line
         vm: false,
       };
 
@@ -105,7 +106,7 @@ module.exports = {
         ...webpackConfig.plugins,
         new webpack.ProvidePlugin({
           Buffer: ["buffer", "Buffer"],
-          process: "process/browser",
+          process: "process/browser.js", // Changed this line
         }),
       ];
 

@@ -114,12 +114,16 @@ export const OAuthAuthenticationExample: React.FC<
         false,
         "farcaster"
       );
-      window.open(
+      const popup = window.open(
         webAuthUrlForLogin,
         "loginPopup",
         "popup=true,width=400,height=500"
       );
-      await capsuleClient.waitForLoginAndSetup();
+      if (!popup) {
+        console.error("Failed to open login popup");
+        return;
+      }
+      await capsuleClient.waitForLoginAndSetup(popup);
     } else {
       const webAuthURLForCreate = await capsuleClient.getSetUpBiometricsURL(
         false,
@@ -130,9 +134,9 @@ export const OAuthAuthenticationExample: React.FC<
         "signUpPopup",
         "popup=true,width=400,height=500"
       );
-      const recoverySecret =
+      const { recoverySecret } =
         await capsuleClient.waitForPasskeyAndCreateWallet();
-      setUserRecoverySecret(recoverySecret);
+      setUserRecoverySecret(recoverySecret || "");
     }
   };
 
@@ -152,12 +156,17 @@ export const OAuthAuthenticationExample: React.FC<
 
     if (userExists) {
       const webAuthUrlForLogin = await capsuleClient.initiateUserLogin(email);
-      window.open(
+      const popup = window.open(
         webAuthUrlForLogin,
         "loginPopup",
         "popup=true,width=400,height=500"
       );
-      await capsuleClient.waitForLoginAndSetup();
+      if (!popup) {
+        console.error("Failed to open login popup");
+        return;
+      }
+
+      await capsuleClient.waitForLoginAndSetup(popup);
     } else {
       const webAuthURLForCreate = await capsuleClient.getSetUpBiometricsURL(
         false
@@ -167,9 +176,9 @@ export const OAuthAuthenticationExample: React.FC<
         "signUpPopup",
         "popup=true,width=400,height=500"
       );
-      const recoverySecret =
+      const { recoverySecret } =
         await capsuleClient.waitForPasskeyAndCreateWallet();
-      setUserRecoverySecret(recoverySecret);
+      setUserRecoverySecret(recoverySecret || "");
     }
   };
 

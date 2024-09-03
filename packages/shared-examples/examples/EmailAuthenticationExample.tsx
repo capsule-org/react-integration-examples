@@ -9,8 +9,6 @@ import {
   CapsuleTwoFactorSetup,
 } from "../components";
 import { signEvmMessage } from "./CapsuleSigningExamples";
-import { Card, CardContent } from "../components/core";
-import { codeToHtml } from "shiki";
 
 // Capsule SDK integration example for email-based authentication and message signing.
 // This tutorial provides a step-by-step guide to implement Capsule's authentication flow.
@@ -60,7 +58,6 @@ export const EmailAuthenticationExample: React.FC<
   const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(false);
   const [needsEmailVerification, setNeedsEmailVerification] =
     useState<boolean>(false);
-  const [userNeedsWallet, setUserNeedsWallet] = useState<boolean>(false);
 
   const [email, setEmail] = useState<string>("");
   const [verificationCode, setVerificationCode] = useState<string>("");
@@ -124,9 +121,24 @@ export const EmailAuthenticationExample: React.FC<
 
       if (isExistingUser) {
         const authUrl = await capsuleClient.initiateUserLogin(email);
-        window.open(authUrl, "popup", "popup=true,width=400,height=500");
+        const popup = window.open(
+          authUrl,
+          "popup",
+          "popup=true,width=400,height=500"
+        );
 
-        const { needsWallet } = await capsuleClient.waitForLoginAndSetup();
+        if (!popup) {
+          console.error("Popup blocked. Please allow popups and try again.");
+          toast({
+            title: "Popup Blocked",
+            description: "Please allow popups and try again.",
+            variant: "destructive",
+          });
+          setIsLoading(false);
+          return;
+        }
+
+        const { needsWallet } = await capsuleClient.waitForLoginAndSetup(popup);
 
         if (needsWallet) {
           const [wallet, secret] = await capsuleClient.createWallet();
@@ -163,10 +175,10 @@ export const EmailAuthenticationExample: React.FC<
       const url = await capsuleClient.verifyEmail(verificationCode);
       window.open(url, "popup", "popup=true,width=400,height=500");
 
-      const recoverySecret =
+      const { recoverySecret } =
         await capsuleClient.waitForPasskeyAndCreateWallet();
 
-      setUserRecoverySecret(recoverySecret);
+      setUserRecoverySecret(recoverySecret || "");
       setIsUserLoggedIn(true);
       setNeedsEmailVerification(false);
       toast({
@@ -238,7 +250,6 @@ export const EmailAuthenticationExample: React.FC<
     setNeedsEmailVerification(false);
     setMessage("");
     setUserRecoverySecret("");
-    setUserNeedsWallet(false);
     setSelectedAuthOption(CapsuleAuthOptions.None);
     setIsTwoFactorEnabled(false);
     setShowTwoFactorSetup(false);
@@ -341,194 +352,59 @@ export const EmailAuthenticationExample: React.FC<
     }
   };
 
-  const authenticationCodeSnippet = `
-  // When the user clicks the authenticate button
-  const handleAuthentication = async (email) => {
-    // Check if the user already exists
-    const isExistingUser = await capsuleClient.checkIfUserExists(email);
-  
-    if (isExistingUser) {
-      // For existing users, initiate login
-      const authUrl = await capsuleClient.initiateUserLogin(email);
-      // Open the auth URL in a popup or redirect
-      // Wait for login completion
-      await capsuleClient.waitForLoginAndSetup();
-    } else {
-      // For new users, create a new account
-      await capsuleClient.createUser(email);
-      // Proceed with email verification process
-    }
-  }
-  `;
-
-  const verificationCodeSnippet = `
-  const handleVerifyEmail = async () => {
-    setIsLoading(true);
-    try {
-      const url = await capsuleClient.verifyEmail(verificationCode);
-      window.open(url, "popup", "popup=true,width=400,height=500");
-
-      const recoverySecret = await capsuleClient.waitForPasskeyAndCreateWallet();
-
-      setUserRecoverySecret(recoverySecret);
-      setIsUserLoggedIn(true);
-      setNeedsEmailVerification(false);
-      // ... (success handling)
-      await checkLoginStatus();
-      if (isUserLoggedIn) {
-        await checkAndSetupTwoFactor();
-      }
-    } catch (err) {
-      console.error("Capsule email verification failed:", err);
-      // ... (error handling)
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  `;
-
-  const signingCodeSnippet = `
-  const handleSignMessage = async () => {
-    setIsLoading(true);
-    try {
-      const signature = await signEvmMessage(
-        capsuleClient,
-        selectedSigner,
-        message
-      );
-      setSignature(signature);
-      // ... (success handling)
-    } catch (error) {
-      console.error("Capsule message signing failed:", error);
-      // ... (error handling)
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  `;
-
   // Render the appropriate component based on the authentication state
   return (
     <>
       {isUserLoggedIn ? (
         showTwoFactorSetup ? (
-          <EmailAuthTutorial
-            codeSnippet={authenticationCodeSnippet}
-            title="Two-Factor Authentication Setup"
-          >
-            <CapsuleTwoFactorSetup
-              isLoading={isLoading}
-              twoFactorSecret={twoFactorSecret}
-              verificationCode={twoFactorVerificationCode}
-              setVerificationCode={setTwoFactorVerificationCode}
-              handleSetup2FA={handleSetup2FA}
-              handleEnable2FA={handleEnable2FA}
-              handleVerify2FA={handleVerify2FA}
-              onSkip={() => {
-                setShowTwoFactorSetup(false);
-                setTwoFactorSetupPhase(null);
-              }}
-              is2FAEnabled={isTwoFactorEnabled}
-              twoFactorSetupPhase={twoFactorSetupPhase}
-            />
-          </EmailAuthTutorial>
+          <CapsuleTwoFactorSetup
+            isLoading={isLoading}
+            twoFactorSecret={twoFactorSecret}
+            verificationCode={twoFactorVerificationCode}
+            setVerificationCode={setTwoFactorVerificationCode}
+            handleSetup2FA={handleSetup2FA}
+            handleEnable2FA={handleEnable2FA}
+            handleVerify2FA={handleVerify2FA}
+            onSkip={() => {
+              setShowTwoFactorSetup(false);
+              setTwoFactorSetupPhase(null);
+            }}
+            is2FAEnabled={isTwoFactorEnabled}
+            twoFactorSetupPhase={twoFactorSetupPhase}
+          />
         ) : (
-          <EmailAuthTutorial
-            codeSnippet={signingCodeSnippet}
-            title="Message Signing with Capsule"
-          >
-            <CapsuleSignEvmMessages
-              isLoading={isLoading}
-              signature={signature}
-              walletId={walletId}
-              walletAddress={walletAddress}
-              userRecoverySecret={userRecoverySecret}
-              message={message}
-              selectedSigner={selectedSigner}
-              isUserLoggedIn={isUserLoggedIn}
-              setSelectedSigner={setSelectedSigner}
-              setMessage={(e) => setMessage(e.target.value)}
-              handleLogout={handleLogout}
-              handleSignMessage={handleSignMessage}
-            />
-          </EmailAuthTutorial>
+          <CapsuleSignEvmMessages
+            isLoading={isLoading}
+            signature={signature}
+            walletId={walletId}
+            walletAddress={walletAddress}
+            userRecoverySecret={userRecoverySecret}
+            message={message}
+            selectedSigner={selectedSigner}
+            isUserLoggedIn={isUserLoggedIn}
+            setSelectedSigner={setSelectedSigner}
+            setMessage={(e) => setMessage(e.target.value)}
+            handleLogout={handleLogout}
+            handleSignMessage={handleSignMessage}
+          />
         )
       ) : needsEmailVerification ? (
-        <EmailAuthTutorial
-          codeSnippet={verificationCodeSnippet}
-          title="Email Verification"
-        >
-          <CapsuleEmailVerification
-            isLoading={isLoading}
-            verificationCode={verificationCode}
-            setVerificationCode={setVerificationCode}
-            handleVerifyEmail={handleVerifyEmail}
-            onCancel={resetState}
-          />
-        </EmailAuthTutorial>
+        <CapsuleEmailVerification
+          isLoading={isLoading}
+          verificationCode={verificationCode}
+          setVerificationCode={setVerificationCode}
+          handleVerifyEmail={handleVerifyEmail}
+          onCancel={resetState}
+        />
       ) : (
-        <EmailAuthTutorial
-          codeSnippet={authenticationCodeSnippet}
-          title="Email Authentication"
-        >
-          <CapsuleEmailAuthForm
-            isLoading={isLoading}
-            email={email}
-            setEmail={(e) => setEmail(e.target.value)}
-            handleAuthentication={handleAuthenticateUser}
-            onCancel={resetState}
-          />
-        </EmailAuthTutorial>
+        <CapsuleEmailAuthForm
+          isLoading={isLoading}
+          email={email}
+          setEmail={(e) => setEmail(e.target.value)}
+          handleAuthentication={handleAuthenticateUser}
+          onCancel={resetState}
+        />
       )}
     </>
   );
 };
-
-const ShikiHighlight: React.FC<{ code: string; language: string }> = ({
-  code,
-  language,
-}) => {
-  const [highlightedCode, setHighlightedCode] = useState<string>("");
-
-  useEffect(() => {
-    const highlightCode = async () => {
-      const html = await codeToHtml(code, {
-        lang: language,
-        theme: "catppuccin-macchiato",
-      });
-      setHighlightedCode(html);
-    };
-
-    highlightCode();
-  }, [code, language]);
-
-  return (
-    <div
-      className="overflow-y-scroll rounded-lg h-full"
-      dangerouslySetInnerHTML={{
-        __html: highlightedCode.replace(
-          '<pre class="shiki catppuccin-macchiato"',
-          '<pre class="shiki catppuccin-macchiato whitespace-pre-wrap p-4 h-full"'
-        ),
-      }}
-    />
-  );
-};
-
-// Updated two-column layout component
-const EmailAuthTutorial: React.FC<{
-  children: React.ReactNode;
-  codeSnippet: string;
-  title: string;
-}> = ({ children, codeSnippet, title }) => (
-  <div className="flex flex-col md:flex-row h-full overflow-hidden">
-    <div className="w-full md:w-1/2 px-2 h-full">
-      <ShikiHighlight code={codeSnippet} language="typescript" />
-    </div>
-    <div className="w-full md:w-1/2 px-2 h-full">
-      <Card className="h-full bg-white border border-gray-200">
-        <CardContent>{children}</CardContent>
-      </Card>
-    </div>
-  </div>
-);
