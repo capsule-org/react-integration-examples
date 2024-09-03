@@ -39,7 +39,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build react-app
-        run: yarn build:with-react-craco
+        run: yarn build:with-react-vite
         env:
           CI: true
 
@@ -47,6 +47,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./packages/with-react-craco/build
+          publish_dir: ./packages/with-react-vite/dist
           force_orphan: true
           publish_branch: gh-pages

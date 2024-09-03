@@ -5,14 +5,14 @@
     "packages/*"
   ],
   "scripts": {
-    "start:with-react-craco": "lerna run start --scope react-app",
-    "start:with-react-vite": "lerna run start --scope vite-app",
-    "start:with-nextjs": "lerna run start --scope nextjs-app",
+    "start:with-react-craco": "lerna run start --scope with-react-craco",
+    "start:with-react-vite": "lerna run start --scope with-react-vite",
+    "start:with-nextjs": "lerna run start --scope with-nextjs",
     "start:all": "lerna run start --parallel",
-    "build:with-react-craco": "lerna run build --scope react-app",
-    "build:with-react-vite": "lerna run build --scope vite-app",
-    "build:with-nextjs": "lerna run build --scope nextjs-app",
-    "build:all": "lerna run build",
+    "build:with-react-craco": "lerna run build --scope with-react-craco",
+    "build:with-react-vite": "lerna run build --scope with-react-vite",
+    "build:with-nextjs": "lerna run build --scope with-nextjs",
+    "build:all": "lerna run build --parallel",
     "clean-install": "find . -name 'node_modules' -type d -prune -exec rm -rf {} + && find . -name '.cache' -type d -prune -exec rm -rf {} + && yarn install"
   },
   "devDependencies": {
