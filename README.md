@@ -16,14 +16,14 @@ By structuring our examples this way, we provide a clear path for developers to 
 
 The monorepo is organized into two main directories:
 
-### [`examples/`](./examples/)
+### [`packages/`](./packages/)
 
 Contains individual example applications, each configured for a specific React framework:
 
-- [`react-app`](./examples/react-app/): Example using Create React App
-- [`vite-app`](./examples/vite-app/): Example using Vite
-- [`nextjs-app`](./examples/nextjs-app/): Example using Next.js with App Router & SSR
-- [`pwa-app`](./examples/pwa-app/): Example Progressive Web App with React
+- [`react-app`](./packages/with-react-craco/): Example using Create React App
+- [`vite-app`](./packages/with-react-vite/): Example using Vite
+- [`nextjs-app`](./packages/with-nextjs/): Example using Next.js with App Router & SSR
+- [`pwa-app`](./packages/with-react-pwa/): Example Progressive Web App with React
 
 Each of these applications demonstrates how to set up and use Capsule within its specific framework context.
 
