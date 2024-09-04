@@ -53,10 +53,10 @@ export const CapsuleDemo: React.FC<CapsuleDemoProps> = ({ framework }) => {
   return (
     <div id="CapsuleApp" className="flex flex-col h-screen !font-sans">
       <Navbar framework={framework} />
-      <main className="flex-grow pt-16 overflow-hidden">
+      <main className="flex-grow pt-16">
         <div className="container mx-auto px-4 py-8 max-w-8xl h-full flex flex-col">
           {selectedAuthOption === CapsuleAuthOptions.None ? (
-            <div className="flex flex-col h-full overflow-hidden">
+            <div className="flex flex-col h-full">
               <div className="text-center mb-8">
                 <h2 className="text-3xl font-bold mb-2">
                   Capsule SDK Authentication Options
@@ -66,7 +66,7 @@ export const CapsuleDemo: React.FC<CapsuleDemoProps> = ({ framework }) => {
                   methods
                 </p>
               </div>
-              <div className="flex-grow overflow-auto">
+              <div className="flex-grow">
                 <AuthenticationOptions
                   setSelectedOption={setSelectedAuthOption}
                 />

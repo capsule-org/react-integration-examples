@@ -77,42 +77,39 @@ const AuthCard: React.FC<AuthCardProps> = ({
   imageUrl,
   setSelectedOption,
 }) => (
-  console.log(imageUrl),
-  (
-    <motion.div
-      className="h-full"
-      variants={{
-        hidden: { opacity: 0, y: 20, scale: 0.9 },
-        visible: { opacity: 1, y: 0, scale: 1 },
-      }}
-      whileHover={{ scale: 1.03 }}
-    >
-      <Card className="overflow-hidden h-full flex flex-col shadow-md hover:shadow-xl transition-all duration-300 bg-white border border-gray-200">
-        <CardHeader className="p-0">
-          <img
-            src={imageUrl}
-            alt={`${label} illustration`}
-            className="w-full h-48 object-cover"
-          />
-        </CardHeader>
-        <CardContent className="p-4 flex-grow flex flex-col">
-          <CardTitle className="mb-2">{label}</CardTitle>
-          <CardDescription>{description}</CardDescription>
-        </CardContent>
-        <CardFooter className="p-4">
-          <motion.div className="w-full" whileTap={{ scale: 0.95 }}>
-            <Button
-              onClick={() => setSelectedOption(option)}
-              className="w-full hover:bg-primary hover:text-primary-foreground transition-colors duration-300"
-              variant="outline"
-            >
-              Select
-            </Button>
-          </motion.div>
-        </CardFooter>
-      </Card>
-    </motion.div>
-  )
+  <motion.div
+    className="h-full"
+    variants={{
+      hidden: { opacity: 0, y: 20, scale: 0.9 },
+      visible: { opacity: 1, y: 0, scale: 1 },
+    }}
+    whileHover={{ scale: 1.03 }}
+  >
+    <Card className="overflow-hidden h-full flex flex-col shadow-md hover:shadow-xl transition-all duration-300 bg-white border border-gray-200">
+      <CardHeader className="p-0">
+        <img
+          src={imageUrl}
+          alt={`${label} illustration`}
+          className="w-full h-48 object-cover"
+        />
+      </CardHeader>
+      <CardContent className="p-4 flex-grow flex flex-col">
+        <CardTitle className="mb-2">{label}</CardTitle>
+        <CardDescription>{description}</CardDescription>
+      </CardContent>
+      <CardFooter className="p-4">
+        <motion.div className="w-full" whileTap={{ scale: 0.95 }}>
+          <Button
+            onClick={() => setSelectedOption(option)}
+            className="w-full hover:bg-primary hover:text-primary-foreground transition-colors duration-300"
+            variant="outline"
+          >
+            Select
+          </Button>
+        </motion.div>
+      </CardFooter>
+    </Card>
+  </motion.div>
 );
 
 interface AuthenticationOptionsProps {

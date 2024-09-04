@@ -105,6 +105,12 @@ export const OAuthAuthenticationExample: React.FC<
 
     console.log("Farcaster QR Code URL:", connectUri);
 
+    window.open(
+      connectUri,
+      "farcasterConnectPopup",
+      "popup=true,width=400,height=500"
+    );
+
     const { userExists, username } =
       await capsuleClient.waitForFarcasterStatus();
 
