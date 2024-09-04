@@ -68,7 +68,10 @@ const signWithViemV1 = async (
       chain: sepoliaViemV1,
       transport: httpViemV1(process.env.NEXT_PUBLIC_RPC_URL),
     };
-    const viemClient = createCapsuleViemClientV1(capsule, walletClientConfig);
+    const viemClient = createCapsuleViemClientV1(
+      capsule,
+      walletClientConfig as any
+    );
 
     return await viemClient.signMessage({
       account: createCapsuleViemAccountV1(capsule),

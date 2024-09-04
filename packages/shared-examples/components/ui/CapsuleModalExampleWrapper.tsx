@@ -40,10 +40,8 @@ export const CapsuleModalExampleWrapper: React.FC<
   setDisableEmailLogin,
   disablePhoneLogin,
   setDisablePhoneLogin,
-  handleModalClose,
   handleModalOpen,
   onCancel,
-  isCapsuleModalOpen,
   children,
 }) => (
   <>

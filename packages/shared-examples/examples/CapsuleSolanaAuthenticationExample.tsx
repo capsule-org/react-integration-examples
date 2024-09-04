@@ -34,8 +34,6 @@ type CapsuleSolanaAuthenticationExampleProps = {
 
 // Step 0: Set up Solana RPC endpoint. For this example we also use a recipient public key.
 const SOLANA_DEVNET_RPC_ENDPOINT = "https://api.devnet.solana.com";
-const SOLANA_RECIPIENT_PUBLIC_KEY =
-  "4TUYF5Q6sCkBCjamQrTkNYJyxhyaCPiPnq9oVg6qXbTp";
 
 // Step 1: Set up your Capsule API key
 // Obtain your API key from https://usecapsule.com/beta

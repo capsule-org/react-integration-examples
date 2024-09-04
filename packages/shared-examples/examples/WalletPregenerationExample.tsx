@@ -74,7 +74,6 @@ export const WalletPregenerationExample: React.FC<
   const [walletId, setWalletId] = useState<string>("");
   const [walletAddress, setWalletAddress] = useState<string>("");
 
-  const [userShare, setUserShare] = useState<string>("");
   const [userRecoverySecret, setUserRecoverySecret] = useState<string>("");
 
   // Step 5: Check user's login status
@@ -132,7 +131,7 @@ export const WalletPregenerationExample: React.FC<
 
       if (!!userWalletShare) {
         await capsuleClient.setUserShare(userWalletShare);
-        setUserShare(userWalletShare);
+        //setUserShare(userWalletShare);
       }
       setUserHasPregenWallet(true);
       toast({
@@ -298,7 +297,6 @@ export const WalletPregenerationExample: React.FC<
     setSignature("");
     setSelectedSigner("");
     setWalletId("");
-    setUserShare("");
     setUserRecoverySecret("");
   };
 
