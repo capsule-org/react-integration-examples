@@ -1,4 +1,4 @@
-import { CapsuleDemo } from "@usecapsule/integration-examples";
+import { CapsuleDemo } from "@usecapsule/shared-examples";
 
 function App() {
   return <CapsuleDemo framework="React PWA" />;

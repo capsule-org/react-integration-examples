@@ -6,7 +6,7 @@ module.exports = {
     configure: (webpackConfig, { env, paths }) => {
       webpackConfig.resolve.alias = {
         ...webpackConfig.resolve.alias,
-        "@usecapsule/integration-examples": path.resolve(
+        "@usecapsule/shared-examples": path.resolve(
           __dirname,
           "../../packages/integration-examples/src"
         ),

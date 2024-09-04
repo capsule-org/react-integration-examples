@@ -16,7 +16,7 @@
     "incremental": true,
     "baseUrl": "src",
     "paths": {
-      "@usecapsule/integration-examples/*": [
+      "@usecapsule/shared-examples/*": [
         "../../packages/integration-examples/src/*"
       ]
     },
