@@ -6,13 +6,13 @@ Welcome to the React example app for Capsule integration! This app is part of th
 
 Our examples monorepo is organized into two primary folders:
 
-1. `examples/`: Contains framework-specific subfolders (e.g., nextjs-app, react-app, vite-app, pwa-app). Each subfolder includes the necessary configurations for compilation and bundling specific to that framework.
+1. `packages/`: Contains framework-specific subfolders (e.g., with-nextjs, with-react-craco, with-react-vite). Each subfolder includes the necessary configurations for compilation and bundling specific to that framework.
 
 2. `packages/shared-examples/`: This shared folder contains components and examples used across all React-based frameworks. It houses individual example files demonstrating end-to-end flows for different Capsule integration scenarios.
 
 ## Shared Components
 
-All our React-based examples share the same UI components built with Shadcn UI and TailwindCSS. These components can be found in the `packages/shared-examples/components` directory.
+All our React-based examples share the same UI components built with Shadcn UI and TailwindCSS. These components can be found in the `packages/shared-examples` directory.
 
 ## Integration Examples
 
@@ -50,10 +50,8 @@ You can run the apps using the following commands from the root directory:
 - To run this React example:
 
   ```
-  yarn start:react-app
+  yarn start:with-react-craco
   ```
-
-  Replace `react` with one of: `react`, `vite`, `nextjs`, or `pwa`.
 
 - To run all apps simultaneously:
   ```
