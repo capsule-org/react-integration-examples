@@ -1,3 +1,8 @@
+# ARCHIVED
+
+Please refer to the latest examples on the
+[Capsule Docs Examples Hub](https://docs.usecapsule.com/getting-started/examples)
+
 # Capsule React Integration Examples
 
 Welcome to the Capsule React Integration Examples monorepo! This repository demonstrates how to integrate the Capsule SDK with various React-based frameworks, providing developers with practical, end-to-end examples for different authentication and wallet integration scenarios.
